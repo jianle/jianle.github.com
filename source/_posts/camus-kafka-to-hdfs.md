@@ -1,66 +1,66 @@
 ---
-title: Camus 落地kafka Topic
+title: Camus 落地 kafka Topic
 date: 2016-04-17 11:21:58
-tags: 
+tags:
  - kafka
  - 日志
 categories: BigData
 thumbnail: /img/kafka.png
 lede: "Apache Kafka is publish-subscribe messaging rethought as a distributed commit log"
 ---
-应用场景，fluentd实时采集日志写入kafka 解析后数据写入另一topic. 为了实时获取分析数据，将topic落地hdfs然后load到hive表供分析使用
+应用场景，fluentd 实时采集日志写入 kafka 解析后数据写入另一 topic. 为了实时获取分析数据，将 topic 落地 hdfs 然后 load 到 hive 表供分析使用  
 
-* clone [代码](https://github.com/linkedin/camus)
+* clone [代码](https://github.com/linkedin/camus)  
 
-```shell 
+```shell
 $ git clone https://github.com/linkedin/camus.git
 $ cd camus
 ```
 <!-- more -->
 * 新增 StringMessageDecoder 类(接收数据不规范，自定义接收处理逻辑)  
 
-```java 
+```java
 package com.linkedin.camus.etl.kafka.coders;
- 
+
 import com.linkedin.camus.coders.CamusWrapper;
 import com.linkedin.camus.coders.Message;
 import com.linkedin.camus.coders.MessageDecoder;
- 
+
 import org.apache.log4j.Logger;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
- 
+
 /**
  * MessageDecoder class that will convert the payload into a String object,
  * System.currentTimeMillis() will be used to set CamusWrapper's timestamp
  * property
- * 
+ *
  * This MessageDecoder returns a CamusWrapper that works with Strings payloads,
  */
 public class StringMessageDecoder extends MessageDecoder<Message, String> {
     private static final Logger log = Logger.getLogger(StringMessageDecoder.class);
-     
+
     @Override
     public void init(Properties props, String topicName) {
         this.props = props;
         this.topicName = topicName;
     }
-     
+
     @Override
     public CamusWrapper<String> decode(Message message) {
         // TODO Auto-generated method stub
         long timestamp = 0;
         String payloadString;
-         
+
         try {
             payloadString = new String(message.getPayload(), "UTF-8");
           } catch (UnsupportedEncodingException e) {
             log.error("Unable to load UTF-8 encoding, falling back to system default", e);
             payloadString = new String(message.getPayload());
           }
-         
+
         timestamp = System.currentTimeMillis();
-         
+
         return new CamusWrapper<String>(payloadString, timestamp);
     }
 }
@@ -70,7 +70,7 @@ public class StringMessageDecoder extends MessageDecoder<Message, String> {
 
 * 配置camus.properties
 
-```shell
+```bash
 camus.job.name=soj_dtl_transfer
 
 fs.default.name=hdfs://nameservice1
@@ -105,15 +105,15 @@ etl.keep.count.files=false
 ```
 
 
-* 编译打包 
+* 编译打包
 
-``` 
+```bash
 $ mvn clean [compile] package [-DskipTests]
 ```
 
 * 运行
 
-```shell
+```bash
 $ cd camus-example
 $ cp target/camus-example-0.1.0-SNAPSHOT-shaded.jar .
 $ hadoop jar camus-example-0.1.0-SNAPSHOT-shaded.jar com.linkedin.camus.etl.kafka.CamusJob -P ../camus.properties
@@ -128,7 +128,7 @@ Exception in thread "main" java.io.IOException: Mkdirs failed to create /var/fol
     at org.apache.hadoop.util.RunJar.unJar(RunJar.java:81)
     at org.apache.hadoop.util.RunJar.run(RunJar.java:209)
     at org.apache.hadoop.util.RunJar.main(RunJar.java:136)
-     
+
 上述错误信息由于Mac 上的特殊原因导致的貌似。
 http://stackoverflow.com/questions/10522835/hadoop-java-io-ioexception-mkdirs-failed-to-create-some-path
 修改jar
@@ -137,14 +137,3 @@ $ zip -d camus-example-0.1.0-SNAPSHOT-shaded.jar LICENSE
 上述命令删除jar包种指定信息
 $ jar -tvf camus-example-0.1.0-SNAPSHOT-shaded.jar |grep META-INF/LICENSE
 ```
-
-
-
-
-
-
-
-
-
-
-
