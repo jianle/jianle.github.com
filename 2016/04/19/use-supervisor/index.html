@@ -13,18 +13,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="baidu-site-verification" content="SKU1ruzzZG" />
 
-  <meta name="description" content="Install   1$ sudo apt-get install supervisor  配置    使用默认路径下配置(/etc/supervisord.conf) 指定目录supervisord.conf配置">
+  <meta name="description" content="Install   $ sudo apt-get install supervisor   配置    使用默认路径下配置(/etc/supervisord.conf) 指定目录supervisord.conf配置">
 <meta name="keywords" content="supervisor">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用supervisor守护进程">
 <meta property="og:url" content="http://saboloh.com/2016/04/19/use-supervisor/index.html">
 <meta property="og:site_name" content="Loh&#39;s Blog">
-<meta property="og:description" content="Install   1$ sudo apt-get install supervisor  配置    使用默认路径下配置(/etc/supervisord.conf) 指定目录supervisord.conf配置">
+<meta property="og:description" content="Install   $ sudo apt-get install supervisor   配置    使用默认路径下配置(/etc/supervisord.conf) 指定目录supervisord.conf配置">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2016-09-05T14:47:56.000Z">
+<meta property="og:updated_time" content="2018-03-29T07:14:11.462Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用supervisor守护进程">
-<meta name="twitter:description" content="Install   1$ sudo apt-get install supervisor  配置    使用默认路径下配置(/etc/supervisord.conf) 指定目录supervisord.conf配置">
+<meta name="twitter:description" content="Install   $ sudo apt-get install supervisor   配置    使用默认路径下配置(/etc/supervisord.conf) 指定目录supervisord.conf配置">
   
     <link rel="alternative" href="/atom.xml" title="Loh&#39;s Blog" type="application/atom+xml">
   
@@ -176,7 +176,8 @@
         <ul>
 <li>Install </li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install supervisor</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> supervisor
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <ul>
 <li>配置 </li>
 </ul>
@@ -185,16 +186,64 @@
 <li>指定目录<code>supervisord.conf</code>配置 </li>
 </ol>
 <a id="more"></a>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">; supervisor config file</div><div class="line"></div><div class="line">[unix_http_server]</div><div class="line">file=/home/hadoop/supervisor/supervisor.sock   ; (the path to the socket file)</div><div class="line">chmod=0700                       ; sockef file mode (default 0700)</div><div class="line"></div><div class="line">[supervisord]</div><div class="line">logfile=/home/hadoop/supervisor/supervisord.log ; (main <span class="built_in">log</span> file;default <span class="variable">$CWD</span>/supervisord.log)</div><div class="line">pidfile=/home/hadoop/supervisor/supervisord.pid ; (supervisord pidfile;default supervisord.pid)</div><div class="line">childlogdir=/home/hadoop/supervisor             ; (<span class="string">'AUTO'</span> child <span class="built_in">log</span> dir, default <span class="variable">$TEMP</span>)</div><div class="line"></div><div class="line">; the below section must remain <span class="keyword">in</span> the config file <span class="keyword">for</span> RPC</div><div class="line">; (supervisorctl/web interface) to work, additional interfaces may be</div><div class="line">; added by defining them <span class="keyword">in</span> separate rpcinterface: sections</div><div class="line">[rpcinterface:supervisor]</div><div class="line">supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface</div><div class="line"></div><div class="line">[supervisorctl]</div><div class="line">serverurl=unix:///home/hadoop/supervisor/supervisor.sock ; use a unix:// URL  <span class="keyword">for</span> a unix socket</div><div class="line"></div><div class="line">; The [include] section can just contain the <span class="string">"files"</span> setting.  This</div><div class="line">; setting can list multiple files (separated by whitespace or</div><div class="line">; newlines).  It can also contain wildcards.  The filenames are</div><div class="line">; interpreted as relative to this file.  Included files *cannot*</div><div class="line">; include files themselves.</div><div class="line"></div><div class="line">[include]</div><div class="line">files = /home/hadoop/supervisor/conf.d/*.conf</div></pre></td></tr></table></figure>
-<p>启动：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> /home/hadoop/supervisor/</div><div class="line">$ supervisord -c supervisord.conf</div></pre></td></tr></table></figure></p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token punctuation">;</span> supervisor config <span class="token function">file</span>
+
+<span class="token punctuation">[</span>unix_http_server<span class="token punctuation">]</span>
+file<span class="token operator">=</span>/home/hadoop/supervisor/supervisor.sock   <span class="token punctuation">;</span> <span class="token punctuation">(</span>the path to the socket file<span class="token punctuation">)</span>
+chmod<span class="token operator">=</span>0700                       <span class="token punctuation">;</span> sockef <span class="token function">file</span> mode <span class="token punctuation">(</span>default 0700<span class="token punctuation">)</span>
+
+<span class="token punctuation">[</span>supervisord<span class="token punctuation">]</span>
+logfile<span class="token operator">=</span>/home/hadoop/supervisor/supervisord.log <span class="token punctuation">;</span> <span class="token punctuation">(</span>main log <span class="token function">file</span><span class="token punctuation">;</span>default <span class="token variable">$CWD</span>/supervisord.log<span class="token punctuation">)</span>
+pidfile<span class="token operator">=</span>/home/hadoop/supervisor/supervisord.pid <span class="token punctuation">;</span> <span class="token punctuation">(</span>supervisord pidfile<span class="token punctuation">;</span>default supervisord.pid<span class="token punctuation">)</span>
+childlogdir<span class="token operator">=</span>/home/hadoop/supervisor             <span class="token punctuation">;</span> <span class="token punctuation">(</span><span class="token string">'AUTO'</span> child log dir, default <span class="token variable">$TEMP</span><span class="token punctuation">)</span>
+
+<span class="token punctuation">;</span> the below section must remain <span class="token keyword">in</span> the config <span class="token function">file</span> <span class="token keyword">for</span> RPC
+<span class="token punctuation">;</span> <span class="token punctuation">(</span>supervisorctl/web interface<span class="token punctuation">)</span> to work, additional interfaces may be
+<span class="token punctuation">;</span> added by defining them <span class="token keyword">in</span> separate rpcinterface: sections
+<span class="token punctuation">[</span>rpcinterface:supervisor<span class="token punctuation">]</span>
+supervisor.rpcinterface_factory <span class="token operator">=</span> supervisor.rpcinterface:make_main_rpcinterface
+
+<span class="token punctuation">[</span>supervisorctl<span class="token punctuation">]</span>
+serverurl<span class="token operator">=</span>unix:///home/hadoop/supervisor/supervisor.sock <span class="token punctuation">;</span> use a unix:// URL  <span class="token keyword">for</span> a unix socket
+
+<span class="token punctuation">;</span> The <span class="token punctuation">[</span>include<span class="token punctuation">]</span> section can just contain the <span class="token string">"files"</span> setting.  This
+<span class="token punctuation">;</span> setting can list multiple files <span class="token punctuation">(</span>separated by whitespace or
+<span class="token punctuation">;</span> newlines<span class="token punctuation">)</span>.  It can also contain wildcards.  The filenames are
+<span class="token punctuation">;</span> interpreted as relative to this file.  Included files *cannot*
+<span class="token punctuation">;</span> include files themselves.
+
+<span class="token punctuation">[</span>include<span class="token punctuation">]</span>
+files <span class="token operator">=</span> /home/hadoop/supervisor/conf.d/*.conf
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>启动：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">cd</span> /home/hadoop/supervisor/
+$ supervisord -c supervisord.conf
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <ul>
 <li>守护进程<code>/home/hadoop/supervisor/conf.d/*.conf</code> 下创建<code>app.conf</code></li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">[program:app]</div><div class="line">command=/home/hadoop/spark-1.5.2-bin-hadoop2.6/bin/spark-submit</div><div class="line">  --executor-cores 1</div><div class="line">  --num-executors 2</div><div class="line">  --queue root.spark</div><div class="line">  --master yarn-cluster</div><div class="line">  --files /home/hadoop/spark-mining/log4j-spark.properties</div><div class="line">  --class com.app.dw.MainClassCount</div><div class="line">  --conf &quot;spark.driver.extraJavaOptions=-Xms512M -Xmn256M -XX:+UseConcMarkSweepGC -Dlog4j.configuration=log4j-spark.properties -Ddm.logging.level=DEBUG&quot;</div><div class="line">  --conf &quot;spark.executor.extraJavaOptions=-XX:+UseConcMarkSweepGC -Dlog4j.configuration=log4j-spark.properties -Ddm.logging.level=DEBUG&quot;</div><div class="line">  /home/hadoop/realtime/app.jar reset</div><div class="line">autostart=true</div><div class="line">autorestart=true</div><div class="line">environment=JAVA_HOME=&quot;/usr/local/java/jdk1.8.0_60&quot;</div><div class="line">stdout_logfile=/home/hadoop/realtime/logs/app.log</div><div class="line">redirect_stderr=true</div><div class="line">user=hadoop</div></pre></td></tr></table></figure>
-<ul>
+<pre><code>[program:app]
+command=/home/hadoop/spark-1.5.2-bin-hadoop2.6/bin/spark-submit
+  --executor-cores 1
+  --num-executors 2
+  --queue root.spark
+  --master yarn-cluster
+  --files /home/hadoop/spark-mining/log4j-spark.properties
+  --class com.app.dw.MainClassCount
+  --conf &quot;spark.driver.extraJavaOptions=-Xms512M -Xmn256M -XX:+UseConcMarkSweepGC -Dlog4j.configuration=log4j-spark.properties -Ddm.logging.level=DEBUG&quot;
+  --conf &quot;spark.executor.extraJavaOptions=-XX:+UseConcMarkSweepGC -Dlog4j.configuration=log4j-spark.properties -Ddm.logging.level=DEBUG&quot;
+  /home/hadoop/realtime/app.jar reset
+autostart=true
+autorestart=true
+environment=JAVA_HOME=&quot;/usr/local/java/jdk1.8.0_60&quot;
+stdout_logfile=/home/hadoop/realtime/logs/app.log
+redirect_stderr=true
+user=hadoop
+</code></pre><ul>
 <li>命令行操作</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ supervisorctl update|status|stop|start|restart   // 更新配置|查看状态|停止指定进程|启动进程|重启进程</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">$ supervisorctl update<span class="token operator">|</span>status<span class="token operator">|</span>stop<span class="token operator">|</span>start<span class="token operator">|</span>restart   // 更新配置<span class="token operator">|</span>查看状态<span class="token operator">|</span>停止指定进程<span class="token operator">|</span>启动进程<span class="token operator">|</span>重启进程
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
       
     </div>
@@ -248,11 +297,11 @@
 	</li>
       
 	<li>
-	  <a href="/categories/BigData/">BigData (12)</a>
+	  <a href="/categories/Linux/">Linux (6)</a>
 	</li>
       
 	<li>
-	  <a href="/categories/Linux/">Linux (6)</a>
+	  <a href="/categories/BigData/">BigData (12)</a>
 	</li>
       
 	<li>
@@ -295,20 +344,20 @@
     
   
     
-  
-    
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hadoop.png" class="img-responsive ">
+	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
+	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
+    
+  
     
   
     
@@ -323,18 +372,18 @@
     
   
     
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
+	  <img src="/img/hadoop.png" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
+	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
     
   
     
@@ -365,6 +414,12 @@
     
   
     
+  
+    
+  
+    
+  
+    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/protocol-buffers.png" class="img-responsive ">
@@ -373,12 +428,6 @@
 	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
 	</div>                        
       </div>
-    
-  
-    
-  
-    
-  
     
   
     

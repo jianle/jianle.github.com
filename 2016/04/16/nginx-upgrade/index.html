@@ -21,7 +21,7 @@
 <meta property="og:site_name" content="Loh&#39;s Blog">
 <meta property="og:description" content="覆盖式升级  更换目录重新安装     升级目的：nginx1.3版本之后支持了websocket ，简单的配个代理就能让你的websocket工作正常本次针对已有nginx非覆盖式升级">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2016-09-10T14:37:50.000Z">
+<meta property="og:updated_time" content="2018-03-29T07:14:11.462Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx 升级">
 <meta name="twitter:description" content="覆盖式升级  更换目录重新安装     升级目的：nginx1.3版本之后支持了websocket ，简单的配个代理就能让你的websocket工作正常本次针对已有nginx非覆盖式升级">
@@ -174,7 +174,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <ul>
-<li><p><a href="http://leftshift.io/upgrading-nginx-to-the-latest-version-on-ubuntu-servers" target="_blank" rel="external">覆盖式升级</a></p>
+<li><p><a href="http://leftshift.io/upgrading-nginx-to-the-latest-version-on-ubuntu-servers" target="_blank" rel="noopener">覆盖式升级</a></p>
 </li>
 <li><p>更换目录重新安装  </p>
 </li>
@@ -182,19 +182,40 @@
 <p>升级目的：<br>nginx1.3版本之后支持了websocket ，简单的配个代理就能让你的websocket工作正常<br>本次针对已有nginx非覆盖式升级</p>
 <a id="more"></a>
 <ul>
-<li><p>下载<a href="http://nginx.org/en/download.html" target="_blank" rel="external">nginx</a> </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ weget http://nginx.org/download/nginx-1.8.0.tar.gz</div></pre></td></tr></table></figure>
+<li><p>下载<a href="http://nginx.org/en/download.html" target="_blank" rel="noopener">nginx</a> </p>
+<pre class="line-numbers language-bash"><code class="language-bash">$ weget http://nginx.org/download/nginx-1.8.0.tar.gz  
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </li>
-<li><p>解压编译 </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">$ tar -zxvf nginx-1.8.0.tar.gz</div><div class="line">$ <span class="built_in">cd</span> nginx-1.8.0</div><div class="line">$ ./configure --prefix=/usr/<span class="built_in">local</span>/nginx-1.8.0</div><div class="line"></div><div class="line">Mac OX 下也许你能顺利通过，但是如果Ubuntu下可能会报PCRE依赖包没有 so 你可以如下操作：</div><div class="line"> </div><div class="line">$ apt-get install libpcre3 libpcre3-dev</div><div class="line"> </div><div class="line">成功后可执行安装了</div><div class="line">$ make &amp;&amp; make install</div><div class="line"></div><div class="line">这样在你的/usr/<span class="built_in">local</span>/nginx-1.8.0下就成功安装了一个nginx 和原有的不冲突</div><div class="line"> </div><div class="line">$ <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/nginx-1.8.0</div><div class="line">$ ls -lrt</div><div class="line">drwxr-xr-x  2 root     root 4096 Aug 17 10:32 sbin</div><div class="line">drwxr-xr-x  2 root     root 4096 Aug 17 10:32 html</div><div class="line">drwxr-xr-x  2 root     root 4096 Aug 17 10:35 logs</div><div class="line">drwx------  2 www-data root 4096 Aug 17 10:35 uwsgi_temp</div><div class="line">drwx------  2 www-data root 4096 Aug 17 10:35 scgi_temp</div><div class="line">drwx------  2 www-data root 4096 Aug 17 10:35 fastcgi_temp</div><div class="line">drwxr-xr-x  5 root     root 4096 Aug 17 19:49 conf</div><div class="line">drwx------ 12 www-data root 4096 Aug 17 22:37 proxy_temp</div><div class="line">drwx------  2 www-data root 4096 Aug 17 22:46 client_body_temp</div><div class="line"> </div><div class="line">ldd nginx 可以看到并没有自己的.so 依赖文件  </div><div class="line"></div><div class="line">$ ldd /usr/<span class="built_in">local</span>/nginx-1.8.0/sbin/nginx  (ubuntu)</div><div class="line">$ otool -L ~/dwetl/nginx1.8.0/sbin/nginx (Mac OX)</div></pre></td></tr></table></figure>
-</li>
-<li><p>备份拷贝原有配置文件  </p>
-</li>
-<li><p>关闭&amp;重启服务</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">$ vim opt.sh </div><div class="line"><span class="built_in">echo</span> <span class="string">'stop nginx ....'</span></div><div class="line">service nginx stop</div><div class="line"> </div><div class="line"><span class="built_in">echo</span> <span class="string">'cp config file.'</span></div><div class="line">cp /etc/nginx/nginx.conf /usr/<span class="built_in">local</span>/nginx-1.8.0/conf/</div><div class="line">cp -r /etc/nginx/conf.d/ /usr/<span class="built_in">local</span>/nginx-1.8.0/conf/</div><div class="line"> </div><div class="line"><span class="built_in">echo</span> <span class="string">'upgrade  nginx.'</span></div><div class="line">mv /usr/sbin/nginx /usr/sbin/nginx1.1.19    <span class="comment"># 保留之前的nginx 万一出问题了咋办呢，留条后路</span></div><div class="line">ln <span class="_">-s</span> /usr/<span class="built_in">local</span>/nginx-1.8.0/sbin/nginx /usr/sbin/nginx</div><div class="line"> </div><div class="line"><span class="built_in">echo</span> <span class="string">'restart  nginx.'</span></div><div class="line">service nginx restart</div></pre></td></tr></table></figure>
+<li><p>解压编译<br><code>`</code>bash<br>$ tar -zxvf nginx-1.8.0.tar.gz<br>$ cd nginx-1.8.0<br>$ ./configure –prefix=/usr/local/nginx-1.8.0</p>
 </li>
 </ul>
+<p>Mac OX 下也许你能顺利通过，但是如果Ubuntu下可能会报PCRE依赖包没有 so 你可以如下操作：</p>
+<p>$ apt-get install libpcre3 libpcre3-dev</p>
+<p>成功后可执行安装了<br>$ make &amp;&amp; make install</p>
+<p>这样在你的/usr/local/nginx-1.8.0下就成功安装了一个nginx 和原有的不冲突</p>
+<p>$ cd /usr/local/nginx-1.8.0<br>$ ls -lrt<br>drwxr-xr-x  2 root     root 4096 Aug 17 10:32 sbin<br>drwxr-xr-x  2 root     root 4096 Aug 17 10:32 html<br>drwxr-xr-x  2 root     root 4096 Aug 17 10:35 logs<br>drwx——  2 www-data root 4096 Aug 17 10:35 uwsgi_temp<br>drwx——  2 www-data root 4096 Aug 17 10:35 scgi_temp<br>drwx——  2 www-data root 4096 Aug 17 10:35 fastcgi_temp<br>drwxr-xr-x  5 root     root 4096 Aug 17 19:49 conf<br>drwx—— 12 www-data root 4096 Aug 17 22:37 proxy_temp<br>drwx——  2 www-data root 4096 Aug 17 22:46 client_body_temp</p>
+<p>ldd nginx 可以看到并没有自己的.so 依赖文件  </p>
+<p>$ ldd /usr/local/nginx-1.8.0/sbin/nginx  (ubuntu)<br>$ otool -L ~/dwetl/nginx1.8.0/sbin/nginx (Mac OX)</p>
+<pre><code>
+* 备份拷贝原有配置文件  
 
+* 关闭&amp;重启服务
+```bash
+$ vim opt.sh 
+echo &#39;stop nginx ....&#39;
+service nginx stop
+
+echo &#39;cp config file.&#39;
+cp /etc/nginx/nginx.conf /usr/local/nginx-1.8.0/conf/
+cp -r /etc/nginx/conf.d/ /usr/local/nginx-1.8.0/conf/
+
+echo &#39;upgrade  nginx.&#39;
+mv /usr/sbin/nginx /usr/sbin/nginx1.1.19    # 保留之前的nginx 万一出问题了咋办呢，留条后路
+ln -s /usr/local/nginx-1.8.0/sbin/nginx /usr/sbin/nginx
+
+echo &#39;restart  nginx.&#39;
+service nginx restart
+</code></pre>
       
     </div>
   </div>
@@ -247,11 +268,11 @@
 	</li>
       
 	<li>
-	  <a href="/categories/BigData/">BigData (12)</a>
+	  <a href="/categories/Linux/">Linux (6)</a>
 	</li>
       
 	<li>
-	  <a href="/categories/Linux/">Linux (6)</a>
+	  <a href="/categories/BigData/">BigData (12)</a>
 	</li>
       
 	<li>
@@ -294,20 +315,20 @@
     
   
     
-  
-    
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hadoop.png" class="img-responsive ">
+	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
+	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
+    
+  
     
   
     
@@ -322,18 +343,18 @@
     
   
     
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
+	  <img src="/img/hadoop.png" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
+	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
     
   
     
@@ -364,6 +385,12 @@
     
   
     
+  
+    
+  
+    
+  
+    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/protocol-buffers.png" class="img-responsive ">
@@ -372,12 +399,6 @@
 	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
 	</div>                        
       </div>
-    
-  
-    
-  
-    
-  
     
   
     

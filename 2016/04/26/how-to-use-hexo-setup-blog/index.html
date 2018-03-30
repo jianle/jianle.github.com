@@ -24,7 +24,7 @@
 <meta property="og:image" content="http://saboloh.com/img/hexo_init.png">
 <meta property="og:image" content="http://saboloh.com/img/minos_demo.png">
 <meta property="og:image" content="http://saboloh.com/img/minos_header.png">
-<meta property="og:updated_time" content="2016-09-04T12:32:17.000Z">
+<meta property="og:updated_time" content="2018-03-29T07:14:11.458Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何使用hexo+github搭建博客">
 <meta name="twitter:description" content="本文详细描述如何在Linux（本人ubuntu开发环境）下使用hexo在github上搭建属于自己的博客 搭建分为两步：  使用Hexo 搭建本地blog 在github建立x.github.com 项目，并将本地hexo推送到github上">
@@ -191,64 +191,107 @@
 <h2 id="基础环境"><a href="#基础环境" class="headerlink" title="基础环境"></a>基础环境</h2><ul>
 <li>安装git</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install git</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> <span class="token function">git</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <ul>
-<li>下载<a href="https://nodejs.org/en/" target="_blank" rel="external">Node.js</a><ul>
+<li>下载<a href="https://nodejs.org/en/" target="_blank" rel="noopener">Node.js</a><ul>
 <li>解压</li>
 <li>配置环境</li>
 <li>查看node是否安装成功</li>
 </ul>
 </li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ tar -zxvf node-v5.1.0-linux-x64.tar.gz</div><div class="line">$ vim .bashrc</div><div class="line"><span class="comment"># node</span></div><div class="line"><span class="built_in">export</span> NODE_HOME=/home/saboloh/developer/node-v5.1.0-linux-x64</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$NODE_HOME</span>/bin:<span class="variable">$PATH</span></div><div class="line">$ <span class="built_in">source</span> .bashrc</div><div class="line">$ npm config <span class="built_in">set</span> unsafe-perm <span class="literal">true</span></div><div class="line">$ node -v|npm -v  查看一下版本即可</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">tar</span> -zxvf node-v5.1.0-linux-x64.tar.gz
+$ vim .bashrc
+<span class="token comment" spellcheck="true"># node</span>
+<span class="token function">export</span> NODE_HOME<span class="token operator">=</span>/home/saboloh/developer/node-v5.1.0-linux-x64
+<span class="token function">export</span> PATH<span class="token operator">=</span><span class="token variable">$NODE_HOME</span>/bin:<span class="token variable">$PATH</span>
+$ <span class="token function">source</span> .bashrc
+$ <span class="token function">npm</span> config <span class="token keyword">set</span> unsafe-perm <span class="token boolean">true</span>
+$ node -v<span class="token operator">|</span><span class="token function">npm</span> -v  查看一下版本即可
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
-<li>安装<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">hexo</a></li>
+<li>安装<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">hexo</a></li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ npm install hexo-cli -g</div><div class="line">$ npm install hexo-server -g</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">npm</span> <span class="token function">install</span> hexo-cli -g
+$ <span class="token function">npm</span> <span class="token function">install</span> hexo-server -g 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <h2 id="开始blog之旅"><a href="#开始blog之旅" class="headerlink" title="开始blog之旅"></a>开始blog之旅</h2><ul>
 <li>初始化</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ mkdir blog</div><div class="line">$ <span class="built_in">cd</span> blog</div><div class="line">$ hexo init</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">mkdir</span> blog
+$ <span class="token function">cd</span> blog
+$ hexo init
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>安装依赖包</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">npm</span> <span class="token function">install</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <ul>
 <li>启动本地服务查看</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo s -g</div></pre></td></tr></table></figure>
-<p>访问<a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a> 如果看到如下，那么恭喜你第一步已经完成</p>
+<pre class="line-numbers language-bash"><code class="language-bash">$ hexo s -g
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>访问<a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a> 如果看到如下，那么恭喜你第一步已经完成</p>
 <p><img src="/img/hexo_init.png" alt=""></p>
 <ul>
-<li>选择<a href="https://hexo.io/themes/" target="_blank" rel="external">主题</a></li>
+<li>选择<a href="https://hexo.io/themes/" target="_blank" rel="noopener">主题</a></li>
 </ul>
-<p>以主题<a href="http://blog.zhangruipeng.me/hexo-theme-minos/" target="_blank" rel="external">Minos</a>为例</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> blog</div><div class="line">$ git <span class="built_in">clone</span> https://github.com/ppoffice/hexo-theme-minos.git themes/minos</div></pre></td></tr></table></figure>
+<p>以主题<a href="http://blog.zhangruipeng.me/hexo-theme-minos/" target="_blank" rel="noopener">Minos</a>为例</p>
+<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">cd</span> blog
+$ <span class="token function">git</span> clone https://github.com/ppoffice/hexo-theme-minos.git themes/minos
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>修改<code>_config.yml</code>，指定主题</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># Extensions</div><div class="line">## Plugins: https://hexo.io/plugins/</div><div class="line">## Themes: https://hexo.io/themes/</div><div class="line">theme: minos</div></pre></td></tr></table></figure>
-<p>启动<code>hexo s -g</code>并访问效果如下：</p>
+<pre><code># Extensions
+## Plugins: https://hexo.io/plugins/
+## Themes: https://hexo.io/themes/
+theme: minos
+</code></pre><p>启动<code>hexo s -g</code>并访问效果如下：</p>
 <p><img src="/img/minos_demo.png" alt=""></p>
 <p>接下来需要配置blog的一些信息以及页面，其中包括home/Archives/Categories/Tags/About</p>
 <p>修改或添加相关信息至_config.yml</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Site</span></div><div class="line">title: Loh<span class="string">'s Blog</span></div><div class="line">subtitle: Loh's B<span class="built_in">log</span></div><div class="line">description: Loh<span class="string">'s Blog</span></div><div class="line">author: Loh</div><div class="line">language: zh-CN</div><div class="line">timezone: Asia/Shanghai</div><div class="line"></div><div class="line"># Header</div><div class="line">menu:</div><div class="line">  Home: /</div><div class="line">  Archives: archives</div><div class="line">  Categories: categories</div><div class="line">  Tags: tags</div><div class="line">  About: about</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># Site</span>
+title: Loh<span class="token string">'s Blog
+subtitle: Loh'</span>s Blog
+description: Loh's Blog
+author: Loh
+language: zh-CN
+timezone: Asia/Shanghai
+
+<span class="token comment" spellcheck="true"># Header</span>
+menu:
+  Home: /
+  Archives: archives
+  Categories: categories
+  Tags: tags
+  About: about
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>Header效果如下:<br><img src="/img/minos_header.png" alt=""></p>
 <p>页面的部分地方可以自己修改主题里面的代码，调整至自己想要的</p>
 <p>接下来需要开始写博文和创建页面了</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ hexo n <span class="string">"我的第一篇博文"</span></div><div class="line">$ hexo n page <span class="string">"About"</span>    //创建页面</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">$ hexo n <span class="token string">"我的第一篇博文"</span>
+$ hexo n page <span class="token string">"About"</span>    //创建页面
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <ul>
-<li><p>在<a href="https://github.com/" target="_blank" rel="external">github</a>上创建一个项目格式为“username.github.com”</p>
+<li><p>在<a href="https://github.com/" target="_blank" rel="noopener">github</a>上创建一个项目格式为“username.github.com”</p>
 </li>
-<li><p>配置本地<a href="https://hexo.io/zh-cn/docs/deployment.html" target="_blank" rel="external">hexo-blog 部署</a></p>
+<li><p>配置本地<a href="https://hexo.io/zh-cn/docs/deployment.html" target="_blank" rel="noopener">hexo-blog 部署</a></p>
 </li>
 </ul>
 <p>执行<code>hexo g</code> + <code>hexo d</code> 就完成了部署, 这样在浏览器中访问username.github.com即可看到你的博客了，简单轻松完成！如果舍得花钱，可以买个域名，本人在万维网上买的，域名便宜。</p>
 <ul>
 <li>配置域名</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> blog</div><div class="line">$ vim <span class="built_in">source</span>/CNAME</div><div class="line">saboloh.com</div></pre></td></tr></table></figure>
-<p>也许你还会发现少了点什么 —— 评论！！！<br>我使用的是<a href="https://disqus.com/" target="_blank" rel="external">disqus</a> 在disqus上创建账户，将shortname配置到_config.yml</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#disqus</span></div><div class="line">disqus_shortname: saboloh</div></pre></td></tr></table></figure>
-<p>基本搭建完成，如果需要额外的功能，可以在<a href="https://hexo.io/zh-cn/" target="_blank" rel="external">hexo</a> 上研究研究</p>
+<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">cd</span> blog
+$ vim source/CNAME
+saboloh.com
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>也许你还会发现少了点什么 —— 评论！！！<br>我使用的是<a href="https://disqus.com/" target="_blank" rel="noopener">disqus</a> 在disqus上创建账户，将shortname配置到_config.yml</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#disqus</span>
+disqus_shortname: saboloh
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>基本搭建完成，如果需要额外的功能，可以在<a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">hexo</a> 上研究研究</p>
 <p>如果在搭建过程中遇到问题，可以评论留言或email给我，大家可以一起探讨</p>
 
       
@@ -303,11 +346,11 @@
 	</li>
       
 	<li>
-	  <a href="/categories/BigData/">BigData (12)</a>
+	  <a href="/categories/Linux/">Linux (6)</a>
 	</li>
       
 	<li>
-	  <a href="/categories/Linux/">Linux (6)</a>
+	  <a href="/categories/BigData/">BigData (12)</a>
 	</li>
       
 	<li>
@@ -350,20 +393,20 @@
     
   
     
-  
-    
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hadoop.png" class="img-responsive ">
+	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
+	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
+    
+  
     
   
     
@@ -378,18 +421,18 @@
     
   
     
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
+	  <img src="/img/hadoop.png" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
+	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
     
   
     
@@ -420,6 +463,12 @@
     
   
     
+  
+    
+  
+    
+  
+    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/protocol-buffers.png" class="img-responsive ">
@@ -428,12 +477,6 @@
 	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
 	</div>                        
       </div>
-    
-  
-    
-  
-    
-  
     
   
     

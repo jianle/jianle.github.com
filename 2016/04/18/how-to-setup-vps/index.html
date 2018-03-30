@@ -22,7 +22,7 @@
 <meta property="og:description" content="购买vps    本人在朋友推荐下购买了budgetvm 系统安装选择的是ubuntu14.04 购买完成之后初始化大概10分钟，之后便可自己通过ssh+pwd的方式登录vps（先确保能ping通，如果存在网络等任何问题，直接邮件development，解决速度还是可以的。密码在网上可以看到）">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://saboloh.com/img/budgetvm.png">
-<meta property="og:updated_time" content="2016-09-05T14:47:56.000Z">
+<meta property="og:updated_time" content="2018-03-29T07:14:11.458Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何搭建VPS">
 <meta name="twitter:description" content="购买vps    本人在朋友推荐下购买了budgetvm 系统安装选择的是ubuntu14.04 购买完成之后初始化大概10分钟，之后便可自己通过ssh+pwd的方式登录vps（先确保能ping通，如果存在网络等任何问题，直接邮件development，解决速度还是可以的。密码在网上可以看到）">
@@ -176,7 +176,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <ul>
-<li>购买<a href="https://www.budgetvm.com/" target="_blank" rel="external">vps</a>  </li>
+<li>购买<a href="https://www.budgetvm.com/" target="_blank" rel="noopener">vps</a>  </li>
 </ul>
 <p>本人在朋友推荐下购买了<code>budgetvm</code> 系统安装选择的是<code>ubuntu14.04</code></p>
 <p>购买完成之后初始化大概10分钟，之后便可自己通过ssh+pwd的方式登录vps（先确保能ping通，如果存在网络等任何问题，直接邮件development，解决速度还是可以的。密码在网上可以看到）</p>
@@ -185,20 +185,61 @@
 <ul>
 <li>vps config</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ dpkg-reconfigure tzdata //时区</div><div class="line">$ apt-get install locales // 字符编码</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">$ dpkg-reconfigure tzdata //时区
+$ <span class="token function">apt-get</span> <span class="token function">install</span> locales // 字符编码
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <ul>
 <li>prepare</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">$ apt-get install vim</div><div class="line"></div><div class="line">$ grep -v ^PasswordAuthentication /etc/ssh/sshd_config | grep -v Port  &gt; /tmp/sshd_config</div><div class="line">$ <span class="built_in">echo</span> <span class="string">"Port 50070"</span> &gt;&gt; /tmp/sshd_config</div><div class="line">$ <span class="built_in">echo</span> <span class="string">"PasswordAuthentication no"</span> &gt;&gt; /tmp/sshd_config</div><div class="line">$ service ssh restart</div><div class="line"></div><div class="line">$ apt-get install python-pip</div><div class="line">$ pip install shadowsocks</div><div class="line">$ apt-get install supervisor</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">apt-get</span> <span class="token function">install</span> vim
+
+$ <span class="token function">grep</span> -v ^PasswordAuthentication /etc/ssh/sshd_config <span class="token operator">|</span> <span class="token function">grep</span> -v Port  <span class="token operator">></span> /tmp/sshd_config
+$ <span class="token keyword">echo</span> <span class="token string">"Port 50070"</span> <span class="token operator">>></span> /tmp/sshd_config
+$ <span class="token keyword">echo</span> <span class="token string">"PasswordAuthentication no"</span> <span class="token operator">>></span> /tmp/sshd_config
+$ <span class="token function">service</span> <span class="token function">ssh</span> restart
+
+$ <span class="token function">apt-get</span> <span class="token function">install</span> python-pip
+$ pip <span class="token function">install</span> shadowsocks
+$ <span class="token function">apt-get</span> <span class="token function">install</span> supervisor
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>config server</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">$ vim /etc/supervisor/conf.d/ss.conf</div><div class="line"></div><div class="line">[program:ss]</div><div class="line"><span class="built_in">command</span>=/usr/<span class="built_in">local</span>/bin/ssserver -c /root/ss.conf -vv --user nobody</div><div class="line">stdout_logfile=/var/<span class="built_in">log</span>/ss.log</div><div class="line">stderr_logfile=/var/<span class="built_in">log</span>/ss.err</div><div class="line">stdout_logfile_maxbytes=50MB</div><div class="line">stderr_logfile_maxbytes=50MB</div><div class="line">autorestart=<span class="literal">true</span></div><div class="line">autostart=<span class="literal">true</span></div><div class="line"></div><div class="line">$ vim /root/ss.conf</div><div class="line"></div><div class="line">&#123;</div><div class="line">    <span class="string">"server_port"</span>:8080,</div><div class="line">    <span class="string">"password"</span>:<span class="string">"&#123;<span class="variable">$yourpassword</span>&#125;"</span>,</div><div class="line">    <span class="string">"method"</span>:<span class="string">"aes-256-cfb"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">$ vim /etc/supervisor/conf.d/ss.conf
+
+<span class="token punctuation">[</span>program:ss<span class="token punctuation">]</span>
+command<span class="token operator">=</span>/usr/local/bin/ssserver -c /root/ss.conf -vv --user nobody
+stdout_logfile<span class="token operator">=</span>/var/log/ss.log
+stderr_logfile<span class="token operator">=</span>/var/log/ss.err
+stdout_logfile_maxbytes<span class="token operator">=</span>50MB
+stderr_logfile_maxbytes<span class="token operator">=</span>50MB
+autorestart<span class="token operator">=</span>true
+autostart<span class="token operator">=</span>true
+
+$ vim /root/ss.conf
+
+<span class="token punctuation">{</span>
+    <span class="token string">"server_port"</span>:8080,
+    <span class="token string">"password"</span><span class="token keyword">:</span><span class="token string">"{<span class="token variable">$yourpassword</span>}"</span>,
+    <span class="token string">"method"</span><span class="token keyword">:</span><span class="token string">"aes-256-cfb"</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>config local</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install shadowscoks</div><div class="line">$ sslocal  -c ss.conf -b 0.0.0.0 -d start --pid-file /tmp/ss.pid --log-file /tmp/ss.log</div><div class="line"></div><div class="line">$ cat ss.conf</div><div class="line">&#123;</div><div class="line">    &quot;server&quot;:&quot;$&#123;serverip&#125;&quot;,</div><div class="line">    &quot;server_port&quot;:8080,</div><div class="line">    &quot;local_port&quot;:1080,</div><div class="line">    &quot;password&quot;:&quot;$&#123;yourpassword&#125;&quot;,</div><div class="line">    &quot;method&quot;:&quot;aes-256-cfb&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>备注： budgetvm主机服务在洛杉矶，所以国内登录过去会有点慢-_-|| 岛国的vps似乎很快，推荐一款<a href="https://www.vultr.com/" target="_blank" rel="external">Vultr</a></p>
+<pre><code>$ sudo apt-get install shadowscoks
+$ sslocal  -c ss.conf -b 0.0.0.0 -d start --pid-file /tmp/ss.pid --log-file /tmp/ss.log
+
+$ cat ss.conf
+{
+    &quot;server&quot;:&quot;${serverip}&quot;,
+    &quot;server_port&quot;:8080,
+    &quot;local_port&quot;:1080,
+    &quot;password&quot;:&quot;${yourpassword}&quot;,
+    &quot;method&quot;:&quot;aes-256-cfb&quot;
+}
+
+</code></pre><p>备注： budgetvm主机服务在洛杉矶，所以国内登录过去会有点慢-_-|| 岛国的vps似乎很快，推荐一款<a href="https://www.vultr.com/" target="_blank" rel="noopener">Vultr</a></p>
 
       
     </div>
@@ -252,11 +293,11 @@
 	</li>
       
 	<li>
-	  <a href="/categories/BigData/">BigData (12)</a>
+	  <a href="/categories/Linux/">Linux (6)</a>
 	</li>
       
 	<li>
-	  <a href="/categories/Linux/">Linux (6)</a>
+	  <a href="/categories/BigData/">BigData (12)</a>
 	</li>
       
 	<li>
@@ -299,20 +340,20 @@
     
   
     
-  
-    
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hadoop.png" class="img-responsive ">
+	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
+	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
+    
+  
     
   
     
@@ -327,18 +368,18 @@
     
   
     
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
+	  <img src="/img/hadoop.png" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
+	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
     
   
     
@@ -369,6 +410,12 @@
     
   
     
+  
+    
+  
+    
+  
+    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/protocol-buffers.png" class="img-responsive ">
@@ -377,12 +424,6 @@
 	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
 	</div>                        
       </div>
-    
-  
-    
-  
-    
-  
     
   
     

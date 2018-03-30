@@ -13,19 +13,19 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="baidu-site-verification" content="SKU1ruzzZG" />
 
-  <meta name="description" content="离线安装CDH5.4.7  官方文档  删除已有cloudera manager   12345678$ /usr/share/cmf/uninstall-cloudera-manager.sh$ apt-get purge &apos;cloudera-manager-*&apos;$ umount cm_processes$ rm -Rf /usr/share/cmf /var/lib/cloudera* /va">
+  <meta name="description" content="离线安装CDH5.4.7  官方文档  删除已有cloudera manager   $ /usr/share/cmf/uninstall-cloudera-manager.sh  $ apt-get purge &amp;#39;cloudera-manager-*&amp;#39;  $ umount cm_processes $ rm -Rf /usr/share/cmf /var/lib/cloudera">
 <meta name="keywords" content="hadoop,chd,cloudera">
 <meta property="og:type" content="article">
 <meta property="og:title" content="安装CDH指定版本5.4.7">
 <meta property="og:url" content="http://saboloh.com/2016/04/19/install-cdh-5.4.7/index.html">
 <meta property="og:site_name" content="Loh&#39;s Blog">
-<meta property="og:description" content="离线安装CDH5.4.7  官方文档  删除已有cloudera manager   12345678$ /usr/share/cmf/uninstall-cloudera-manager.sh$ apt-get purge &apos;cloudera-manager-*&apos;$ umount cm_processes$ rm -Rf /usr/share/cmf /var/lib/cloudera* /va">
+<meta property="og:description" content="离线安装CDH5.4.7  官方文档  删除已有cloudera manager   $ /usr/share/cmf/uninstall-cloudera-manager.sh  $ apt-get purge &amp;#39;cloudera-manager-*&amp;#39;  $ umount cm_processes $ rm -Rf /usr/share/cmf /var/lib/cloudera">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://saboloh.com/img/filelist.png">
-<meta property="og:updated_time" content="2016-09-05T14:47:56.000Z">
+<meta property="og:updated_time" content="2018-03-29T07:14:11.458Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="安装CDH指定版本5.4.7">
-<meta name="twitter:description" content="离线安装CDH5.4.7  官方文档  删除已有cloudera manager   12345678$ /usr/share/cmf/uninstall-cloudera-manager.sh$ apt-get purge &apos;cloudera-manager-*&apos;$ umount cm_processes$ rm -Rf /usr/share/cmf /var/lib/cloudera* /va">
+<meta name="twitter:description" content="离线安装CDH5.4.7  官方文档  删除已有cloudera manager   $ /usr/share/cmf/uninstall-cloudera-manager.sh  $ apt-get purge &amp;#39;cloudera-manager-*&amp;#39;  $ umount cm_processes $ rm -Rf /usr/share/cmf /var/lib/cloudera">
 <meta name="twitter:image" content="http://saboloh.com/img/filelist.png">
   
     <link rel="alternative" href="/atom.xml" title="Loh&#39;s Blog" type="application/atom+xml">
@@ -181,21 +181,62 @@
       
         <p>离线安装CDH5.4.7</p>
 <ul>
-<li><p><a href="http://www.cloudera.com/documentation/enterprise/latest/topics/cm_ig_install_path_a.html#cmig_topic_6_5_unique_2" target="_blank" rel="external">官方文档</a></p>
+<li><p><a href="http://www.cloudera.com/documentation/enterprise/latest/topics/cm_ig_install_path_a.html#cmig_topic_6_5_unique_2" target="_blank" rel="noopener">官方文档</a></p>
 </li>
-<li><p>删除已有<a href="http://www.cloudera.com/documentation/enterprise/5-5-x/topics/cm_ig_uninstall_cm.html" target="_blank" rel="external">cloudera manager</a></p>
+<li><p>删除已有<a href="http://www.cloudera.com/documentation/enterprise/5-5-x/topics/cm_ig_uninstall_cm.html" target="_blank" rel="noopener">cloudera manager</a></p>
 </li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ /usr/share/cmf/uninstall-cloudera-manager.sh</div><div class="line"></div><div class="line">$ apt-get purge <span class="string">'cloudera-manager-*'</span></div><div class="line"></div><div class="line">$ umount cm_processes</div><div class="line">$ rm -Rf /usr/share/cmf /var/lib/cloudera* /var/cache/yum/cloudera* /var/<span class="built_in">log</span>/cloudera* /var/run/cloudera*</div><div class="line"></div><div class="line">$ rm -Rf /var/lib/flume-ng /var/lib/hadoop* /var/lib/hue /var/lib/navigator /var/lib/oozie /var/lib/solr /var/lib/sqoop* /var/lib/zookeeper</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">$ /usr/share/cmf/uninstall-cloudera-manager.sh
+
+$ <span class="token function">apt-get</span> purge <span class="token string">'cloudera-manager-*'</span>
+
+$ <span class="token function">umount</span> cm_processes
+$ <span class="token function">rm</span> -Rf /usr/share/cmf /var/lib/cloudera* /var/cache/yum/cloudera* /var/log/cloudera* /var/run/cloudera*
+
+$ <span class="token function">rm</span> -Rf /var/lib/flume-ng /var/lib/hadoop* /var/lib/hue /var/lib/navigator /var/lib/oozie /var/lib/solr /var/lib/sqoop* /var/lib/zookeeper
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <a id="more"></a>
 <ul>
 <li>查看系统版本 </li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ lsb_release <span class="_">-a</span></div><div class="line">No LSB modules are available.</div><div class="line">Distributor ID: Ubuntu</div><div class="line">Description:    Ubuntu 12.04.4 LTS</div><div class="line">Release:    12.04</div><div class="line">Codename:   precise</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">$ lsb_release -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 12.04.4 LTS
+Release:    12.04
+Codename:   precise
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>下载对应包并且配置本地源(避免使用cloudera-manager-installer.bin直接安装总是获取最新版CDH) </li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">下载好tarball</div><div class="line"></div><div class="line">$ wget http://archive.cloudera.com/cm5/repo-as-tarball/5.4.7/cm5.4.7-ubuntu12-04.tar.gz</div><div class="line">$ tar -zxvf cm5.4.7-ubuntu12-04.tar.gz</div><div class="line">$ cp -r cm /var/spool/apt-mirror/mirror/archive.cloudera.com/</div><div class="line"></div><div class="line"><span class="comment"># 使用nginx配置</span></div><div class="line">$ apt-get install nginx </div><div class="line">$ vim /etc/nginx/nginx.conf</div><div class="line"><span class="comment"># 访问本地目录列表</span></div><div class="line">server &#123;</div><div class="line">    listen       80;</div><div class="line">    server_name  dev-001;</div><div class="line"></div><div class="line">    location / &#123;</div><div class="line">        root   /var/spool/apt-mirror/mirror/archive.cloudera.com/;</div><div class="line">        index  index.html index.htm;</div><div class="line">        autoindex on;</div><div class="line">        autoindex_exact_size off;</div><div class="line">        autoindex_localtime on;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    error_page   500 502 503 504  /50x.html;</div><div class="line">    location = /50x.html &#123;</div><div class="line">        root   html;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">下载好tarball
+
+$ <span class="token function">wget</span> http://archive.cloudera.com/cm5/repo-as-tarball/5.4.7/cm5.4.7-ubuntu12-04.tar.gz
+$ <span class="token function">tar</span> -zxvf cm5.4.7-ubuntu12-04.tar.gz
+$ <span class="token function">cp</span> -r cm /var/spool/apt-mirror/mirror/archive.cloudera.com/
+
+<span class="token comment" spellcheck="true"># 使用nginx配置</span>
+$ <span class="token function">apt-get</span> <span class="token function">install</span> nginx 
+$ vim /etc/nginx/nginx.conf
+<span class="token comment" spellcheck="true"># 访问本地目录列表</span>
+server <span class="token punctuation">{</span>
+    listen       80<span class="token punctuation">;</span>
+    server_name  dev-001<span class="token punctuation">;</span>
+
+    location / <span class="token punctuation">{</span>
+        root   /var/spool/apt-mirror/mirror/archive.cloudera.com/<span class="token punctuation">;</span>
+        index  index.html index.htm<span class="token punctuation">;</span>
+        autoindex on<span class="token punctuation">;</span>
+        autoindex_exact_size off<span class="token punctuation">;</span>
+        autoindex_localtime on<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    error_page   500 502 503 504  /50x.html<span class="token punctuation">;</span>
+    location <span class="token operator">=</span> /50x.html <span class="token punctuation">{</span>
+        root   html<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>  
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>浏览确认是否能访问 </li>
 </ul>
@@ -203,20 +244,30 @@
 <ul>
 <li>配置apt source</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ vim /etc/apt/source.list.d/my-private-cloudera-repo.list</div><div class="line"># Packages for Clouderas Distribution for Hadoop, Version 4, on Ubuntu 12.04 x86_64</div><div class="line">deb [arch=amd64] http://dev-001/cm precise-cm5 contrib</div><div class="line">deb-src http://dev-001/cm precise-cm5.4.7 contrib</div></pre></td></tr></table></figure>
-<ul>
-<li>下载对应<a href="http://archive.cloudera.com/cdh5/parcels/" target="_blank" rel="external">parcel</a></li>
+<pre><code>$ vim /etc/apt/source.list.d/my-private-cloudera-repo.list
+# Packages for Clouderas Distribution for Hadoop, Version 4, on Ubuntu 12.04 x86_64
+deb [arch=amd64] http://dev-001/cm precise-cm5 contrib
+deb-src http://dev-001/cm precise-cm5.4.7 contrib
+</code></pre><ul>
+<li>下载对应<a href="http://archive.cloudera.com/cdh5/parcels/" target="_blank" rel="noopener">parcel</a></li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">找到对应自己系统的parcels</div><div class="line">$ wget http://archive.cloudera.com/cdh5/parcels/5.4.7/CDH-5.4.7-1.cdh5.4.7.p0.3-precise.parcel</div><div class="line">$ wget wget http://archive.cloudera.com/cdh5/parcels/5.4.7/CDH-5.4.7-1.cdh5.4.7.p0.3-precise.parcel.sha1</div><div class="line">$ wget http://archive.cloudera.com/cdh5/parcels/5.4.7/manifest.json</div><div class="line"></div><div class="line">sha1需修改成sha</div><div class="line">$ mv CDH-5.4.7-1.cdh5.4.7.p0.3-precise.parcel.sha1 CDH-5.4.7-1.cdh5.4.7.p0.3-precise.parcel.sha</div></pre></td></tr></table></figure>
-<ul>
-<li>下载安装<a href="https://archive.cloudera.com/cm5/installer/" target="_blank" rel="external">Cloudera Manager</a></li>
+<pre><code>找到对应自己系统的parcels
+$ wget http://archive.cloudera.com/cdh5/parcels/5.4.7/CDH-5.4.7-1.cdh5.4.7.p0.3-precise.parcel
+$ wget wget http://archive.cloudera.com/cdh5/parcels/5.4.7/CDH-5.4.7-1.cdh5.4.7.p0.3-precise.parcel.sha1
+$ wget http://archive.cloudera.com/cdh5/parcels/5.4.7/manifest.json
+
+sha1需修改成sha
+$ mv CDH-5.4.7-1.cdh5.4.7.p0.3-precise.parcel.sha1 CDH-5.4.7-1.cdh5.4.7.p0.3-precise.parcel.sha
+</code></pre><ul>
+<li>下载安装<a href="https://archive.cloudera.com/cm5/installer/" target="_blank" rel="noopener">Cloudera Manager</a></li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ wget https://archive.cloudera.com/cm5/installer/5.4.7/cloudera-manager-installer.bin</div></pre></td></tr></table></figure>
-<ul>
+<pre><code>$ wget https://archive.cloudera.com/cm5/installer/5.4.7/cloudera-manager-installer.bin
+</code></pre><ul>
 <li>安装</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ chmod +x cloudera-manager-installer.bin</div><div class="line">$ ./cloudera-manager-installer.bin --skip_repo_package=1</div></pre></td></tr></table></figure>
-
+<pre><code>$ chmod +x cloudera-manager-installer.bin
+$ ./cloudera-manager-installer.bin --skip_repo_package=1
+</code></pre>
       
     </div>
   </div>
@@ -269,11 +320,11 @@
 	</li>
       
 	<li>
-	  <a href="/categories/BigData/">BigData (12)</a>
+	  <a href="/categories/Linux/">Linux (6)</a>
 	</li>
       
 	<li>
-	  <a href="/categories/Linux/">Linux (6)</a>
+	  <a href="/categories/BigData/">BigData (12)</a>
 	</li>
       
 	<li>
@@ -316,20 +367,20 @@
     
   
     
-  
-    
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hadoop.png" class="img-responsive ">
+	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
+	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
+    
+  
     
   
     
@@ -344,18 +395,18 @@
     
   
     
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
+	  <img src="/img/hadoop.png" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
+	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
     
   
     
@@ -386,6 +437,12 @@
     
   
     
+  
+    
+  
+    
+  
+    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/protocol-buffers.png" class="img-responsive ">
@@ -394,12 +451,6 @@
 	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
 	</div>                        
       </div>
-    
-  
-    
-  
-    
-  
     
   
     

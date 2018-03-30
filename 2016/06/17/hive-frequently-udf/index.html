@@ -13,18 +13,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="baidu-site-verification" content="SKU1ruzzZG" />
 
-  <meta name="description" content="get_json_object rank    12SELECT a.*, rank() over(partition by key order by created desc) as rkFROM   table_name a">
+  <meta name="description" content="get_json_object rank    SELECT a.*, rank() over(partition by key order by created desc) as rk FROM   table_name a">
 <meta name="keywords" content="hive">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hive常用函数">
 <meta property="og:url" content="http://saboloh.com/2016/06/17/hive-frequently-udf/index.html">
 <meta property="og:site_name" content="Loh&#39;s Blog">
-<meta property="og:description" content="get_json_object rank    12SELECT a.*, rank() over(partition by key order by created desc) as rkFROM   table_name a">
+<meta property="og:description" content="get_json_object rank    SELECT a.*, rank() over(partition by key order by created desc) as rk FROM   table_name a">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2016-09-10T14:37:50.000Z">
+<meta property="og:updated_time" content="2018-03-29T07:14:11.458Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hive常用函数">
-<meta name="twitter:description" content="get_json_object rank    12SELECT a.*, rank() over(partition by key order by created desc) as rkFROM   table_name a">
+<meta name="twitter:description" content="get_json_object rank    SELECT a.*, rank() over(partition by key order by created desc) as rk FROM   table_name a">
   
     <link rel="alternative" href="/atom.xml" title="Loh&#39;s Blog" type="application/atom+xml">
   
@@ -174,19 +174,23 @@
     <div class="article-entry" itemprop="articleBody">
       
         <ul>
-<li><a href="https://cwiki.apache.org/confluence/display/Hive/LanguageManual+UDF#LanguageManualUDF-get_json_object" target="_blank" rel="external">get_json_object</a></li>
+<li><a href="https://cwiki.apache.org/confluence/display/Hive/LanguageManual+UDF#LanguageManualUDF-get_json_object" target="_blank" rel="noopener">get_json_object</a></li>
 <li>rank  </li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> a.*, <span class="keyword">rank</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">key</span> <span class="keyword">order</span> <span class="keyword">by</span> created <span class="keyword">desc</span>) <span class="keyword">as</span> rk</div><div class="line"><span class="keyword">FROM</span>   table_name a</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">SELECT</span> <span class="token number">a</span><span class="token punctuation">.</span><span class="token operator">*</span><span class="token punctuation">,</span> rank<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">over</span><span class="token punctuation">(</span><span class="token keyword">partition</span> <span class="token keyword">by</span> <span class="token keyword">key</span> <span class="token keyword">order</span> <span class="token keyword">by</span> created <span class="token keyword">desc</span><span class="token punctuation">)</span> <span class="token keyword">as</span> rk
+<span class="token keyword">FROM</span>   table_name <span class="token number">a</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <a id="more"></a>
 <ul>
 <li>regexp_extract(string subject, string pattern, int index)</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> regexp_extract(<span class="string">'https://cwiki.apache.org/confluence/display'</span>, <span class="string">'org/([a-z]+)/'</span>, <span class="number">1</span>)</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">SELECT</span> regexp_extract<span class="token punctuation">(</span>'https:<span class="token comment" spellcheck="true">//cwiki.apache.org/confluence/display', 'org/([a-z]+)/', 1)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <ul>
 <li>regexp_replace(string INITIAL_STRING, string PATTERN, string REPLACEMENT)</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> regexp_replace(<span class="string">'hive site:xxxx'</span>, <span class="string">'^[a-z]+'</span>, <span class="string">''</span>)</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">SELECT</span> regexp_replace<span class="token punctuation">(</span><span class="token string">'hive site:xxxx'</span><span class="token punctuation">,</span> <span class="token string">'^[a-z]+'</span><span class="token punctuation">,</span> <span class="token string">''</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <ul>
 <li>current_date</li>
 <li>date_add(string startdate, int days)</li>
@@ -196,11 +200,13 @@
 <li>from_unixtime(string date[, string format]) </li>
 <li>unix_timestamp(string date)</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> from_unixtime(<span class="keyword">unix_timestamp</span>(<span class="string">'2016-09-07 07:07:13.02'</span>), <span class="string">'HH'</span>);//02</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">SELECT</span> from_unixtime<span class="token punctuation">(</span>unix_timestamp<span class="token punctuation">(</span><span class="token string">'2016-09-07 07:07:13.02'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'HH'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//02</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <ul>
 <li>regexp_extract(string str, string regexp, int idx)</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> regexp_extract(<span class="string">'2016-09-07 02:07:13.02'</span>, <span class="string">' ([0-9]+):'</span>, <span class="number">1</span>); //02</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">SELECT</span> regexp_extract<span class="token punctuation">(</span><span class="token string">'2016-09-07 02:07:13.02'</span><span class="token punctuation">,</span> <span class="token string">' ([0-9]+):'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//02</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
       
     </div>
@@ -254,11 +260,11 @@
 	</li>
       
 	<li>
-	  <a href="/categories/BigData/">BigData (12)</a>
+	  <a href="/categories/Linux/">Linux (6)</a>
 	</li>
       
 	<li>
-	  <a href="/categories/Linux/">Linux (6)</a>
+	  <a href="/categories/BigData/">BigData (12)</a>
 	</li>
       
 	<li>
@@ -301,20 +307,20 @@
     
   
     
-  
-    
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hadoop.png" class="img-responsive ">
+	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
+	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
+    
+  
     
   
     
@@ -329,18 +335,18 @@
     
   
     
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
+	  <img src="/img/hadoop.png" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
+	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
     
   
     
@@ -371,6 +377,12 @@
     
   
     
+  
+    
+  
+    
+  
+    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/protocol-buffers.png" class="img-responsive ">
@@ -379,12 +391,6 @@
 	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
 	</div>                        
       </div>
-    
-  
-    
-  
-    
-  
     
   
     

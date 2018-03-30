@@ -2,12 +2,18 @@
 Template Name: Metronic - Responsive Website Template build with Twitter Bootstrap 3.1.1
 */
 
+html {
+        position: relative;
+        min-height: 100%;
+}
+
 /* General body settings */
 body { 
 	color: #3e4d5c; 
 	direction: ltr;
 	font: 400 13px 'Open Sans', Arial, sans-serif;
 	background: #fff;
+        padding-bottom: 100px;
 }
 
 /***
@@ -1691,6 +1697,9 @@ Pre-Footer and pre-footer elements
 	color: #fff;
 	font-size: 12px;
 	padding: 15px 0;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
 }
 .footer-light {
 	background: #F9F9F9;

@@ -14,14 +14,14 @@
   <meta name="baidu-site-verification" content="SKU1ruzzZG" />
 
   <meta name="description" content="Hadoop Commands工作中常用的hadoop操作  Yarn logs">
-<meta name="keywords" content="Hive,hadoop,command,hive">
+<meta name="keywords" content="hive,Hive,hadoop,command">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hadoop常用操作">
 <meta property="og:url" content="http://saboloh.com/2016/08/19/hadoop-frequently-options/index.html">
 <meta property="og:site_name" content="Loh&#39;s Blog">
 <meta property="og:description" content="Hadoop Commands工作中常用的hadoop操作  Yarn logs">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2016-09-05T14:47:56.000Z">
+<meta property="og:updated_time" content="2018-03-29T07:14:11.458Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop常用操作">
 <meta name="twitter:description" content="Hadoop Commands工作中常用的hadoop操作  Yarn logs">
@@ -152,13 +152,13 @@
 	<li class="hidden-xs"><i class="fa fa-tags"></i> 
 	  
   
+    <a href="/tags/hive/" title="hive">hive</a>,
+  
     <a href="/tags/Hive/" title="Hive">Hive</a>,
   
     <a href="/tags/hadoop/" title="hadoop">hadoop</a>,
   
-    <a href="/tags/command/" title="command">command</a>,
-  
-    <a href="/tags/hive/" title="hive">hive</a>
+    <a href="/tags/command/" title="command">command</a>
   
 
 
@@ -181,16 +181,18 @@
       
         <h2 id="Hadoop-Commands"><a href="#Hadoop-Commands" class="headerlink" title="Hadoop Commands"></a>Hadoop Commands</h2><p>工作中常用的hadoop操作</p>
 <ul>
-<li><p><a href="http://hortonworks.com/blog/simplifying-user-logs-management-and-access-in-yarn/" target="_blank" rel="external">Yarn logs</a></p>
+<li><p><a href="http://hortonworks.com/blog/simplifying-user-logs-management-and-access-in-yarn/" target="_blank" rel="noopener">Yarn logs</a></p>
 <a id="more"></a>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ yarn logs -applicationId &lt;application ID&gt; -appOwner &lt;Application Owner&gt; -containerId &lt;Container ID&gt; -nodeAddress &lt;Node Address&gt;</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">$ yarn logs -applicationId <span class="token operator">&lt;</span>application ID<span class="token operator">></span> -appOwner <span class="token operator">&lt;</span>Application Owner<span class="token operator">></span> -containerId <span class="token operator">&lt;</span>Container ID<span class="token operator">></span> -nodeAddress <span class="token operator">&lt;</span>Node Address<span class="token operator">></span>   
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </li>
 <li><p>Yarn application  </p>
 </li>
-<li><p><a href="https://hadoop.apache.org/docs/r2.4.1/hadoop-hdfs-httpfs/index.html" target="_blank" rel="external">HttpFs</a>  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ http://localhost:14000/webhdfs/v1/user/<span class="built_in">history</span>/<span class="keyword">done</span>/2016/09/03/001509/job_1466675370769_1509892_conf.xml?op=open&amp;user.name=hadoop</div></pre></td></tr></table></figure>
+<li><p><a href="https://hadoop.apache.org/docs/r2.4.1/hadoop-hdfs-httpfs/index.html" target="_blank" rel="noopener">HttpFs</a>  </p>
+<pre class="line-numbers language-bash"><code class="language-bash">$ http://localhost:14000/webhdfs/v1/user/history/done/2016/09/03/001509/job_1466675370769_1509892_conf.xml?op<span class="token operator">=</span>open<span class="token operator">&amp;</span>user.name<span class="token operator">=</span>hadoop 
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </li>
-<li><p><a href="https://hadoop.apache.org/docs/r2.4.1/hadoop-yarn/hadoop-yarn-site/ResourceManagerRest.html" target="_blank" rel="external">ResourceManager REST API’s</a></p>
+<li><p><a href="https://hadoop.apache.org/docs/r2.4.1/hadoop-yarn/hadoop-yarn-site/ResourceManagerRest.html" target="_blank" rel="noopener">ResourceManager REST API’s</a></p>
 </li>
 </ul>
 
@@ -246,11 +248,11 @@
 	</li>
       
 	<li>
-	  <a href="/categories/BigData/">BigData (12)</a>
+	  <a href="/categories/Linux/">Linux (6)</a>
 	</li>
       
 	<li>
-	  <a href="/categories/Linux/">Linux (6)</a>
+	  <a href="/categories/BigData/">BigData (12)</a>
 	</li>
       
 	<li>
@@ -293,20 +295,20 @@
     
   
     
-  
-    
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hadoop.png" class="img-responsive ">
+	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
+	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
+    
+  
     
   
     
@@ -321,18 +323,18 @@
     
   
     
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
+	  <img src="/img/hadoop.png" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
+	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
     
   
     
@@ -363,6 +365,12 @@
     
   
     
+  
+    
+  
+    
+  
+    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/protocol-buffers.png" class="img-responsive ">
@@ -371,12 +379,6 @@
 	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
 	</div>                        
       </div>
-    
-  
-    
-  
-    
-  
     
   
     

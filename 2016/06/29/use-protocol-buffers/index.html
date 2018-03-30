@@ -13,18 +13,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="baidu-site-verification" content="SKU1ruzzZG" />
 
-  <meta name="description" content="Protocol Buffers现有个snappy压缩文件，解压后文件存储格式为： 1[4 byte size][protobuf][4 byte size][protobuf]... 4个字节（高位存储）存储的是后面protobuf序列化的长度，需对文件进行解析">
+  <meta name="description" content="Protocol Buffers现有个snappy压缩文件，解压后文件存储格式为： [4 byte size][protobuf][4 byte size][protobuf]... 4个字节（高位存储）存储的是后面protobuf序列化的长度，需对文件进行解析">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="初试 Protocol Buffers">
 <meta property="og:url" content="http://saboloh.com/2016/06/29/use-protocol-buffers/index.html">
 <meta property="og:site_name" content="Loh&#39;s Blog">
-<meta property="og:description" content="Protocol Buffers现有个snappy压缩文件，解压后文件存储格式为： 1[4 byte size][protobuf][4 byte size][protobuf]... 4个字节（高位存储）存储的是后面protobuf序列化的长度，需对文件进行解析">
+<meta property="og:description" content="Protocol Buffers现有个snappy压缩文件，解压后文件存储格式为： [4 byte size][protobuf][4 byte size][protobuf]... 4个字节（高位存储）存储的是后面protobuf序列化的长度，需对文件进行解析">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2016-09-04T12:32:17.000Z">
+<meta property="og:updated_time" content="2018-03-29T07:14:11.462Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初试 Protocol Buffers">
-<meta name="twitter:description" content="Protocol Buffers现有个snappy压缩文件，解压后文件存储格式为： 1[4 byte size][protobuf][4 byte size][protobuf]... 4个字节（高位存储）存储的是后面protobuf序列化的长度，需对文件进行解析">
+<meta name="twitter:description" content="Protocol Buffers现有个snappy压缩文件，解压后文件存储格式为： [4 byte size][protobuf][4 byte size][protobuf]... 4个字节（高位存储）存储的是后面protobuf序列化的长度，需对文件进行解析">
   
     <link rel="alternative" href="/atom.xml" title="Loh&#39;s Blog" type="application/atom+xml">
   
@@ -173,27 +173,73 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Protocol-Buffers"><a href="#Protocol-Buffers" class="headerlink" title="Protocol Buffers"></a><a href="https://developers.google.com/protocol-buffers/docs/javatutorial" target="_blank" rel="external">Protocol Buffers</a></h2><p>现有个<a href="http://google.github.io/snappy/" target="_blank" rel="external">snappy</a>压缩文件，解压后文件存储格式为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[4 byte size][protobuf][4 byte size][protobuf]...</div></pre></td></tr></table></figure>
-<p>4个字节（高位存储）存储的是后面<code>protobuf</code>序列化的长度，需对文件进行解析</p>
+        <h2 id="Protocol-Buffers"><a href="#Protocol-Buffers" class="headerlink" title="Protocol Buffers"></a><a href="https://developers.google.com/protocol-buffers/docs/javatutorial" target="_blank" rel="noopener">Protocol Buffers</a></h2><p>现有个<a href="http://google.github.io/snappy/" target="_blank" rel="noopener">snappy</a>压缩文件，解压后文件存储格式为：</p>
+<pre><code>[4 byte size][protobuf][4 byte size][protobuf]...
+</code></pre><p>4个字节（高位存储）存储的是后面<code>protobuf</code>序列化的长度，需对文件进行解析</p>
 <a id="more"></a>
 <ul>
 <li>install protoc</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ wget https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.tar.gz</div><div class="line">$ tar -zxvf protobuf-2.6.1.tar.gz</div><div class="line">$ <span class="built_in">cd</span> protobuf-2.6.1</div><div class="line">$ ./configure</div><div class="line">$ make &amp; make install</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">wget</span> https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.tar.gz
+$ <span class="token function">tar</span> -zxvf protobuf-2.6.1.tar.gz
+$ <span class="token function">cd</span> protobuf-2.6.1
+$ ./configure
+$ <span class="token function">make</span> <span class="token operator">&amp;</span> <span class="token function">make</span> <span class="token function">install</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><code>.protoc</code>文件内容如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">syntax = <span class="string">"proto2"</span>;</div><div class="line"></div><div class="line"><span class="keyword">package</span> tutorial;</div><div class="line"></div><div class="line">option java_package = <span class="string">"com.example.tutorial"</span>;</div><div class="line">option java_outer_classname = <span class="string">"CommonDumpOuter"</span>;</div><div class="line"></div><div class="line">message CommonDump &#123;</div><div class="line">  optional uint32 tableId = <span class="number">1</span>;</div><div class="line">  optional uint32 colSpace = <span class="number">2</span>;</div><div class="line">  optional bytes rowKey = <span class="number">3</span>;</div><div class="line">  optional bytes colKey = <span class="number">4</span>;</div><div class="line">  optional bytes value = <span class="number">5</span>;</div><div class="line">  optional int64 score = <span class="number">6</span>;</div><div class="line">  optional uint32 ttl = <span class="number">7</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-java"><code class="language-java">syntax <span class="token operator">=</span> <span class="token string">"proto2"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">package</span> tutorial<span class="token punctuation">;</span>
+
+option java_package <span class="token operator">=</span> <span class="token string">"com.example.tutorial"</span><span class="token punctuation">;</span>
+option java_outer_classname <span class="token operator">=</span> <span class="token string">"CommonDumpOuter"</span><span class="token punctuation">;</span>
+
+message CommonDump <span class="token punctuation">{</span>
+  optional uint32 tableId <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+  optional uint32 colSpace <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+  optional bytes rowKey <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+  optional bytes colKey <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+  optional bytes value <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+  optional int64 score <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">;</span>
+  optional uint32 ttl <span class="token operator">=</span> <span class="token number">7</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>通过protoc编译成<code>.java</code>文件</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ protoc --java_out=. commonDump.proto</div></pre></td></tr></table></figure>
-<ul>
+<pre><code>$ protoc --java_out=. commonDump.proto
+</code></pre><ul>
 <li>通过java解析文件</li>
 </ul>
 <p>a. 首先要知道如何将高位的4字节长度转换为int</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">bytesToInt</span><span class="params">(<span class="keyword">byte</span>[] src)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> value;</div><div class="line">    value = (<span class="keyword">int</span>) ((src[<span class="number">3</span>] &amp; <span class="number">0xFF</span>)</div><div class="line">            | ((src[<span class="number">2</span>] &amp; <span class="number">0xFF</span>) &lt;&lt; <span class="number">8</span>)</div><div class="line">            | ((src[<span class="number">1</span>] &amp; <span class="number">0xFF</span>) &lt;&lt; <span class="number">16</span>)</div><div class="line">            | ((src[<span class="number">0</span>] &amp; <span class="number">0xFF</span>) &lt;&lt; <span class="number">24</span>));</div><div class="line">    <span class="keyword">return</span> value;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">bytesToInt</span><span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> src<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> value<span class="token punctuation">;</span>
+    value <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>src<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">&amp;</span> <span class="token number">0xFF</span><span class="token punctuation">)</span>
+            <span class="token operator">|</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>src<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">&amp;</span> <span class="token number">0xFF</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token number">8</span><span class="token punctuation">)</span>
+            <span class="token operator">|</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>src<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">&amp;</span> <span class="token number">0xFF</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token number">16</span><span class="token punctuation">)</span>
+            <span class="token operator">|</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>src<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">&amp;</span> <span class="token number">0xFF</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token number">24</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>b. 然后使用SnappyInputStream读入file</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">InputStream in = <span class="keyword">new</span> FileInputStream(<span class="string">"/tmp/path/dump_file.dat.sp"</span>);</div><div class="line"></div><div class="line">in = <span class="keyword">new</span> SnappyInputStream(in);</div><div class="line"></div><div class="line"><span class="keyword">byte</span>[] header = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4</span>]; <span class="comment">//用于读入长度</span></div><div class="line">CommonDump commonDump = <span class="keyword">null</span>; <span class="comment">// protpbuf</span></div><div class="line"><span class="keyword">long</span> length = <span class="number">0</span>; <span class="comment">//记录数</span></div><div class="line"><span class="keyword">while</span> (in.read(header, <span class="number">0</span>, <span class="number">4</span>) != -<span class="number">1</span>) &#123;</div><div class="line"></div><div class="line">    <span class="keyword">int</span> bodylength = bytesToInt(header);</div><div class="line">    <span class="keyword">byte</span>[] body = <span class="keyword">new</span> <span class="keyword">byte</span>[bodylength];</div><div class="line">    in.read(body, <span class="number">0</span>, bodylength);</div><div class="line">    length++;</div><div class="line"></div><div class="line">    commonDump = CommonDump.parseFrom(body);</div><div class="line">    <span class="comment">// 接下来可以打印数据看看</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-java"><code class="language-java">InputStream in <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileInputStream</span><span class="token punctuation">(</span><span class="token string">"/tmp/path/dump_file.dat.sp"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+in <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SnappyInputStream</span><span class="token punctuation">(</span>in<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> header <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">byte</span><span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//用于读入长度</span>
+CommonDump commonDump <span class="token operator">=</span> null<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// protpbuf</span>
+<span class="token keyword">long</span> length <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//记录数</span>
+<span class="token keyword">while</span> <span class="token punctuation">(</span>in<span class="token punctuation">.</span><span class="token function">read</span><span class="token punctuation">(</span>header<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">int</span> bodylength <span class="token operator">=</span> <span class="token function">bytesToInt</span><span class="token punctuation">(</span>header<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> body <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">byte</span><span class="token punctuation">[</span>bodylength<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    in<span class="token punctuation">.</span><span class="token function">read</span><span class="token punctuation">(</span>body<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> bodylength<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    length<span class="token operator">++</span><span class="token punctuation">;</span>
+
+    commonDump <span class="token operator">=</span> CommonDump<span class="token punctuation">.</span><span class="token function">parseFrom</span><span class="token punctuation">(</span>body<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 接下来可以打印数据看看</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><ol>
 <li>主要需要理解文件的存储格式，才能正确的将<code>protobuf</code>序列化文件反序列化。其次是4字节的高位存储，如何将高位存储的byte转换成int</li>
 <li>在文件读入的时候，使用snappy输入流</li>
@@ -252,11 +298,11 @@
 	</li>
       
 	<li>
-	  <a href="/categories/BigData/">BigData (12)</a>
+	  <a href="/categories/Linux/">Linux (6)</a>
 	</li>
       
 	<li>
-	  <a href="/categories/Linux/">Linux (6)</a>
+	  <a href="/categories/BigData/">BigData (12)</a>
 	</li>
       
 	<li>
@@ -299,20 +345,20 @@
     
   
     
-  
-    
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hadoop.png" class="img-responsive ">
+	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
+	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
+    
+  
     
   
     
@@ -327,18 +373,18 @@
     
   
     
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
+	  <img src="/img/hadoop.png" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
+	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
     
   
     
@@ -369,6 +415,12 @@
     
   
     
+  
+    
+  
+    
+  
+    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/protocol-buffers.png" class="img-responsive ">
@@ -377,12 +429,6 @@
 	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
 	</div>                        
       </div>
-    
-  
-    
-  
-    
-  
     
   
     

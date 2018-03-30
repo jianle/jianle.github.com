@@ -21,7 +21,7 @@
 <meta property="og:site_name" content="Loh&#39;s Blog">
 <meta property="og:description" content="记录有关于SSH的一些使用，其中包含：  ssh|sshd 服务 配置ssh ssh 端口转发 使用ssh配置socks代理">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2016-09-10T14:37:50.000Z">
+<meta property="og:updated_time" content="2018-03-29T07:14:11.458Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SSH 的一些使用技巧">
 <meta name="twitter:description" content="记录有关于SSH的一些使用，其中包含：  ssh|sshd 服务 配置ssh ssh 端口转发 使用ssh配置socks代理">
@@ -182,35 +182,69 @@
 </ul>
 <a id="more"></a>
 <h3 id="ssh-sshd-服务"><a href="#ssh-sshd-服务" class="headerlink" title="ssh|sshd 服务"></a>ssh|sshd 服务</h3><ul>
-<li>服务管理（启动/关闭/重启）<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo service ssh|sshd start/status/stop</div><div class="line">or</div><div class="line">$ /etc/init.d/ssh|sshd start</div></pre></td></tr></table></figure>
+<li>服务管理（启动/关闭/重启）<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">service</span> <span class="token function">ssh</span><span class="token operator">|</span>sshd start/status/stop
+or
+$ /etc/init.d/ssh<span class="token operator">|</span>sshd start
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 </li>
 </ul>
 <h3 id="配置ssh"><a href="#配置ssh" class="headerlink" title="配置ssh"></a>配置ssh</h3><ul>
 <li>生成key</li>
-<li>配置.ssh/config<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ ssh-keygen -t rsa                             //生成key</div><div class="line">$ ssh-add                                       //秘钥加入ssh-agent </div><div class="line">$ ssh-add <span class="_">-l</span>                                    //查看</div><div class="line">$ cat ~/.ssh/id_rsa.pub &gt;&gt; authorized_keys</div><div class="line">$ vim ~/.ssh/config</div><div class="line">Host mid</div><div class="line">     User saboloh                               //配置默认用户</div></pre></td></tr></table></figure>
+<li>配置.ssh/config<pre class="line-numbers language-bash"><code class="language-bash">$ ssh-keygen -t rsa                             //生成key
+$ ssh-add                                       //秘钥加入ssh-agent 
+$ ssh-add -l                                    //查看
+$ <span class="token function">cat</span> ~/.ssh/id_rsa.pub <span class="token operator">>></span> authorized_keys
+$ vim ~/.ssh/config
+Host mid
+   User saboloh                               //配置默认用户
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </li>
 </ul>
 <h3 id="ssh-端口转发"><a href="#ssh-端口转发" class="headerlink" title="ssh 端口转发"></a>ssh 端口转发</h3><ul>
-<li>端口转发/代理<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ /usr/bin/ssh <span class="_">-f</span> -N -Llocalhost:10000:10.126.215.131:10000 root@10.126.97.98</div><div class="line">$ ssh <span class="_">-f</span>Ng -L 3309:10.126.81.130:3306 hadoop@10.126.81.130</div><div class="line">$ /usr/bin/ssh <span class="_">-f</span> -N -D 0.0.0.0:8081 localhost</div><div class="line"></div><div class="line">本地查看端口：</div><div class="line">$ telnet localhost 10000</div><div class="line"></div><div class="line">如果服务器报错：</div><div class="line">open failed: administratively prohibited: open failed</div><div class="line"></div><div class="line">这是由于代理机器的ssh服务部支持转发 换过一台机子</div></pre></td></tr></table></figure>
-</li>
+<li>端口转发/代理<br><code>`</code>bash<br>$ /usr/bin/ssh -f -N -Llocalhost:10000:10.126.215.131:10000 <a href="mailto:root@10.126.97.98" target="_blank" rel="noopener">root@10.126.97.98</a><br>$ ssh -fNg -L 3309:10.126.81.130:3306 <a href="mailto:hadoop@10.126.81.130" target="_blank" rel="noopener">hadoop@10.126.81.130</a><br>$ /usr/bin/ssh -f -N -D 0.0.0.0:8081 localhost</li>
 </ul>
-<h3 id="使用ssh配置socks代理"><a href="#使用ssh配置socks代理" class="headerlink" title="使用ssh配置socks代理"></a>使用ssh配置socks代理</h3><ul>
-<li><p>创建本地代理</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ssh <span class="_">-f</span> -N -D 0.0.0.0:8081 localhost</div></pre></td></tr></table></figure>
-</li>
+<p>本地查看端口：<br>$ telnet localhost 10000</p>
+<p>如果服务器报错：<br>open failed: administratively prohibited: open failed</p>
+<p>这是由于代理机器的ssh服务部支持转发 换过一台机子</p>
+<pre><code>
+### 使用ssh配置socks代理
+
+* 创建本地代理
+```bash
+$ ssh -f -N -D 0.0.0.0:8081 localhost 
+</code></pre><ul>
 <li><p>使用node.js实现FindProxyForURL  </p>
 <ul>
 <li>app.js</li>
 <li>index.html</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</div><div class="line"><span class="keyword">var</span> app = express();</div><div class="line"></div><div class="line"></div><div class="line">app.use(express.static(path.join(__dirname, <span class="string">'public'</span>)));</div><div class="line"></div><div class="line">app.listen(<span class="number">3000</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Example app listening on port 3000!'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">FindProxyForURL</span>(<span class="params">url, host</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (host.indexOf(<span class="string">'10.'</span>) == <span class="number">0</span> ||</div><div class="line">    host.indexOf(<span class="string">'tjtx-'</span>) == <span class="number">0</span> ||</div><div class="line">    host.indexOf(<span class="string">'db20-'</span>) == <span class="number">0</span> ||</div><div class="line">    host.indexOf(<span class="string">'ods10-'</span>) == <span class="number">0</span></div><div class="line">    ) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">"SOCKS 10.249.14.41:8081;"</span>;</div><div class="line">  &#125;</div><div class="line">    <span class="keyword">return</span> <span class="string">"SOCKS 10.249.14.41:8081;"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>`</code>js<br>var express = require(‘express’);<br>var path = require(‘path’);<br>var app = express();</p>
 </li>
-<li><p>用supervisor守护node.js 进程</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[program:app]</div><div class="line">directory = /home/saboloh/dwetl/socks</div><div class="line"><span class="built_in">command</span> = /home/saboloh/developer/node-v5.1.0-linux-x64/bin/node app.js</div><div class="line">user = root</div><div class="line">stdout_logfile = /home/saboloh/dwetl/socks/<span class="built_in">log</span></div><div class="line">redirect_stderr = <span class="literal">true</span></div></pre></td></tr></table></figure>
+</ul>
+<p>app.use(express.static(path.join(__dirname, ‘public’)));</p>
+<p>app.listen(3000, function () {<br>  console.log(‘Example app listening on port 3000!’);<br>});</p>
+<pre><code>  ```js
+function FindProxyForURL(url, host) {
+  if (host.indexOf(&#39;10.&#39;) == 0 ||
+    host.indexOf(&#39;tjtx-&#39;) == 0 ||
+    host.indexOf(&#39;db20-&#39;) == 0 ||
+    host.indexOf(&#39;ods10-&#39;) == 0
+    ) {
+    return &quot;SOCKS 10.249.14.41:8081;&quot;;
+  }
+    return &quot;SOCKS 10.249.14.41:8081;&quot;;
+} 
+</code></pre><ul>
+<li>用supervisor守护node.js 进程<pre class="line-numbers language-bash"><code class="language-bash"><span class="token punctuation">[</span>program:app<span class="token punctuation">]</span>
+directory <span class="token operator">=</span> /home/saboloh/dwetl/socks
+<span class="token function">command</span> <span class="token operator">=</span> /home/saboloh/developer/node-v5.1.0-linux-x64/bin/node app.js
+user <span class="token operator">=</span> root
+stdout_logfile <span class="token operator">=</span> /home/saboloh/dwetl/socks/log
+redirect_stderr <span class="token operator">=</span> <span class="token boolean">true</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </li>
-<li><p>配置url</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://10.249.14.41:3000</div></pre></td></tr></table></figure>
+<li>配置url<pre class="line-numbers language-bash"><code class="language-bash">http://10.249.14.41:3000
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </li>
 </ul>
 
@@ -261,11 +295,11 @@
 	</li>
       
 	<li>
-	  <a href="/categories/BigData/">BigData (12)</a>
+	  <a href="/categories/Linux/">Linux (6)</a>
 	</li>
       
 	<li>
-	  <a href="/categories/Linux/">Linux (6)</a>
+	  <a href="/categories/BigData/">BigData (12)</a>
 	</li>
       
 	<li>
@@ -308,20 +342,20 @@
     
   
     
-  
-    
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hadoop.png" class="img-responsive ">
+	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
+	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
+    
+  
     
   
     
@@ -336,18 +370,18 @@
     
   
     
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
+	  <img src="/img/hadoop.png" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
+	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
     
   
     
@@ -378,6 +412,12 @@
     
   
     
+  
+    
+  
+    
+  
+    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/protocol-buffers.png" class="img-responsive ">
@@ -386,12 +426,6 @@
 	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
 	</div>                        
       </div>
-    
-  
-    
-  
-    
-  
     
   
     

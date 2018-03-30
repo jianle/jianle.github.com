@@ -14,14 +14,14 @@
   <meta name="baidu-site-verification" content="SKU1ruzzZG" />
 
   <meta name="description" content="记录使用ORC所遇到的一些问题查询报错由于hiveserver2中默认设置了“矢量化执行器” enable为true， 这导致使用orc存储的表使用上了这个参数，走了“矢量化执行器”导致错误，其中遇到的错误有：">
-<meta name="keywords" content="Hive,hive,ORC,issue">
+<meta name="keywords" content="hive,Hive,ORC,issue">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hive使用遇到的一些问题">
 <meta property="og:url" content="http://saboloh.com/2016/04/28/hive-issue/index.html">
 <meta property="og:site_name" content="Loh&#39;s Blog">
 <meta property="og:description" content="记录使用ORC所遇到的一些问题查询报错由于hiveserver2中默认设置了“矢量化执行器” enable为true， 这导致使用orc存储的表使用上了这个参数，走了“矢量化执行器”导致错误，其中遇到的错误有：">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2016-09-04T12:32:17.000Z">
+<meta property="og:updated_time" content="2018-03-29T07:14:11.458Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hive使用遇到的一些问题">
 <meta name="twitter:description" content="记录使用ORC所遇到的一些问题查询报错由于hiveserver2中默认设置了“矢量化执行器” enable为true， 这导致使用orc存储的表使用上了这个参数，走了“矢量化执行器”导致错误，其中遇到的错误有：">
@@ -152,9 +152,9 @@
 	<li class="hidden-xs"><i class="fa fa-tags"></i> 
 	  
   
-    <a href="/tags/Hive/" title="Hive">Hive</a>,
-  
     <a href="/tags/hive/" title="hive">hive</a>,
+  
+    <a href="/tags/Hive/" title="Hive">Hive</a>,
   
     <a href="/tags/ORC/" title="ORC">ORC</a>,
   
@@ -184,38 +184,114 @@
 <ul>
 <li>数组越界  </li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> a.serv_dt, a.broker_id, a.log_time, b.log_time</div><div class="line">       ,<span class="keyword">unix_timestamp</span>(b.log_time)-<span class="keyword">unix_timestamp</span>(a.log_time) <span class="keyword">as</span> time_diff</div><div class="line"><span class="keyword">from</span>   (<span class="keyword">select</span> *</div><div class="line">        <span class="keyword">from</span>   dw_db_temp.GL_20160422_noqiang_page_broker_action_rank</div><div class="line">        <span class="keyword">where</span>  page_id=<span class="string">'1-150000'</span></div><div class="line">       ) a</div><div class="line"><span class="keyword">join</span>   dw_db_temp.GL_20160422_noqiang_page_broker_action_rank b</div><div class="line">  <span class="keyword">on</span>   a.con=b.con <span class="keyword">and</span> b.rk=a.rk+<span class="number">1</span>;</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token number">a</span><span class="token punctuation">.</span>serv_dt<span class="token punctuation">,</span> <span class="token number">a</span><span class="token punctuation">.</span>broker_id<span class="token punctuation">,</span> <span class="token number">a</span><span class="token punctuation">.</span>log_time<span class="token punctuation">,</span> <span class="token number">b</span><span class="token punctuation">.</span>log_time
+       <span class="token punctuation">,</span>unix_timestamp<span class="token punctuation">(</span><span class="token number">b</span><span class="token punctuation">.</span>log_time<span class="token punctuation">)</span><span class="token operator">-</span>unix_timestamp<span class="token punctuation">(</span><span class="token number">a</span><span class="token punctuation">.</span>log_time<span class="token punctuation">)</span> <span class="token keyword">as</span> time_diff
+<span class="token keyword">from</span>   <span class="token punctuation">(</span><span class="token keyword">select</span> <span class="token operator">*</span>
+        <span class="token keyword">from</span>   dw_db_temp<span class="token punctuation">.</span>GL_20160422_noqiang_page_broker_action_rank
+        <span class="token keyword">where</span>  page_id<span class="token operator">=</span><span class="token string">'1-150000'</span>
+       <span class="token punctuation">)</span> <span class="token number">a</span>
+<span class="token keyword">join</span>   dw_db_temp<span class="token punctuation">.</span>GL_20160422_noqiang_page_broker_action_rank <span class="token number">b</span>
+  <span class="token keyword">on</span>   <span class="token number">a</span><span class="token punctuation">.</span>con<span class="token operator">=</span><span class="token number">b</span><span class="token punctuation">.</span>con <span class="token operator">and</span> <span class="token number">b</span><span class="token punctuation">.</span>rk<span class="token operator">=</span><span class="token number">a</span><span class="token punctuation">.</span>rk<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>空指向  </li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> dw_db_temp.gh_esf_tmp1;</div><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> dw_db_temp.gh_esf_tmp1</div><div class="line"><span class="keyword">as</span></div><div class="line"><span class="keyword">select</span> cal_dt</div><div class="line">       ,city_id</div><div class="line">       ,region_name</div><div class="line">       ,subregion_id, subregion_name</div><div class="line">       ,<span class="keyword">count</span>(<span class="keyword">distinct</span> comm_id) <span class="keyword">as</span> pm_comm</div><div class="line">       ,<span class="keyword">count</span>(<span class="keyword">distinct</span> <span class="keyword">case</span> <span class="keyword">when</span> is_comm_repeat=<span class="number">1</span> <span class="keyword">then</span> comm_id <span class="keyword">end</span>) <span class="keyword">as</span> pm_comm_repeat</div><div class="line"><span class="keyword">from</span>   dw_db_temp.gh_esf_pm_broker_last</div><div class="line"><span class="keyword">where</span>  subregion_name <span class="keyword">in</span> (<span class="string">'长阳'</span>,<span class="string">'良乡'</span>,<span class="string">'窦店'</span>,<span class="string">'梨园'</span>,<span class="string">'通州北苑'</span>,<span class="string">'武夷花园'</span>,<span class="string">'中央别墅区'</span>,<span class="string">'通州北苑'</span>,<span class="string">'华南'</span>,<span class="string">'泉水'</span>,<span class="string">'泡崖'</span>,<span class="string">'机场新区'</span>,<span class="string">'西山水库'</span>,<span class="string">'马坡'</span>)</div><div class="line"><span class="keyword">group</span> <span class="keyword">by</span> cal_dt,city_id,region_name,subregion_id,subregion_name</div><div class="line">;</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">drop</span> <span class="token keyword">table</span> <span class="token keyword">if</span> <span class="token keyword">exists</span> dw_db_temp<span class="token punctuation">.</span>gh_esf_tmp1<span class="token punctuation">;</span>
+<span class="token keyword">create</span> <span class="token keyword">table</span> dw_db_temp<span class="token punctuation">.</span>gh_esf_tmp1
+<span class="token keyword">as</span>
+<span class="token keyword">select</span> cal_dt
+       <span class="token punctuation">,</span>city_id
+       <span class="token punctuation">,</span>region_name
+       <span class="token punctuation">,</span>subregion_id<span class="token punctuation">,</span> subregion_name
+       <span class="token punctuation">,</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token keyword">distinct</span> comm_id<span class="token punctuation">)</span> <span class="token keyword">as</span> pm_comm
+       <span class="token punctuation">,</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token keyword">distinct</span> <span class="token keyword">case</span> <span class="token keyword">when</span> is_comm_repeat<span class="token operator">=</span><span class="token number">1</span> <span class="token keyword">then</span> comm_id <span class="token keyword">end</span><span class="token punctuation">)</span> <span class="token keyword">as</span> pm_comm_repeat
+<span class="token keyword">from</span>   dw_db_temp<span class="token punctuation">.</span>gh_esf_pm_broker_last
+<span class="token keyword">where</span>  subregion_name <span class="token operator">in</span> <span class="token punctuation">(</span><span class="token string">'长阳'</span><span class="token punctuation">,</span><span class="token string">'良乡'</span><span class="token punctuation">,</span><span class="token string">'窦店'</span><span class="token punctuation">,</span><span class="token string">'梨园'</span><span class="token punctuation">,</span><span class="token string">'通州北苑'</span><span class="token punctuation">,</span><span class="token string">'武夷花园'</span><span class="token punctuation">,</span><span class="token string">'中央别墅区'</span><span class="token punctuation">,</span><span class="token string">'通州北苑'</span><span class="token punctuation">,</span><span class="token string">'华南'</span><span class="token punctuation">,</span><span class="token string">'泉水'</span><span class="token punctuation">,</span><span class="token string">'泡崖'</span><span class="token punctuation">,</span><span class="token string">'机场新区'</span><span class="token punctuation">,</span><span class="token string">'西山水库'</span><span class="token punctuation">,</span><span class="token string">'马坡'</span><span class="token punctuation">)</span>
+<span class="token keyword">group</span> <span class="token keyword">by</span> cal_dt<span class="token punctuation">,</span>city_id<span class="token punctuation">,</span>region_name<span class="token punctuation">,</span>subregion_id<span class="token punctuation">,</span>subregion_name
+<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>解决办法，将<code>矢量化执行器</code>关闭即可：  </p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> hive.vectorized.execution.enabled = <span class="literal">false</span>;</div><div class="line"><span class="keyword">set</span> hive.vectorized.execution.reduce.enabled = <span class="literal">false</span>;</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">set</span> hive<span class="token punctuation">.</span>vectorized<span class="token punctuation">.</span>execution<span class="token punctuation">.</span>enabled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token keyword">set</span> hive<span class="token punctuation">.</span>vectorized<span class="token punctuation">.</span>execution<span class="token punctuation">.</span>reduce<span class="token punctuation">.</span>enabled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <h3 id="查询无结果"><a href="#查询无结果" class="headerlink" title="查询无结果"></a>查询无结果</h3><p>hive表存成<code>ORC</code>格式，自关联出现无结果现象并且无任何错误，异常SQL如下：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> a.*</div><div class="line">       ,b.call_7</div><div class="line"><span class="keyword">FROM</span>   (<span class="keyword">SELECT</span> comm_id</div><div class="line">               ,call_30</div><div class="line">               ,call_success_30</div><div class="line">               ,call_nonunique_30</div><div class="line">        <span class="keyword">FROM</span>   dw_db_temp.carrie_mr_call_jt_160428_3</div><div class="line">        <span class="keyword">WHERE</span>  <span class="keyword">type</span>=<span class="number">3</span></div><div class="line">       ) a</div><div class="line"><span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span></div><div class="line">       (<span class="keyword">SELECT</span> comm_id</div><div class="line">               ,call_30</div><div class="line">               ,call_success_30</div><div class="line">               ,call_nonunique_30</div><div class="line">        <span class="keyword">FROM</span>   dw_db_temp.carrie_mr_call_jt_160428_3</div><div class="line">        <span class="keyword">WHERE</span>  <span class="keyword">type</span>=<span class="number">2</span></div><div class="line">       ) b</div><div class="line">   <span class="keyword">ON</span>  a.comm_id=b.comm_id</div><div class="line"><span class="keyword">LIMIT</span> <span class="number">100</span></div><div class="line">;</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">SELECT</span> <span class="token number">a</span><span class="token punctuation">.</span><span class="token operator">*</span>
+       <span class="token punctuation">,</span><span class="token number">b</span><span class="token punctuation">.</span>call_7
+<span class="token keyword">FROM</span>   <span class="token punctuation">(</span><span class="token keyword">SELECT</span> comm_id
+               <span class="token punctuation">,</span>call_30
+               <span class="token punctuation">,</span>call_success_30
+               <span class="token punctuation">,</span>call_nonunique_30
+        <span class="token keyword">FROM</span>   dw_db_temp<span class="token punctuation">.</span>carrie_mr_call_jt_160428_3
+        <span class="token keyword">WHERE</span>  <span class="token keyword">type</span><span class="token operator">=</span><span class="token number">3</span>
+       <span class="token punctuation">)</span> <span class="token number">a</span>
+<span class="token keyword">LEFT</span> <span class="token keyword">OUTER</span> <span class="token keyword">JOIN</span>
+       <span class="token punctuation">(</span><span class="token keyword">SELECT</span> comm_id
+               <span class="token punctuation">,</span>call_30
+               <span class="token punctuation">,</span>call_success_30
+               <span class="token punctuation">,</span>call_nonunique_30
+        <span class="token keyword">FROM</span>   dw_db_temp<span class="token punctuation">.</span>carrie_mr_call_jt_160428_3
+        <span class="token keyword">WHERE</span>  <span class="token keyword">type</span><span class="token operator">=</span><span class="token number">2</span>
+       <span class="token punctuation">)</span> <span class="token number">b</span>
+   <span class="token keyword">ON</span>  <span class="token number">a</span><span class="token punctuation">.</span>comm_id<span class="token operator">=</span><span class="token number">b</span><span class="token punctuation">.</span>comm_id
+<span class="token keyword">LIMIT</span> <span class="token number">100</span>
+<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>其导致原因是因为再hiveserver2上默认开启了参数<code>hive.optimize.index.filter</code>为true，解决办法：</p>
 <ul>
 <li>将表格式存成textfile</li>
 <li>关闭hive.optimize.index.filter</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> hive.optimize.index.filter=<span class="literal">false</span>;</div></pre></td></tr></table></figure>
-<h3 id="写表报错"><a href="#写表报错" class="headerlink" title="写表报错"></a><a href="https://issues.cloudera.org/browse/DISTRO-756" target="_blank" rel="external">写表报错</a></h3><p>当默认使用orc写表时，where子句中出现 where col is null 将报  java.lang.IllegalArgumentException: Bad primitive category VOID 异常</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> dw_db_temp.carrie_call_comm_160428_01;</div><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> dw_db_temp.carrie_call_comm_160428_01</div><div class="line"><span class="keyword">as</span></div><div class="line"><span class="keyword">select</span> a.*,b.pcall_id</div><div class="line"><span class="keyword">from</span>   (<span class="keyword">select</span> * <span class="keyword">from</span> dw_db.dw_phone_call_logs</div><div class="line">        <span class="keyword">where</span> created_dt&gt;=<span class="keyword">date_sub</span>($&#123;dealDate&#125;,<span class="number">7</span>)</div><div class="line">       ) a</div><div class="line"><span class="keyword">left</span> <span class="keyword">outer</span> <span class="keyword">join</span></div><div class="line">       (<span class="keyword">select</span> date_index,phonenum,loupan_id,pcall_id</div><div class="line">        <span class="keyword">from</span>   dw_db.dw_nh_adm_transfer_log</div><div class="line">        <span class="keyword">where</span>  date_index&gt;=<span class="keyword">date_sub</span>($&#123;dealDate&#125;,<span class="number">7</span>)</div><div class="line">          <span class="keyword">and</span>  flag=<span class="number">2</span></div><div class="line">          <span class="keyword">and</span>  <span class="keyword">type</span>&gt;<span class="number">1</span></div><div class="line">       )b</div><div class="line">   <span class="keyword">on</span>  a.created_dt=b.date_index <span class="keyword">and</span> a.id=b.pcall_id</div><div class="line"><span class="keyword">where</span>  b.pcall_id <span class="keyword">is</span> <span class="literal">null</span></div><div class="line">;</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">set</span> hive<span class="token punctuation">.</span><span class="token keyword">optimize</span><span class="token punctuation">.</span><span class="token keyword">index</span><span class="token punctuation">.</span>filter<span class="token operator">=</span><span class="token boolean">false</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="写表报错"><a href="#写表报错" class="headerlink" title="写表报错"></a><a href="https://issues.cloudera.org/browse/DISTRO-756" target="_blank" rel="noopener">写表报错</a></h3><p>当默认使用orc写表时，where子句中出现 where col is null 将报  java.lang.IllegalArgumentException: Bad primitive category VOID 异常</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">drop</span> <span class="token keyword">table</span> <span class="token keyword">if</span> <span class="token keyword">exists</span> dw_db_temp<span class="token punctuation">.</span>carrie_call_comm_160428_01<span class="token punctuation">;</span>
+<span class="token keyword">create</span> <span class="token keyword">table</span> dw_db_temp<span class="token punctuation">.</span>carrie_call_comm_160428_01
+<span class="token keyword">as</span>
+<span class="token keyword">select</span> <span class="token number">a</span><span class="token punctuation">.</span><span class="token operator">*</span><span class="token punctuation">,</span><span class="token number">b</span><span class="token punctuation">.</span>pcall_id
+<span class="token keyword">from</span>   <span class="token punctuation">(</span><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> dw_db<span class="token punctuation">.</span>dw_phone_call_logs
+        <span class="token keyword">where</span> created_dt<span class="token operator">>=</span>date_sub<span class="token punctuation">(</span>${dealDate}<span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">)</span>
+       <span class="token punctuation">)</span> <span class="token number">a</span>
+<span class="token keyword">left</span> <span class="token keyword">outer</span> <span class="token keyword">join</span>
+       <span class="token punctuation">(</span><span class="token keyword">select</span> date_index<span class="token punctuation">,</span>phonenum<span class="token punctuation">,</span>loupan_id<span class="token punctuation">,</span>pcall_id
+        <span class="token keyword">from</span>   dw_db<span class="token punctuation">.</span>dw_nh_adm_transfer_log
+        <span class="token keyword">where</span>  date_index<span class="token operator">>=</span>date_sub<span class="token punctuation">(</span>${dealDate}<span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">)</span>
+          <span class="token operator">and</span>  flag<span class="token operator">=</span><span class="token number">2</span>
+          <span class="token operator">and</span>  <span class="token keyword">type</span><span class="token operator">></span><span class="token number">1</span>
+       <span class="token punctuation">)</span><span class="token number">b</span>
+   <span class="token keyword">on</span>  <span class="token number">a</span><span class="token punctuation">.</span>created_dt<span class="token operator">=</span><span class="token number">b</span><span class="token punctuation">.</span>date_index <span class="token operator">and</span> <span class="token number">a</span><span class="token punctuation">.</span>id<span class="token operator">=</span><span class="token number">b</span><span class="token punctuation">.</span>pcall_id
+<span class="token keyword">where</span>  <span class="token number">b</span><span class="token punctuation">.</span>pcall_id <span class="token operator">is</span> <span class="token boolean">null</span>
+<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>解决办法： 将hive表建成textfile即可   </p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> table_name <span class="keyword">stored</span> <span class="keyword">as</span> textfile</div><div class="line"><span class="keyword">as</span></div><div class="line"><span class="keyword">select</span> ......</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">table</span> table_name stored <span class="token keyword">as</span> textfile
+<span class="token keyword">as</span>
+<span class="token keyword">select</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <h2 id="MapJoin-字段类型不一致"><a href="#MapJoin-字段类型不一致" class="headerlink" title="MapJoin 字段类型不一致"></a>MapJoin 字段类型不一致</h2><p>主要是 string 和 int 的列做 join</p>
 <p>日志里面看 job 长期 hang 在以下位置</p>
 <p>查看你 map 的时候，map 的状态为 FAILED， 查看 map 的日志，最后有以下类似的信息：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">2015-12-11 04:26:06,119 INFO [main] org.apache.hadoop.hive.ql.exec.MapJoinOperator: Load back 1 hashtable file from tmp file uri:file:/hadoop3/yarn/nm/usercache/hadoop/appcache/application_1449142557781_73597/container_e11_1449142557781_73597_01_000002/Stage-9.tar.gz/MapJoin-mapfile11--.hashtable</div></pre></td></tr></table></figure>
-<p><em>解决方法</em> 保证用于 join 的列一致，cast 或者直接修改表的结构</p>
+<pre><code>2015-12-11 04:26:06,119 INFO [main] org.apache.hadoop.hive.ql.exec.MapJoinOperator: Load back 1 hashtable file from tmp file uri:file:/hadoop3/yarn/nm/usercache/hadoop/appcache/application_1449142557781_73597/container_e11_1449142557781_73597_01_000002/Stage-9.tar.gz/MapJoin-mapfile11--.hashtable
+</code></pre><p><em>解决方法</em> 保证用于 join 的列一致，cast 或者直接修改表的结构</p>
 <p>如果还不能解决，先手动禁用掉 MapJoin</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">set hive.auto.convert.join=false;</div></pre></td></tr></table></figure>
-<h2 id="hive-使用的新的序列化方法后偶尔出现的问题"><a href="#hive-使用的新的序列化方法后偶尔出现的问题" class="headerlink" title="hive 使用的新的序列化方法后偶尔出现的问题"></a>hive 使用的新的序列化方法后偶尔出现的问题</h2><p>这种问题一般是代码里面设置了 <code>set hive.exec.parallel=true;</code> 运行的时候，偶尔会报以下错误，重跑有可能成功：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">aliasToWork (org.apache.hadoop.hive.ql.plan.MapWork)</div><div class="line">    at org.apache.hive.com.esotericsoftware.kryo.util.DefaultClassResolver.readClass(DefaultClassResolver.java:<span class="number">119</span>)</div><div class="line">    at org.apache.hive.com.esotericsoftware.kryo.Kryo.readClass(Kryo.java:<span class="number">656</span>)</div><div class="line">    at org.apache.hive.com.esotericsoftware.kryo.serializers.ObjectField.read(ObjectField.java:<span class="number">99</span>)</div><div class="line">    at org.apache.hive.com.esotericsoftware.kryo.serializers.FieldSerializer.read(FieldSerializer.java:<span class="number">507</span>)</div><div class="line">    at org.apache.hive.com.esotericsoftware.kryo.Kryo.readClassAndObject(Kryo.java:<span class="number">776</span>)</div></pre></td></tr></table></figure>
-<p>如果有这种情况，解决的方法是先更换序列化的方法，即加入：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> hive.plan.serialization.format=javaXML;</div></pre></td></tr></table></figure></p>
-<h2 id="WHERE-条件int限制值超过Integer-MAX-VALUE值导致出错"><a href="#WHERE-条件int限制值超过Integer-MAX-VALUE值导致出错" class="headerlink" title="WHERE 条件int限制值超过Integer.MAX_VALUE值导致出错"></a>WHERE 条件int限制值超过Integer.MAX_VALUE值导致出错</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> *</div><div class="line"><span class="keyword">from</span>   dual</div><div class="line"><span class="keyword">where</span>  <span class="keyword">id</span>=<span class="number">2183402559</span></div></pre></td></tr></table></figure>
+<pre><code>set hive.auto.convert.join=false;
+</code></pre><h2 id="hive-使用的新的序列化方法后偶尔出现的问题"><a href="#hive-使用的新的序列化方法后偶尔出现的问题" class="headerlink" title="hive 使用的新的序列化方法后偶尔出现的问题"></a>hive 使用的新的序列化方法后偶尔出现的问题</h2><p>这种问题一般是代码里面设置了 <code>set hive.exec.parallel=true;</code> 运行的时候，偶尔会报以下错误，重跑有可能成功：</p>
+<pre class="line-numbers language-java"><code class="language-java"> <span class="token function">aliasToWork</span> <span class="token punctuation">(</span>org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hadoop<span class="token punctuation">.</span>hive<span class="token punctuation">.</span>ql<span class="token punctuation">.</span>plan<span class="token punctuation">.</span>MapWork<span class="token punctuation">)</span>
+     at org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hive<span class="token punctuation">.</span>com<span class="token punctuation">.</span>esotericsoftware<span class="token punctuation">.</span>kryo<span class="token punctuation">.</span>util<span class="token punctuation">.</span>DefaultClassResolver<span class="token punctuation">.</span><span class="token function">readClass</span><span class="token punctuation">(</span>DefaultClassResolver<span class="token punctuation">.</span>java<span class="token operator">:</span><span class="token number">119</span><span class="token punctuation">)</span>
+     at org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hive<span class="token punctuation">.</span>com<span class="token punctuation">.</span>esotericsoftware<span class="token punctuation">.</span>kryo<span class="token punctuation">.</span>Kryo<span class="token punctuation">.</span><span class="token function">readClass</span><span class="token punctuation">(</span>Kryo<span class="token punctuation">.</span>java<span class="token operator">:</span><span class="token number">656</span><span class="token punctuation">)</span>
+     at org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hive<span class="token punctuation">.</span>com<span class="token punctuation">.</span>esotericsoftware<span class="token punctuation">.</span>kryo<span class="token punctuation">.</span>serializers<span class="token punctuation">.</span>ObjectField<span class="token punctuation">.</span><span class="token function">read</span><span class="token punctuation">(</span>ObjectField<span class="token punctuation">.</span>java<span class="token operator">:</span><span class="token number">99</span><span class="token punctuation">)</span>
+     at org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hive<span class="token punctuation">.</span>com<span class="token punctuation">.</span>esotericsoftware<span class="token punctuation">.</span>kryo<span class="token punctuation">.</span>serializers<span class="token punctuation">.</span>FieldSerializer<span class="token punctuation">.</span><span class="token function">read</span><span class="token punctuation">(</span>FieldSerializer<span class="token punctuation">.</span>java<span class="token operator">:</span><span class="token number">507</span><span class="token punctuation">)</span>
+     at org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hive<span class="token punctuation">.</span>com<span class="token punctuation">.</span>esotericsoftware<span class="token punctuation">.</span>kryo<span class="token punctuation">.</span>Kryo<span class="token punctuation">.</span><span class="token function">readClassAndObject</span><span class="token punctuation">(</span>Kryo<span class="token punctuation">.</span>java<span class="token operator">:</span><span class="token number">776</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>如果有这种情况，解决的方法是先更换序列化的方法，即加入：</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">set</span> hive<span class="token punctuation">.</span><span class="token keyword">plan</span><span class="token punctuation">.</span>serialization<span class="token punctuation">.</span>format<span class="token operator">=</span>javaXML<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="WHERE-条件int限制值超过Integer-MAX-VALUE值导致出错"><a href="#WHERE-条件int限制值超过Integer-MAX-VALUE值导致出错" class="headerlink" title="WHERE 条件int限制值超过Integer.MAX_VALUE值导致出错"></a>WHERE 条件int限制值超过Integer.MAX_VALUE值导致出错</h2><pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span>
+<span class="token keyword">from</span>   dual
+<span class="token keyword">where</span>  id<span class="token operator">=</span><span class="token number">2183402559</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>id为int类型，where里面id=’2183402559’ 限制值超过 Integer.MAX_VALUE=2147483647 导致下面报错</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">org.apache.hive.service.cli.HiveSQLException: Error <span class="keyword">while</span> compiling statement: FAILED: SemanticException [Error <span class="number">10041</span>]: No partition predicate found <span class="keyword">for</span> Alias “a” Table &gt; “dw_ganji_house_source_officetrade”</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-java"><code class="language-java">org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hive<span class="token punctuation">.</span>service<span class="token punctuation">.</span>cli<span class="token punctuation">.</span>HiveSQLException<span class="token operator">:</span> Error <span class="token keyword">while</span> compiling statement<span class="token operator">:</span> FAILED<span class="token operator">:</span> SemanticException <span class="token punctuation">[</span>Error <span class="token number">10041</span><span class="token punctuation">]</span><span class="token operator">:</span> No partition predicate found <span class="token keyword">for</span> Alias “a” Table <span class="token operator">></span> “dw_ganji_house_source_officetrade”
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
       
     </div>
@@ -269,11 +345,11 @@
 	</li>
       
 	<li>
-	  <a href="/categories/BigData/">BigData (12)</a>
+	  <a href="/categories/Linux/">Linux (6)</a>
 	</li>
       
 	<li>
-	  <a href="/categories/Linux/">Linux (6)</a>
+	  <a href="/categories/BigData/">BigData (12)</a>
 	</li>
       
 	<li>
@@ -316,20 +392,20 @@
     
   
     
-  
-    
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hadoop.png" class="img-responsive ">
+	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
+	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
+    
+  
     
   
     
@@ -344,18 +420,18 @@
     
   
     
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
+	  <img src="/img/hadoop.png" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
+	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
     
   
     
@@ -386,6 +462,12 @@
     
   
     
+  
+    
+  
+    
+  
+    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/protocol-buffers.png" class="img-responsive ">
@@ -394,12 +476,6 @@
 	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
 	</div>                        
       </div>
-    
-  
-    
-  
-    
-  
     
   
     

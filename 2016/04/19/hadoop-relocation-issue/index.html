@@ -13,18 +13,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="baidu-site-verification" content="SKU1ruzzZG" />
 
-  <meta name="description" content="更改机器的 ip 参考 CDH 4 的时候需要修改数据库  /etc/cloudera-scm-server/db.properties这个文件记录 cm 用的 DB 的信息1234# psql  -h localhost -U scm -p 7432scm=&amp;gt; \dt # show tables in pgscm=&amp;gt; \listscm=&amp;gt; select * from hosts">
+  <meta name="description" content="更改机器的 ip 参考 CDH 4 的时候需要修改数据库  /etc/cloudera-scm-server/db.properties这个文件记录 cm 用的 DB 的信息 # psql  -h localhost -U scm -p 7432 scm=&amp;gt; \dt # show tables in pg scm=&amp;gt; \list scm=&amp;gt; select * from hosts">
 <meta name="keywords" content="hadoop">
 <meta property="og:type" content="article">
 <meta property="og:title" content="hadoop 机房迁移相关问题">
 <meta property="og:url" content="http://saboloh.com/2016/04/19/hadoop-relocation-issue/index.html">
 <meta property="og:site_name" content="Loh&#39;s Blog">
-<meta property="og:description" content="更改机器的 ip 参考 CDH 4 的时候需要修改数据库  /etc/cloudera-scm-server/db.properties这个文件记录 cm 用的 DB 的信息1234# psql  -h localhost -U scm -p 7432scm=&amp;gt; \dt # show tables in pgscm=&amp;gt; \listscm=&amp;gt; select * from hosts">
+<meta property="og:description" content="更改机器的 ip 参考 CDH 4 的时候需要修改数据库  /etc/cloudera-scm-server/db.properties这个文件记录 cm 用的 DB 的信息 # psql  -h localhost -U scm -p 7432 scm=&amp;gt; \dt # show tables in pg scm=&amp;gt; \list scm=&amp;gt; select * from hosts">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2016-09-05T14:47:56.000Z">
+<meta property="og:updated_time" content="2018-03-29T07:14:11.458Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hadoop 机房迁移相关问题">
-<meta name="twitter:description" content="更改机器的 ip 参考 CDH 4 的时候需要修改数据库  /etc/cloudera-scm-server/db.properties这个文件记录 cm 用的 DB 的信息1234# psql  -h localhost -U scm -p 7432scm=&amp;gt; \dt # show tables in pgscm=&amp;gt; \listscm=&amp;gt; select * from hosts">
+<meta name="twitter:description" content="更改机器的 ip 参考 CDH 4 的时候需要修改数据库  /etc/cloudera-scm-server/db.properties这个文件记录 cm 用的 DB 的信息 # psql  -h localhost -U scm -p 7432 scm=&amp;gt; \dt # show tables in pg scm=&amp;gt; \list scm=&amp;gt; select * from hosts">
   
     <link rel="alternative" href="/atom.xml" title="Loh&#39;s Blog" type="application/atom+xml">
   
@@ -176,16 +176,22 @@
         <h4 id="更改机器的-ip-参考"><a href="#更改机器的-ip-参考" class="headerlink" title="更改机器的 ip 参考"></a>更改机器的 ip 参考</h4><ul>
 <li>CDH 4 的时候需要修改数据库</li>
 </ul>
-<p><code>/etc/cloudera-scm-server/db.properties</code>这个文件记录 cm 用的 DB 的信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># psql  -h localhost -U scm -p 7432</span></div><div class="line">scm=&gt; \dt <span class="comment"># show tables in pg</span></div><div class="line">scm=&gt; \list</div><div class="line">scm=&gt; select * from hosts; <span class="comment"># show hostinfo in hosts</span></div></pre></td></tr></table></figure></p>
+<p><code>/etc/cloudera-scm-server/db.properties</code>这个文件记录 cm 用的 DB 的信息</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># psql  -h localhost -U scm -p 7432</span>
+scm<span class="token operator">=</span><span class="token operator">></span> \dt <span class="token comment" spellcheck="true"># show tables in pg</span>
+scm<span class="token operator">=</span><span class="token operator">></span> \list
+scm<span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">select</span> * from hosts<span class="token punctuation">;</span> <span class="token comment" spellcheck="true"># show hostinfo in hosts</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <a id="more"></a>
-<p><code>/etc/cloudera-scm-agent/config.ini</code> 每个 agent 里面有记录 cm 的地址, 修改:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server_host=10.xx.xx.xx</div></pre></td></tr></table></figure></p>
-<ul>
+<p><code>/etc/cloudera-scm-agent/config.ini</code> 每个 agent 里面有记录 cm 的地址, 修改:</p>
+<pre><code>server_host=10.xx.xx.xx
+</code></pre><ul>
 <li><p>CDH 5 的时候使用 uuid 来标识每台机器，看起来只需要修改一下 <code>/etc/cloudera-scm-agent/config.ini</code> 里面对应的 server_host 即可</p>
 </li>
 <li><p>相关参考：</p>
 <ul>
-<li><a href="https://groups.google.com/a/cloudera.org/forum/#!mydiscussions/scm-users/gM-DtmxvkJ8" target="_blank" rel="external">https://groups.google.com/a/cloudera.org/forum/#!mydiscussions/scm-users/gM-DtmxvkJ8</a></li>
-<li><a href="http://shulhi.com/change-ip-address-for-existing-nodes-in-cdh-5-3/" target="_blank" rel="external">http://shulhi.com/change-ip-address-for-existing-nodes-in-cdh-5-3/</a></li>
+<li><a href="https://groups.google.com/a/cloudera.org/forum/#!mydiscussions/scm-users/gM-DtmxvkJ8" target="_blank" rel="noopener">https://groups.google.com/a/cloudera.org/forum/#!mydiscussions/scm-users/gM-DtmxvkJ8</a></li>
+<li><a href="http://shulhi.com/change-ip-address-for-existing-nodes-in-cdh-5-3/" target="_blank" rel="noopener">http://shulhi.com/change-ip-address-for-existing-nodes-in-cdh-5-3/</a></li>
 </ul>
 </li>
 </ul>
@@ -196,7 +202,9 @@
 <li>namenode ha 启动会有问题，原因是之前 zk 里面保存的 hostname 发生改变，停掉 failover controller 去 initiale zookeeper 都不会失败</li>
 </ul>
 <p>需要手动去设置</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">HADOOP_USER_NAME=hdfs </div><div class="line">hdfs --config /var/run/cloudera-scm-agent/process/150-failover-controller-initialize-znode zkfc -formatZK</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">HADOOP_USER_NAME<span class="token operator">=</span>hdfs 
+hdfs --config /var/run/cloudera-scm-agent/process/150-failover-controller-initialize-znode zkfc -formatZK
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>提示我们 stop all hdfs service，输入 Y 确认格式掉 zookeeper 相关数据（注意，不是格式化 namenode）<br>后面重启就好了</p>
 
       
@@ -251,11 +259,11 @@
 	</li>
       
 	<li>
-	  <a href="/categories/BigData/">BigData (12)</a>
+	  <a href="/categories/Linux/">Linux (6)</a>
 	</li>
       
 	<li>
-	  <a href="/categories/Linux/">Linux (6)</a>
+	  <a href="/categories/BigData/">BigData (12)</a>
 	</li>
       
 	<li>
@@ -298,20 +306,20 @@
     
   
     
-  
-    
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hadoop.png" class="img-responsive ">
+	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
+	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
+    
+  
     
   
     
@@ -326,18 +334,18 @@
     
   
     
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
+	  <img src="/img/hadoop.png" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
+	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
     
   
     
@@ -368,6 +376,12 @@
     
   
     
+  
+    
+  
+    
+  
+    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/protocol-buffers.png" class="img-responsive ">
@@ -376,12 +390,6 @@
 	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
 	</div>                        
       </div>
-    
-  
-    
-  
-    
-  
     
   
     

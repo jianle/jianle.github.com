@@ -21,7 +21,7 @@
 <meta property="og:site_name" content="Loh&#39;s Blog">
 <meta property="og:description" content="HIVE配置详情 熟悉HIVE配置，了解HIVE调优及一些配置所带来的效果">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2016-09-10T14:37:50.000Z">
+<meta property="og:updated_time" content="2018-03-29T07:14:11.458Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hive常用配置参数">
 <meta name="twitter:description" content="HIVE配置详情 熟悉HIVE配置，了解HIVE调优及一些配置所带来的效果">
@@ -175,57 +175,102 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://cwiki.apache.org/confluence/display/Hive/Configuration+Properties" target="_blank" rel="external">HIVE配置详情</a></p>
+        <p><a href="https://cwiki.apache.org/confluence/display/Hive/Configuration+Properties" target="_blank" rel="noopener">HIVE配置详情</a></p>
 <p>熟悉HIVE配置，了解HIVE调优及一些配置所带来的效果</p>
 <a id="more"></a>
 <ul>
 <li>Map相关参数</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> mapred.max.split.size = <span class="number">256000000</span> ; //最大分割</div><div class="line"><span class="keyword">set</span> mapred.min.split.size=<span class="number">1</span> ; //最小分割</div><div class="line"><span class="keyword">set</span> hive.input.format=org.apache.hadoop.hive.ql.io.CombineHiveInputFormat; //Map端输入、合并文件之后按照block的大小分割（默认）</div><div class="line"><span class="keyword">set</span> hive.input.format=org.apache.hadoop.hive.ql.io.HiveInputFormat; //Map端输入，不合并 一个文件起一个Map</div><div class="line"><span class="keyword">set</span> hive.mapjoin.maxsize=<span class="number">1000000</span>; //Map Join 所处理的最大的行数。超过此行数，Map Join进程会异常退出  </div><div class="line"><span class="keyword">set</span> hive.merge.mapfiles = <span class="literal">true</span> ;//是否开启合并 Map 端输出小文件</div><div class="line"><span class="keyword">set</span> hive.merge.mapredfiles = <span class="literal">false</span> ;//是否开启合并 Map/Reduce 端输出小文件</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">set</span> mapred<span class="token punctuation">.</span>max<span class="token punctuation">.</span>split<span class="token punctuation">.</span>size <span class="token operator">=</span> <span class="token number">256000000</span> <span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//最大分割</span>
+<span class="token keyword">set</span> mapred<span class="token punctuation">.</span>min<span class="token punctuation">.</span>split<span class="token punctuation">.</span>size<span class="token operator">=</span><span class="token number">1</span> <span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//最小分割</span>
+<span class="token keyword">set</span> hive<span class="token punctuation">.</span>input<span class="token punctuation">.</span>format<span class="token operator">=</span>org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hadoop<span class="token punctuation">.</span>hive<span class="token punctuation">.</span>ql<span class="token punctuation">.</span>io<span class="token punctuation">.</span>CombineHiveInputFormat<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//Map端输入、合并文件之后按照block的大小分割（默认）</span>
+<span class="token keyword">set</span> hive<span class="token punctuation">.</span>input<span class="token punctuation">.</span>format<span class="token operator">=</span>org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hadoop<span class="token punctuation">.</span>hive<span class="token punctuation">.</span>ql<span class="token punctuation">.</span>io<span class="token punctuation">.</span>HiveInputFormat<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//Map端输入，不合并 一个文件起一个Map</span>
+<span class="token keyword">set</span> hive<span class="token punctuation">.</span>mapjoin<span class="token punctuation">.</span>maxsize<span class="token operator">=</span><span class="token number">1000000</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//Map Join 所处理的最大的行数。超过此行数，Map Join进程会异常退出  </span>
+<span class="token keyword">set</span> hive<span class="token punctuation">.</span><span class="token keyword">merge</span><span class="token punctuation">.</span>mapfiles <span class="token operator">=</span> <span class="token boolean">true</span> <span class="token punctuation">;</span><span class="token comment" spellcheck="true">//是否开启合并 Map 端输出小文件</span>
+<span class="token keyword">set</span> hive<span class="token punctuation">.</span><span class="token keyword">merge</span><span class="token punctuation">.</span>mapredfiles <span class="token operator">=</span> <span class="token boolean">false</span> <span class="token punctuation">;</span><span class="token comment" spellcheck="true">//是否开启合并 Map/Reduce 端输出小文件</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>Reduce参数配置</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> mapred.reduce.tasks=<span class="number">-1</span> ; //设置Reduce的个数，-1为默认，表示由hive自动分配管理</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">set</span> mapred<span class="token punctuation">.</span>reduce<span class="token punctuation">.</span>tasks<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span> <span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//设置Reduce的个数，-1为默认，表示由hive自动分配管理</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <ul>
 <li>并行计算参数</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> hive.exec.parallel=<span class="literal">true</span>;  //无关的计算可以并行调起JOB  </div><div class="line"><span class="keyword">set</span> hive.exec.parallel.thread.number=<span class="number">8</span> ; //并发提交时的并发线程的个数</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">set</span> hive<span class="token punctuation">.</span><span class="token keyword">exec</span><span class="token punctuation">.</span>parallel<span class="token operator">=</span><span class="token boolean">true</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//无关的计算可以并行调起JOB  </span>
+<span class="token keyword">set</span> hive<span class="token punctuation">.</span><span class="token keyword">exec</span><span class="token punctuation">.</span>parallel<span class="token punctuation">.</span>thread<span class="token punctuation">.</span>number<span class="token operator">=</span><span class="token number">8</span> <span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//并发提交时的并发线程的个数</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <ul>
 <li><p>group by</p>
 </li>
 <li><p>自动分区</p>
 </li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> hive.exec.dynamic.partition = <span class="literal">false</span> ; // 是否打开动态分区。</div><div class="line"><span class="keyword">set</span> hive.exec.dynamic.partition.mode = <span class="keyword">strict</span> ;//打开动态分区后，动态分区的模式，有 strict 和 nonstrict 两个值可选，strict 要求至少包含一个静态分区列，nonstrict 则无此要求。</div><div class="line"><span class="keyword">set</span> hive.exec.max.dynamic.partitions = <span class="number">1000</span>; // 所允许的最大的动态分区的个数。</div><div class="line"><span class="keyword">set</span> hive.exec.max.dynamic.partitions.pernode = <span class="number">100</span>; //单个 reduce 结点所允许的最大的动态分区的个数。</div><div class="line"><span class="keyword">set</span> hive.exec.default.partition.name = <span class="string">'__HIVE_DEFAULT_PARTITION__'</span>;//默认的动态分区的名称，当动态分区列为''或者null时，使用此名称。''</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">set</span> hive<span class="token punctuation">.</span><span class="token keyword">exec</span><span class="token punctuation">.</span>dynamic<span class="token punctuation">.</span><span class="token keyword">partition</span> <span class="token operator">=</span> <span class="token boolean">false</span> <span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 是否打开动态分区。</span>
+<span class="token keyword">set</span> hive<span class="token punctuation">.</span><span class="token keyword">exec</span><span class="token punctuation">.</span>dynamic<span class="token punctuation">.</span><span class="token keyword">partition</span><span class="token punctuation">.</span>mode <span class="token operator">=</span> strict <span class="token punctuation">;</span><span class="token comment" spellcheck="true">//打开动态分区后，动态分区的模式，有 strict 和 nonstrict 两个值可选，strict 要求至少包含一个静态分区列，nonstrict 则无此要求。</span>
+<span class="token keyword">set</span> hive<span class="token punctuation">.</span><span class="token keyword">exec</span><span class="token punctuation">.</span>max<span class="token punctuation">.</span>dynamic<span class="token punctuation">.</span>partitions <span class="token operator">=</span> <span class="token number">1000</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 所允许的最大的动态分区的个数。</span>
+<span class="token keyword">set</span> hive<span class="token punctuation">.</span><span class="token keyword">exec</span><span class="token punctuation">.</span>max<span class="token punctuation">.</span>dynamic<span class="token punctuation">.</span>partitions<span class="token punctuation">.</span>pernode <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//单个 reduce 结点所允许的最大的动态分区的个数。</span>
+<span class="token keyword">set</span> hive<span class="token punctuation">.</span><span class="token keyword">exec</span><span class="token punctuation">.</span><span class="token keyword">default</span><span class="token punctuation">.</span><span class="token keyword">partition</span><span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">'__HIVE_DEFAULT_PARTITION__'</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//默认的动态分区的名称，当动态分区列为''或者null时，使用此名称。''</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>笛卡尔积join</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> hive.mapred.mode = <span class="keyword">strict</span> ;//阻止笛卡尔积    </div><div class="line"><span class="keyword">set</span> hive.mapred.mode = nostrict ;//允许笛卡尔积</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">set</span> hive<span class="token punctuation">.</span>mapred<span class="token punctuation">.</span>mode <span class="token operator">=</span> strict <span class="token punctuation">;</span><span class="token comment" spellcheck="true">//阻止笛卡尔积    </span>
+<span class="token keyword">set</span> hive<span class="token punctuation">.</span>mapred<span class="token punctuation">.</span>mode <span class="token operator">=</span> nostrict <span class="token punctuation">;</span><span class="token comment" spellcheck="true">//允许笛卡尔积</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <ul>
 <li>Map-Side Join</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> hive.auto.convert.join = <span class="literal">true</span> ; //将小表刷入内存中  </div><div class="line"><span class="keyword">set</span> hive.mapjoin.smalltable.filesize = <span class="number">2500000</span> ;//刷入内存表的大小(字节)  </div><div class="line">Map Join 的计算步骤分两步，将小表的数据变成hashtable广播到所有的map 端，将大表的数据进行合理的切分，然后在map 阶段的时候用大表的数据一行一行的去探测(probe) 小表的hashtable. 如果join key 相等，就写入HDFS.</div><div class="line">map join 之所以叫做map join 是因为它所有的工作都在map 端进行计算.</div><div class="line"></div><div class="line">hive 在map join 上做了几个优化：</div><div class="line">hive 0.6 的时候默认认为写在<span class="keyword">select</span> 后面的是大表，前面的是小表， 或者使用 <span class="comment">/*+mapjoin(map_table) */</span> 提示进行设定.</div><div class="line">hive <span class="number">0.7</span> 的时候这个计算是自动化的，它首先会自动判断哪个是小表，哪个是大表，这个参数由（hive.auto.convert.join=<span class="literal">true</span>）来控制. 然后控制小表的大小由（hive.smalltable.filesize=<span class="number">25000000</span>L）参数控制（默认是<span class="number">25</span>M），当小表超过这个大小，hive 会默认转化成common join.</div><div class="line">你可以查看HIVE<span class="number">-1642.</span>首先小表的<span class="keyword">Map</span> 阶段它会将自己转化成MapReduce <span class="keyword">Local</span> Task ，然后从HDFS 取小表的所有数据，将自己转化成Hashtable <span class="keyword">file</span> 并压缩打包放入DistributedCache 里面.</div><div class="line">目前hive 的<span class="keyword">map</span> <span class="keyword">join</span> 有几个限制，一个是它打算用BloomFilter 来实现hashtable , BloomFilter 大概比hashtable 省<span class="number">8</span><span class="number">-10</span>倍的内存, 但是BloomFilter 的大小比较难控制.</div><div class="line">现在DistributedCache 里面hashtable默认的复制是<span class="number">3</span>份，对于一个有<span class="number">1000</span>个<span class="keyword">map</span> 的大表来说，这个数字太小，大多数<span class="keyword">map</span> 操作都等着DistributedCache 复制.</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">set</span> hive<span class="token punctuation">.</span>auto<span class="token punctuation">.</span><span class="token keyword">convert</span><span class="token punctuation">.</span><span class="token keyword">join</span> <span class="token operator">=</span> <span class="token boolean">true</span> <span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//将小表刷入内存中  </span>
+<span class="token keyword">set</span> hive<span class="token punctuation">.</span>mapjoin<span class="token punctuation">.</span>smalltable<span class="token punctuation">.</span>filesize <span class="token operator">=</span> <span class="token number">2500000</span> <span class="token punctuation">;</span><span class="token comment" spellcheck="true">//刷入内存表的大小(字节)  </span>
+Map <span class="token keyword">Join</span> 的计算步骤分两步，将小表的数据变成hashtable广播到所有的map 端，将大表的数据进行合理的切分，然后在map 阶段的时候用大表的数据一行一行的去探测<span class="token punctuation">(</span>probe<span class="token punctuation">)</span> 小表的hashtable<span class="token punctuation">.</span> 如果<span class="token keyword">join</span> <span class="token keyword">key</span> 相等，就写入HDFS<span class="token punctuation">.</span>
+map <span class="token keyword">join</span> 之所以叫做map <span class="token keyword">join</span> 是因为它所有的工作都在map 端进行计算<span class="token punctuation">.</span>
+
+hive 在map <span class="token keyword">join</span> 上做了几个优化：
+hive <span class="token number">0.6</span> 的时候默认认为写在<span class="token keyword">select</span> 后面的是大表，前面的是小表， 或者使用 <span class="token comment" spellcheck="true">/*+mapjoin(map_table) */</span> 提示进行设定<span class="token punctuation">.</span>
+hive <span class="token number">0.7</span> 的时候这个计算是自动化的，它首先会自动判断哪个是小表，哪个是大表，这个参数由（hive<span class="token punctuation">.</span>auto<span class="token punctuation">.</span><span class="token keyword">convert</span><span class="token punctuation">.</span><span class="token keyword">join</span><span class="token operator">=</span><span class="token boolean">true</span>）来控制<span class="token punctuation">.</span> 然后控制小表的大小由（hive<span class="token punctuation">.</span>smalltable<span class="token punctuation">.</span>filesize<span class="token operator">=</span>25000000L）参数控制（默认是25M），当小表超过这个大小，hive 会默认转化成common <span class="token keyword">join</span><span class="token punctuation">.</span>
+你可以查看HIVE<span class="token number">-1642</span><span class="token punctuation">.</span>首先小表的Map 阶段它会将自己转化成MapReduce <span class="token keyword">Local</span> Task ，然后从HDFS 取小表的所有数据，将自己转化成Hashtable <span class="token keyword">file</span> 并压缩打包放入DistributedCache 里面<span class="token punctuation">.</span>
+目前hive 的map <span class="token keyword">join</span> 有几个限制，一个是它打算用BloomFilter 来实现hashtable <span class="token punctuation">,</span> BloomFilter 大概比hashtable 省<span class="token number">8</span><span class="token operator">-</span><span class="token number">10</span>倍的内存<span class="token punctuation">,</span> 但是BloomFilter 的大小比较难控制<span class="token punctuation">.</span>
+现在DistributedCache 里面hashtable默认的复制是<span class="token number">3</span>份，对于一个有<span class="token number">1000</span>个map 的大表来说，这个数字太小，大多数map 操作都等着DistributedCache 复制<span class="token punctuation">.</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>Skew Join</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">真实数据中数据倾斜是一定的, hadoop 中默认是使用</div><div class="line">hive.exec.reducers.bytes.per.reducer = 1000000000</div><div class="line"></div><div class="line">也就是每个节点的reduce 默认是处理1G大小的数据，如果你的join 操作也产生了数据倾斜，那么你可以在hive 中设定</div><div class="line"><span class="keyword">set</span> hive.optimize.skewjoin = <span class="literal">true</span>;</div><div class="line"><span class="keyword">set</span> hive.skewjoin.key = skew_key_threshold （<span class="keyword">default</span> = <span class="number">100000</span>）</div><div class="line"></div><div class="line">hive 在运行的时候没有办法判断哪个<span class="keyword">key</span> 会产生多大的倾斜，所以使用这个参数控制倾斜的阈值，如果超过这个值，新的值会发送给那些还没有达到的reduce, 一般可以设置成你（处理的总记录数/reduce个数）的<span class="number">2</span><span class="number">-4</span>倍都可以接受.  </div><div class="line">倾斜是经常会存在的，一般<span class="keyword">select</span> 的层数超过<span class="number">2</span>层，翻译成执行计划多于<span class="number">3</span>个以上的mapreduce job 都很容易产生倾斜，建议每次运行比较复杂的<span class="keyword">sql</span> 之前都可以设一下这个参数. 如果你不知道设置多少，可以就按官方默认的<span class="number">1</span>个reduce 只处理<span class="number">1</span>G 的算法，那么  skew_key_threshold  = <span class="number">1</span>G/平均行长. 或者默认直接设成<span class="number">250000000</span> (差不多算平均行长<span class="number">4</span>个字节)</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql">真实数据中数据倾斜是一定的<span class="token punctuation">,</span> hadoop 中默认是使用
+hive<span class="token punctuation">.</span><span class="token keyword">exec</span><span class="token punctuation">.</span>reducers<span class="token punctuation">.</span>bytes<span class="token punctuation">.</span>per<span class="token punctuation">.</span>reducer <span class="token operator">=</span> <span class="token number">1000000000</span>
+
+也就是每个节点的reduce 默认是处理1G大小的数据，如果你的<span class="token keyword">join</span> 操作也产生了数据倾斜，那么你可以在hive 中设定
+<span class="token keyword">set</span> hive<span class="token punctuation">.</span><span class="token keyword">optimize</span><span class="token punctuation">.</span>skewjoin <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token keyword">set</span> hive<span class="token punctuation">.</span>skewjoin<span class="token punctuation">.</span><span class="token keyword">key</span> <span class="token operator">=</span> skew_key_threshold （<span class="token keyword">default</span> <span class="token operator">=</span> <span class="token number">100000</span>）
+
+hive 在运行的时候没有办法判断哪个<span class="token keyword">key</span> 会产生多大的倾斜，所以使用这个参数控制倾斜的阈值，如果超过这个值，新的值会发送给那些还没有达到的reduce<span class="token punctuation">,</span> 一般可以设置成你（处理的总记录数<span class="token operator">/</span>reduce个数）的<span class="token number">2</span><span class="token operator">-</span><span class="token number">4</span>倍都可以接受<span class="token punctuation">.</span>  
+倾斜是经常会存在的，一般<span class="token keyword">select</span> 的层数超过<span class="token number">2</span>层，翻译成执行计划多于<span class="token number">3</span>个以上的mapreduce job 都很容易产生倾斜，建议每次运行比较复杂的sql 之前都可以设一下这个参数<span class="token punctuation">.</span> 如果你不知道设置多少，可以就按官方默认的<span class="token number">1</span>个reduce 只处理1G 的算法，那么  skew_key_threshold  <span class="token operator">=</span> 1G<span class="token operator">/</span>平均行长<span class="token punctuation">.</span> 或者默认直接设成<span class="token number">250000000</span> <span class="token punctuation">(</span>差不多算平均行长<span class="token number">4</span>个字节<span class="token punctuation">)</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>Map/Reduce Memory</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> mapreduce.reduce.memory.mb=<span class="number">8192</span>;</div><div class="line"><span class="keyword">set</span> mapreduce.map.memory.mb=<span class="number">8192</span>;</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">set</span> mapreduce<span class="token punctuation">.</span>reduce<span class="token punctuation">.</span>memory<span class="token punctuation">.</span>mb<span class="token operator">=</span><span class="token number">8192</span><span class="token punctuation">;</span>
+<span class="token keyword">set</span> mapreduce<span class="token punctuation">.</span>map<span class="token punctuation">.</span>memory<span class="token punctuation">.</span>mb<span class="token operator">=</span><span class="token number">8192</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <ul>
 <li>Hive cli调试日志</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ hive --hiveconf hive.root.logger=DEBUG,console</div><div class="line">hive&gt; <span class="built_in">set</span> hiveconf:hive.root.logger=DEBUG,console;</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash"><code class="language-bash">$ hive --hiveconf hive.root.logger<span class="token operator">=</span>DEBUG,console
+hive<span class="token operator">></span> <span class="token keyword">set</span> hiveconf:hive.root.logger<span class="token operator">=</span>DEBUG,console<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <ul>
 <li>Hive cli打印字段名</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hive&gt; set hive.cli.print.header=true;</div><div class="line">hive&gt; set hive.resultset.use.unique.column.names=false; //该参数表示结果列是否带表名</div></pre></td></tr></table></figure>
-<ul>
+<pre><code>hive&gt; set hive.cli.print.header=true;
+hive&gt; set hive.resultset.use.unique.column.names=false; //该参数表示结果列是否带表名
+</code></pre><ul>
 <li>Support subdirecotries</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hive.mapred.supports.subdirectories true</div><div class="line">mapreduce.input.fileinputformat.input.dir.recursive true</div></pre></td></tr></table></figure>
-
+<pre><code>hive.mapred.supports.subdirectories true
+mapreduce.input.fileinputformat.input.dir.recursive true
+</code></pre>
       
     </div>
   </div>
@@ -278,11 +323,11 @@
 	</li>
       
 	<li>
-	  <a href="/categories/BigData/">BigData (12)</a>
+	  <a href="/categories/Linux/">Linux (6)</a>
 	</li>
       
 	<li>
-	  <a href="/categories/Linux/">Linux (6)</a>
+	  <a href="/categories/BigData/">BigData (12)</a>
 	</li>
       
 	<li>
@@ -325,20 +370,20 @@
     
   
     
-  
-    
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hadoop.png" class="img-responsive ">
+	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
+	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
+    
+  
     
   
     
@@ -353,18 +398,18 @@
     
   
     
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
+	  <img src="/img/hadoop.png" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
+	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
     
   
     
@@ -395,6 +440,12 @@
     
   
     
+  
+    
+  
+    
+  
+    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/protocol-buffers.png" class="img-responsive ">
@@ -403,12 +454,6 @@
 	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
 	</div>                        
       </div>
-    
-  
-    
-  
-    
-  
     
   
     

@@ -13,18 +13,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="baidu-site-verification" content="SKU1ruzzZG" />
 
-  <meta name="description" content="应用场景，fluentd实时采集日志写入kafka 解析后数据写入另一topic. 为了实时获取分析数据，将topic落地hdfs然后load到hive表供分析使用  clone 代码  12$ git clone https://github.com/linkedin/camus.git$ cd camus">
+  <meta name="description" content="应用场景，fluentd实时采集日志写入kafka 解析后数据写入另一topic. 为了实时获取分析数据，将topic落地hdfs然后load到hive表供分析使用  clone 代码  $ git clone https://github.com/linkedin/camus.git $ cd camus">
 <meta name="keywords" content="kafka,日志">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Camus 落地kafka Topic">
 <meta property="og:url" content="http://saboloh.com/2016/04/17/camus-kafka-to-hdfs/index.html">
 <meta property="og:site_name" content="Loh&#39;s Blog">
-<meta property="og:description" content="应用场景，fluentd实时采集日志写入kafka 解析后数据写入另一topic. 为了实时获取分析数据，将topic落地hdfs然后load到hive表供分析使用  clone 代码  12$ git clone https://github.com/linkedin/camus.git$ cd camus">
+<meta property="og:description" content="应用场景，fluentd实时采集日志写入kafka 解析后数据写入另一topic. 为了实时获取分析数据，将topic落地hdfs然后load到hive表供分析使用  clone 代码  $ git clone https://github.com/linkedin/camus.git $ cd camus">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2016-09-05T14:58:21.000Z">
+<meta property="og:updated_time" content="2018-03-29T07:14:11.458Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Camus 落地kafka Topic">
-<meta name="twitter:description" content="应用场景，fluentd实时采集日志写入kafka 解析后数据写入另一topic. 为了实时获取分析数据，将topic落地hdfs然后load到hive表供分析使用  clone 代码  12$ git clone https://github.com/linkedin/camus.git$ cd camus">
+<meta name="twitter:description" content="应用场景，fluentd实时采集日志写入kafka 解析后数据写入另一topic. 为了实时获取分析数据，将topic落地hdfs然后load到hive表供分析使用  clone 代码  $ git clone https://github.com/linkedin/camus.git $ cd camus">
   
     <link rel="alternative" href="/atom.xml" title="Loh&#39;s Blog" type="application/atom+xml">
   
@@ -177,33 +177,127 @@
       
         <p>应用场景，fluentd实时采集日志写入kafka 解析后数据写入另一topic. 为了实时获取分析数据，将topic落地hdfs然后load到hive表供分析使用</p>
 <ul>
-<li>clone <a href="https://github.com/linkedin/camus" target="_blank" rel="external">代码</a></li>
+<li>clone <a href="https://github.com/linkedin/camus" target="_blank" rel="noopener">代码</a></li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git clone https://github.com/linkedin/camus.git</div><div class="line">$ cd camus</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-shell"><code class="language-shell">$ git clone https://github.com/linkedin/camus.git
+$ cd camus
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <a id="more"></a>
 <ul>
 <li>新增 StringMessageDecoder 类(接收数据不规范，自定义接收处理逻辑)  </li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.linkedin.camus.etl.kafka.coders;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> com.linkedin.camus.coders.CamusWrapper;</div><div class="line"><span class="keyword">import</span> com.linkedin.camus.coders.Message;</div><div class="line"><span class="keyword">import</span> com.linkedin.camus.coders.MessageDecoder;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> org.apache.log4j.Logger;</div><div class="line"><span class="keyword">import</span> java.io.UnsupportedEncodingException;</div><div class="line"><span class="keyword">import</span> java.util.Properties;</div><div class="line"> </div><div class="line"><span class="comment">/**</span></div><div class="line"> * MessageDecoder class that will convert the payload into a String object,</div><div class="line"> * System.currentTimeMillis() will be used to set CamusWrapper's timestamp</div><div class="line"> * property</div><div class="line"> * </div><div class="line"> * This MessageDecoder returns a CamusWrapper that works with Strings payloads,</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringMessageDecoder</span> <span class="keyword">extends</span> <span class="title">MessageDecoder</span>&lt;<span class="title">Message</span>, <span class="title">String</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger log = Logger.getLogger(StringMessageDecoder.class);</div><div class="line">     </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(Properties props, String topicName)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.props = props;</div><div class="line">        <span class="keyword">this</span>.topicName = topicName;</div><div class="line">    &#125;</div><div class="line">     </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> CamusWrapper&lt;String&gt; <span class="title">decode</span><span class="params">(Message message)</span> </span>&#123;</div><div class="line">        <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">        <span class="keyword">long</span> timestamp = <span class="number">0</span>;</div><div class="line">        String payloadString;</div><div class="line">         </div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            payloadString = <span class="keyword">new</span> String(message.getPayload(), <span class="string">"UTF-8"</span>);</div><div class="line">          &#125; <span class="keyword">catch</span> (UnsupportedEncodingException e) &#123;</div><div class="line">            log.error(<span class="string">"Unable to load UTF-8 encoding, falling back to system default"</span>, e);</div><div class="line">            payloadString = <span class="keyword">new</span> String(message.getPayload());</div><div class="line">          &#125;</div><div class="line">         </div><div class="line">        timestamp = System.currentTimeMillis();</div><div class="line">         </div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> CamusWrapper&lt;String&gt;(payloadString, timestamp);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>linkedin<span class="token punctuation">.</span>camus<span class="token punctuation">.</span>etl<span class="token punctuation">.</span>kafka<span class="token punctuation">.</span>coders<span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> com<span class="token punctuation">.</span>linkedin<span class="token punctuation">.</span>camus<span class="token punctuation">.</span>coders<span class="token punctuation">.</span>CamusWrapper<span class="token punctuation">;</span>
+<span class="token keyword">import</span> com<span class="token punctuation">.</span>linkedin<span class="token punctuation">.</span>camus<span class="token punctuation">.</span>coders<span class="token punctuation">.</span>Message<span class="token punctuation">;</span>
+<span class="token keyword">import</span> com<span class="token punctuation">.</span>linkedin<span class="token punctuation">.</span>camus<span class="token punctuation">.</span>coders<span class="token punctuation">.</span>MessageDecoder<span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>log4j<span class="token punctuation">.</span>Logger<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>io<span class="token punctuation">.</span>UnsupportedEncodingException<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>Properties<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">/**
+ * MessageDecoder class that will convert the payload into a String object,
+ * System.currentTimeMillis() will be used to set CamusWrapper's timestamp
+ * property
+ * 
+ * This MessageDecoder returns a CamusWrapper that works with Strings payloads,
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">StringMessageDecoder</span> <span class="token keyword">extends</span> <span class="token class-name">MessageDecoder</span><span class="token operator">&lt;</span>Message<span class="token punctuation">,</span> String<span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> Logger log <span class="token operator">=</span> Logger<span class="token punctuation">.</span><span class="token function">getLogger</span><span class="token punctuation">(</span>StringMessageDecoder<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">init</span><span class="token punctuation">(</span>Properties props<span class="token punctuation">,</span> String topicName<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>props <span class="token operator">=</span> props<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>topicName <span class="token operator">=</span> topicName<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> CamusWrapper<span class="token operator">&lt;</span>String<span class="token operator">></span> <span class="token function">decode</span><span class="token punctuation">(</span>Message message<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// TODO Auto-generated method stub</span>
+        <span class="token keyword">long</span> timestamp <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        String payloadString<span class="token punctuation">;</span>
+
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            payloadString <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span><span class="token function">getPayload</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"UTF-8"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">UnsupportedEncodingException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            log<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"Unable to load UTF-8 encoding, falling back to system default"</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            payloadString <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span><span class="token function">getPayload</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span>
+
+        timestamp <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">CamusWrapper</span><span class="token operator">&lt;</span>String<span class="token operator">></span><span class="token punctuation">(</span>payloadString<span class="token punctuation">,</span> timestamp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li><p>修改 camus下pom.xml hadoop版本  </p>
 </li>
 <li><p>配置camus.properties</p>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">camus.job.name=soj_dtl_transfer</div><div class="line"></div><div class="line">fs.default.name=hdfs://nameservice1</div><div class="line">etl.destination.path=/tmp/saboloh/topics</div><div class="line">etl.execution.base.path=/tmp/saboloh/exec</div><div class="line">etl.execution.history.path=/tmp/saboloh/camus/exec/history</div><div class="line"></div><div class="line">camus.message.decoder.class=com.linkedin.camus.etl.kafka.coders.JsonStringMessageDecoder</div><div class="line">etl.record.writer.provider.class=com.linkedin.camus.etl.kafka.common.StringRecordWriterProvider</div><div class="line"></div><div class="line">camus.message.timestamp.field=log_time</div><div class="line">camus.message.timestamp.format=yyyy-MM-dd HH:mm:ss.SSS</div><div class="line">etl.partitioner.class=com.linkedin.camus.etl.kafka.partitioner.HourlyPartitioner</div><div class="line"></div><div class="line">kafka.max.historical.days=1</div><div class="line">kafka.blacklist.topics=</div><div class="line">kafka.whitelist.topics=soj_topic_rt</div><div class="line">kafka.brokers=localhost:9092,localhost:9093</div><div class="line">kafka.client.name=soj_dtl_transfer_client</div><div class="line"></div><div class="line"></div><div class="line">etl.hourly=hourly</div><div class="line"></div><div class="line">log4j.configuration=true</div><div class="line">mapred.output.compress=true</div><div class="line">etl.output.codec=deflate</div><div class="line">etl.deflate.level=6</div><div class="line"></div><div class="line">etl.default.timezone=Asia/Shanghai</div><div class="line">etl.output.file.time.partition.mins=60</div><div class="line">etl.keep.count.files=false</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-shell"><code class="language-shell">camus.job.name=soj_dtl_transfer
+
+fs.default.name=hdfs://nameservice1
+etl.destination.path=/tmp/saboloh/topics
+etl.execution.base.path=/tmp/saboloh/exec
+etl.execution.history.path=/tmp/saboloh/camus/exec/history
+
+camus.message.decoder.class=com.linkedin.camus.etl.kafka.coders.JsonStringMessageDecoder
+etl.record.writer.provider.class=com.linkedin.camus.etl.kafka.common.StringRecordWriterProvider
+
+camus.message.timestamp.field=log_time
+camus.message.timestamp.format=yyyy-MM-dd HH:mm:ss.SSS
+etl.partitioner.class=com.linkedin.camus.etl.kafka.partitioner.HourlyPartitioner
+
+kafka.max.historical.days=1
+kafka.blacklist.topics=
+kafka.whitelist.topics=soj_topic_rt
+kafka.brokers=localhost:9092,localhost:9093
+kafka.client.name=soj_dtl_transfer_client
+
+
+etl.hourly=hourly
+
+log4j.configuration=true
+mapred.output.compress=true
+etl.output.codec=deflate
+etl.deflate.level=6
+
+etl.default.timezone=Asia/Shanghai
+etl.output.file.time.partition.mins=60
+etl.keep.count.files=false
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>编译打包 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mvn clean [compile] package [-DskipTests]</div></pre></td></tr></table></figure>
-<ul>
+<pre><code>$ mvn clean [compile] package [-DskipTests]
+</code></pre><ul>
 <li>运行</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ cd camus-example</div><div class="line">$ cp target/camus-example-0.1.0-SNAPSHOT-shaded.jar .</div><div class="line">$ hadoop jar camus-example-0.1.0-SNAPSHOT-shaded.jar com.linkedin.camus.etl.kafka.CamusJob -P ../camus.properties</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-shell"><code class="language-shell">$ cd camus-example
+$ cp target/camus-example-0.1.0-SNAPSHOT-shaded.jar .
+$ hadoop jar camus-example-0.1.0-SNAPSHOT-shaded.jar com.linkedin.camus.etl.kafka.CamusJob -P ../camus.properties
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>错误异常处理</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">Exception in thread &quot;main&quot; java.io.IOException: Mkdirs failed to create /var/folders/hb/s74xd1353n92ht1h8pr8mngh0000gn/T/hadoop-unjar7038503362115517488/META-INF/license</div><div class="line">    at org.apache.hadoop.util.RunJar.ensureDirectory(RunJar.java:128)</div><div class="line">    at org.apache.hadoop.util.RunJar.unJar(RunJar.java:104)</div><div class="line">    at org.apache.hadoop.util.RunJar.unJar(RunJar.java:81)</div><div class="line">    at org.apache.hadoop.util.RunJar.run(RunJar.java:209)</div><div class="line">    at org.apache.hadoop.util.RunJar.main(RunJar.java:136)</div><div class="line">     </div><div class="line">上述错误信息由于Mac 上的特殊原因导致的貌似。</div><div class="line">http://stackoverflow.com/questions/10522835/hadoop-java-io-ioexception-mkdirs-failed-to-create-some-path</div><div class="line">修改jar</div><div class="line">$ zip -d camus-example-0.1.0-SNAPSHOT-shaded.jar META-INF/LICENSE  </div><div class="line">$ zip -d camus-example-0.1.0-SNAPSHOT-shaded.jar LICENSE</div><div class="line">上述命令删除jar包种指定信息</div><div class="line">$ jar -tvf camus-example-0.1.0-SNAPSHOT-shaded.jar |grep META-INF/LICENSE</div></pre></td></tr></table></figure>
+<pre class="line-numbers language-shell"><code class="language-shell">Exception in thread "main" java.io.IOException: Mkdirs failed to create /var/folders/hb/s74xd1353n92ht1h8pr8mngh0000gn/T/hadoop-unjar7038503362115517488/META-INF/license
+    at org.apache.hadoop.util.RunJar.ensureDirectory(RunJar.java:128)
+    at org.apache.hadoop.util.RunJar.unJar(RunJar.java:104)
+    at org.apache.hadoop.util.RunJar.unJar(RunJar.java:81)
+    at org.apache.hadoop.util.RunJar.run(RunJar.java:209)
+    at org.apache.hadoop.util.RunJar.main(RunJar.java:136)
+
+上述错误信息由于Mac 上的特殊原因导致的貌似。
+http://stackoverflow.com/questions/10522835/hadoop-java-io-ioexception-mkdirs-failed-to-create-some-path
+修改jar
+$ zip -d camus-example-0.1.0-SNAPSHOT-shaded.jar META-INF/LICENSE  
+$ zip -d camus-example-0.1.0-SNAPSHOT-shaded.jar LICENSE
+上述命令删除jar包种指定信息
+$ jar -tvf camus-example-0.1.0-SNAPSHOT-shaded.jar |grep META-INF/LICENSE
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
       
     </div>
@@ -257,11 +351,11 @@
 	</li>
       
 	<li>
-	  <a href="/categories/BigData/">BigData (12)</a>
+	  <a href="/categories/Linux/">Linux (6)</a>
 	</li>
       
 	<li>
-	  <a href="/categories/Linux/">Linux (6)</a>
+	  <a href="/categories/BigData/">BigData (12)</a>
 	</li>
       
 	<li>
@@ -304,20 +398,20 @@
     
   
     
-  
-    
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hadoop.png" class="img-responsive ">
+	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
+	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
+    
+  
     
   
     
@@ -332,18 +426,18 @@
     
   
     
-  
-    
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
-	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
+	  <img src="/img/hadoop.png" class="img-responsive ">
 	</div>
 	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
+	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
 	</div>                        
       </div>
+    
+  
+    
+  
     
   
     
@@ -374,6 +468,12 @@
     
   
     
+  
+    
+  
+    
+  
+    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/protocol-buffers.png" class="img-responsive ">
@@ -382,12 +482,6 @@
 	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
 	</div>                        
       </div>
-    
-  
-    
-  
-    
-  
     
   
     
