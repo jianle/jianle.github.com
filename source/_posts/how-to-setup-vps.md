@@ -15,7 +15,7 @@ featured: false
 购买完成之后初始化大概10分钟，之后便可自己通过ssh+pwd的方式登录vps（先确保能ping通，如果存在网络等任何问题，直接邮件development，解决速度还是可以的。密码在网上可以看到）
 
 <!-- more -->
-![](/img/budgetvm.png)
+![budgetvm](/img/budgetvm.png)
 
 
 * vps config
@@ -65,7 +65,7 @@ $ vim /root/ss.conf
 
 * config local
 
-```
+```bash
 $ sudo apt-get install shadowscoks
 $ sslocal  -c ss.conf -b 0.0.0.0 -d start --pid-file /tmp/ss.pid --log-file /tmp/ss.log
 
@@ -77,8 +77,6 @@ $ cat ss.conf
     "password":"${yourpassword}",
     "method":"aes-256-cfb"
 }
-
 ```
 
 备注： budgetvm主机服务在洛杉矶，所以国内登录过去会有点慢-_-|| 岛国的vps似乎很快，推荐一款[Vultr](https://www.vultr.com/)
-
