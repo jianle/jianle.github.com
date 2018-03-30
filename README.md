@@ -1,6 +1,6 @@
-# Install 
+## Install
 
-* [npm](https://nodejs.org/en/download/) 
+* [npm](https://nodejs.org/en/download/)
 * [hexo](https://hexo.io/docs/index.html)
 
 
@@ -9,7 +9,7 @@ $ npm isntall hexo -g
 $ npm install
 ```
 
-# Colne custom theme
+## Theme
 
 ```bash  
 $ git clone git@github.com:jianle/hexo-theme-corporate.git themes/corporate
@@ -17,15 +17,14 @@ $ cd themes/corporate
 $ npm install
 ```
 
-# Run server
+## Run
 
 ```bash  
 $ hexo s -g
 ```
 
-# Deploy
+## Deploy
 
 ```bash  
 $./deploy.sh or hexo d -g
 ```
-
