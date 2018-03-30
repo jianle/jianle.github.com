@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <title>MySQL使用 | Loh&#39;s Blog</title>
+
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="baidu-site-verification" content="SKU1ruzzZG" />
+
+  <meta name="description" content="基本操作 MySQL 企业版安装后，root密码自动生成在: /root/.mysql_secret  mysqldump 导出表结构到指定库">
+<meta name="keywords" content="mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL使用">
+<meta property="og:url" content="http://saboloh.com/2016/08/26/mysql-options/index.html">
+<meta property="og:site_name" content="Loh&#39;s Blog">
+<meta property="og:description" content="基本操作 MySQL 企业版安装后，root密码自动生成在: /root/.mysql_secret  mysqldump 导出表结构到指定库">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-03-29T07:14:11.462Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL使用">
+<meta name="twitter:description" content="基本操作 MySQL 企业版安装后，root密码自动生成在: /root/.mysql_secret  mysqldump 导出表结构到指定库">
+  
+    <link rel="alternative" href="/atom.xml" title="Loh&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+    
+  <meta content="{{ title }}" name="description">
+  <meta content="{{ title }}" name="keywords">
+  <meta content="{{ title }}" name="author">
+
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|PT+Sans+Narrow|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css">
+
+  <!-- Global styles START -->   
+  <link rel="stylesheet" href="/metronic/assets/plugins/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/metronic/assets/plugins/bootstrap/css/bootstrap.min.css">
+  <!-- Global styles END --> 
+   
+  <!-- Page level plugin styles START -->
+  <link rel="stylesheet" href="/metronic/assets/pages/css/animate.css">
+  <link rel="stylesheet" href="/metronic/assets/plugins/owl.carousel/assets/owl.carousel.css">
+  <!-- Page level plugin styles END -->
+
+  <!-- Theme styles START -->
+  <link rel="stylesheet" href="/metronic/assets/pages/css/components.css">
+  <link rel="stylesheet" href="/metronic/assets/pages/css/slider.css">
+  <link rel="stylesheet" href="/metronic/assets/corporate/css/style.css">
+  <link rel="stylesheet" href="/metronic/assets/pages/css/portfolio.css">
+  <link rel="stylesheet" href="/metronic/assets/corporate/css/style-responsive.css">
+  <link rel="stylesheet" href="/metronic/assets/corporate/css/themes/red.css">
+  <link rel="stylesheet" href="/css/theme-styles.css">
+  <!-- Theme styles END -->
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body class="corporate">
+  <!-- BEGIN TOP BAR -->
+<!-- END TOP BAR -->
+<!-- BEGIN HEADER -->
+<div class="header reduce-header">
+  <div class="container">
+    <!--<a class="site-logo" href="/" id="logo">Loh&#39;s Blog</a>-->
+
+    <a class="site-logo" href="/" style="text-decoration: none">
+      <h2 style="margin-top: 0px;">Loh&#39;s Blog</h2>
+      <!-- <img src="/metronic/assets/corporate/img/logos/logo-corp-red.png" alt="Metronic FrontEnd"> -->
+    </a>
+
+    <a href="javascript:void(0);" class="mobi-toggler"><i class="fa fa-bars"></i></a>
+
+    <!-- BEGIN NAVIGATION -->
+    <div class="header-navigation pull-right font-transform-inherit">
+      <ul>
+	
+	<li class="">
+	  <a  href="/">Home</a>
+	</li>
+	
+	<li class="">
+	  <a  href="/archives/">Blog</a>
+	</li>
+	
+	<li class="">
+	  <a  href="/contact/">Contact</a>
+	</li>
+	
+	<li class="">
+	  <a  href="/about/">About</a>
+	</li>
+	
+	<!-- BEGIN TOP SEARCH -->
+	<li class="menu-search">
+	  <span class="sep"></span>
+	  <i class="fa fa-search search-btn"></i>
+	  <div class="search-box">
+	    <form action="#" id="searchFM">
+	      <div class="input-group">
+		<input type="text" placeholder="Search" class="form-control st-default-search-input">
+		<span class="input-group-btn">
+		  <button class="btn btn-primary" type="submit">Search</button>
+		</span>
+	      </div>
+	    </form>
+	  </div> 
+	</li>
+	<!-- END TOP SEARCH -->
+      </ul>
+    </div>
+    <!-- END NAVIGATION -->
+  </div>
+</div>
+<!-- Header END -->
+
+  <div class="container">
+  <ul class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/archives/">Blog</a></li>
+    <li class="active">Post</li>
+  </ul>
+  <section id="main">
+    
+    <h2 itemprop="name">
+      <a class="article-title" href="/2016/08/26/mysql-options/">MySQL使用</a>
+    </h2>
+
+
+    <div class="row">
+<div class="col-md-9 col-sm-9 blog-posts">
+<article id="post-mysql-options" class="article article-type-post blog-item" itemscope itemprop="blogPost">
+  <div class="article-meta">
+  </div>
+  <div class="article-inner">
+    
+    
+    <header class="article-header">
+      <ul class="blog-info">
+	<li><i class="fa fa-user"></i> Anonymous</li>
+	<li><i class="fa fa-calendar"></i>
+	  <time datetime="2016-08-26T04:14:36.000Z" itemprop="datePublished">2016/08/26</time>
+
+	</li>
+	<li class="hidden-xs"><i class="fa fa-comments"></i>
+	  <a href="http://saboloh.com/2016/08/26/mysql-options/#disqus_thread" class="article-comment-link">Comments</a>
+	</li>
+	<li class="hidden-xs"><i class="fa fa-tags"></i> 
+	  
+  
+    <a href="/tags/mysql/" title="mysql">mysql</a>
+  
+
+
+	</li>
+      </ul>
+      
+  <div class="article-category">
+    
+    Category: 
+    
+    Categories:
+    <a class="article-category-link" href="/categories/BigData/">BigData</a>
+  </div>
+  <br>
+
+
+    </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h3><ul>
+<li><p>MySQL 企业版安装后，root密码自动生成在: <code>/root/.mysql_secret</code></p>
+</li>
+<li><p>mysqldump 导出表结构到指定库    </p>
+<a id="more"></a>
+<pre class="line-numbers language-bash"><code class="language-bash">$ mysqldump -hIP -uroot -ppassword --compact --skip-lock-tables --no-data database tableName <span class="token operator">></span> mysqldumpTmp.sql
+$ mysql -hIP -uroot -ppassword -Ddatabase <span class="token operator">&lt;</span> mysqldumpTemp.sql
+$ mysqldump -hIP -uroot -ppassword --compact --skip-lock-tables --no-data database tableName <span class="token operator">|</span> mysql -uroot -ppassword databases
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>MySQL 创建指定用户，并授权</p>
+<pre class="line-numbers language-bash"><code class="language-bash">$ CREATE USER <span class="token string">'dw_tools'</span>@<span class="token string">'localhost'</span> IDENTIFIED BY <span class="token string">'dw_tools'</span><span class="token punctuation">;</span>
+$ GRANT ALL ON *.* TO <span class="token string">'dw_tools'</span>@<span class="token string">'localhost'</span><span class="token punctuation">;</span>
+$ FLUSH PRIVILEGES<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>查看进程信息</p>
+<pre><code>$ SELECT * FROM information_schema.processlist WHERE state = &#39;locked&#39;;
+</code></pre></li>
+</ul>
+<h3 id="切换MySQL-文件目录"><a href="#切换MySQL-文件目录" class="headerlink" title="切换MySQL 文件目录"></a>切换MySQL 文件目录</h3><ul>
+<li><p>Stop MySQL using the following command:</p>
+<pre><code>sudo /etc/init.d/mysql stop
+</code></pre></li>
+<li><p>Copy the existing data directory (default located in /var/lib/mysql) using the following command:</p>
+<pre><code>sudo cp -R -p /var/lib/mysql /newpath
+</code></pre></li>
+<li><p>edit the MySQL configuration file with the following command:</p>
+<pre><code>sudo gedit /etc/mysql/my.cnf
+</code></pre></li>
+<li><p>Look for the entry for datadir, and change the path (which should be /var/lib/mysql) to the new data directory</p>
+</li>
+<li><p>In the terminal, enter the command:</p>
+<pre><code>sudo gedit /etc/apparmor.d/usr.sbin.mysqld
+</code></pre></li>
+<li><p>Look for lines beginning with <code>/var/lib/mysql</code>. Change <code>/var/lib/mysql</code> in the lines with the new path.</p>
+</li>
+<li><p>Save and close the file.</p>
+</li>
+<li><p>Restart the AppArmor profiles with the command:</p>
+<pre><code>sudo /etc/init.d/apparmor reload
+</code></pre></li>
+<li><p>Restart MySQL with the command:</p>
+<pre><code>sudo /etc/init.d/mysql restart
+</code></pre></li>
+<li><p>Now login to MySQL and you can access the same databases you had before.</p>
+</li>
+</ul>
+<h3 id="修改字符集"><a href="#修改字符集" class="headerlink" title="修改字符集"></a>修改字符集</h3><ul>
+<li>修改Column字符集   <pre><code>CREATE TABLE `COLUMNS_V2` (
+`CD_ID` bigint(20) NOT NULL,
+`COMMENT` varchar(256) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
+`COLUMN_NAME` varchar(128) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+`TYPE_NAME` varchar(4000) DEFAULT NULL,
+`INTEGER_IDX` int(11) NOT NULL,
+PRIMARY KEY (`CD_ID`,`COLUMN_NAME`),
+KEY `COLUMNS_V2_N49` (`CD_ID`),
+CONSTRAINT `COLUMNS_V2_FK1` FOREIGN KEY (`CD_ID`) REFERENCES `CDS` (`CD_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+</code></pre><pre><code>CREATE TABLE `PARTITION_KEYS` (
+`TBL_ID` bigint(20) NOT NULL,
+`PKEY_COMMENT` varchar(4000) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
+`PKEY_NAME` varchar(128) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+`PKEY_TYPE` varchar(767) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+`INTEGER_IDX` int(11) NOT NULL,
+PRIMARY KEY (`TBL_ID`,`PKEY_NAME`),
+KEY `PARTITION_KEYS_N49` (`TBL_ID`),
+CONSTRAINT `PARTITION_KEYS_FK1` FOREIGN KEY (`TBL_ID`) REFERENCES `TBLS` (`TBL_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+</code></pre></li>
+</ul>
+<pre><code>ALTER TABLE COLUMNS_V2 MODIFY `COMMENT` varchar(256) CHARACTER SET utf8 collate utf8_bin;
+ALTER TABLE PARTITION_KEYS MODIFY `PKEY_COMMENT` varchar(4000) CHARACTER SET utf8 collate utf8_bin;
+</code></pre>
+      
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/11/09/hive-languagemanual-windowingandanalytics/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hive 开窗分析函数
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/08/19/hadoop-frequently-options/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hadoop常用操作</div>
+    </a>
+  
+</nav>
+
+  
+  <br>
+</article>
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+<br>
+
+
+</div>
+<div class="col-md-3 col-sm-3 blog-sidebar">
+  <!-- CATEGORIES START -->
+<h2 class="no-top-space">Categories</h2>
+
+<div class="widget-wrap">
+  <div class="widget">
+    <ul class="nav sidebar-categories margin-bottom-40">
+      
+	<li>
+	  <a href="/categories/Java/">Java (4)</a>
+	</li>
+      
+	<li>
+	  <a href="/categories/BigData/">BigData (12)</a>
+	</li>
+      
+	<li>
+	  <a href="/categories/Linux/">Linux (6)</a>
+	</li>
+      
+	<li>
+	  <a href="/categories/Git/">Git (2)</a>
+	</li>
+      
+	<li>
+	  <a href="/categories/Frontend/">Frontend (1)</a>
+	</li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<!-- CATEGORIES END -->
+
+<!-- BEGIN BLOG TAGS -->
+<div class="blog-tags margin-bottom-20">
+  <h2>Tags</h2>
+  
+  <div class="widget-wrap">
+    <div class="widget">
+      
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/"><i class='fa fa-tags'></i>Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hive/"><i class='fa fa-tags'></i>Hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ORC/"><i class='fa fa-tags'></i>ORC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/analytics/"><i class='fa fa-tags'></i>analytics</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/"><i class='fa fa-tags'></i>blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chd/"><i class='fa fa-tags'></i>chd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloudera/"><i class='fa fa-tags'></i>cloudera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/command/"><i class='fa fa-tags'></i>command</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/debug/"><i class='fa fa-tags'></i>debug</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/"><i class='fa fa-tags'></i>ejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/find/"><i class='fa fa-tags'></i>find</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/"><i class='fa fa-tags'></i>github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/"><i class='fa fa-tags'></i>hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/"><i class='fa fa-tags'></i>hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/"><i class='fa fa-tags'></i>hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/"><i class='fa fa-tags'></i>html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/issue/"><i class='fa fa-tags'></i>issue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/"><i class='fa fa-tags'></i>java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk/"><i class='fa fa-tags'></i>jdk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/"><i class='fa fa-tags'></i>js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/"><i class='fa fa-tags'></i>kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/languageManual/"><i class='fa fa-tags'></i>languageManual</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/"><i class='fa fa-tags'></i>linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mail/"><i class='fa fa-tags'></i>mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/"><i class='fa fa-tags'></i>mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/"><i class='fa fa-tags'></i>nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rsync/"><i class='fa fa-tags'></i>rsync</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/"><i class='fa fa-tags'></i>shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/"><i class='fa fa-tags'></i>ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/supervisor/"><i class='fa fa-tags'></i>supervisor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vps/"><i class='fa fa-tags'></i>vps</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/"><i class='fa fa-tags'></i>webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wget/"><i class='fa fa-tags'></i>wget</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windowing/"><i class='fa fa-tags'></i>windowing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分区/"><i class='fa fa-tags'></i>分区</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/参数配置/"><i class='fa fa-tags'></i>参数配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日志/"><i class='fa fa-tags'></i>日志</a></li></ul>
+    </div>
+  </div>
+
+
+</div>
+<!-- END BLOG TAGS -->
+
+
+<!-- BEGIN FEATURED POSTS -->                            
+<h2>Featured Posts</h2>
+<div class="recent-news margin-bottom-10">
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/hadoop.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/markdown-syntax-language.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/08/14/git-tutorial-markdown/">Git学习指南（二）— MarkDown</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+  
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/orc-logo.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/04/28/hive-issue/">Hive使用遇到的一些问题</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/protocol-buffers.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+</div>
+<!-- END FEATURED POSTS -->                            
+
+</div>
+</div>
+
+  </section>
+</div>
+
+      <!-- BEGIN PRE-FOOTER -->
+    <!-- END PRE-FOOTER -->
+
+    <!-- BEGIN FOOTER -->
+    <div class="footer">
+      <div class="container">
+        <div class="row">
+          <!-- BEGIN COPYRIGHT -->
+          <div class="col-md-6 col-sm-6 padding-top-10">
+                  &copy; 2018 Loh&#39;s Blog<br>
+ <a href="javascript:;">Privacy Policy</a> | <a href="javascript:;">Terms of Service</a>
+          </div>
+          <!-- END COPYRIGHT -->
+	  <!-- BEGIN SOCIAL -->
+<div class="col-md-6 col-sm-6">
+  <ul class="social-footer list-unstyled list-inline pull-right">
+    
+      <li><a href="https://github.com/jianle"><i class="fa fa-github"></i></a></li>
+    
+      <li><a href="/atom.xml"><i class="fa fa-rss"></i></a></li>
+    
+  </ul>  
+</div>
+<!-- END SOCIAL -->
+
+        </div>
+      </div>
+    </div>
+    <!-- END FOOTER -->
+
+  <!-- BEGIN CORE PLUGINS (REQUIRED FOR ALL PAGES) -->
+<!--[if lt IE 9]>
+<script src="/metronic/assets/plugins/respond.min.js"></script>
+<![endif]--> 
+<script src="/metronic/assets/plugins/jquery.min.js"></script>
+<script src="/metronic/assets/plugins/jquery-migrate.min.js"></script>
+<script src="/metronic/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="/metronic/assets/corporate/scripts/back-to-top.js"></script>
+<script src="/metronic/assets/plugins/owl.carousel/owl.carousel.min.js"></script>
+<script src="/metronic/assets/corporate/scripts/layout.js"></script>
+<script src="/js/wow.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        Layout.init();    
+        Layout.initOWL();
+        Layout.initTwitter();
+        Layout.initFixHeaderWithPreHeader(); /* Switch On Header Fixing (only if you have pre-header) */
+        //Layout.initNavScrolling(); 
+	new WOW().init();
+    });
+</script>
+<!-- END CORE PLUGINS -->
+
+<!-- BEGIN PAGE-SPECIFIC PLUGINS --> 
+
+
+
+
+
+
+
+<!-- END PAGE-SPECIFIC PLUGINS --> 
+
+<!-- BEGIN BAIDUSEARCH -->
+
+
+  <script type="text/javascript">
+      var cse;
+      
+      //处理结果回调函数示例
+      function display (data) {
+          console.log(data);
+      }
+  
+      //初始化回调函数示例
+      function init () {
+          cse = new BCse.Search("15596006506253001804");    //参数为您的API引擎ID，已自动填写，必需。
+          var key = document.getElementsByClassName('st-default-search-input')[0].value; 
+          cse.getResult(key, display);    //此方法获取搜索结果，参数1为搜索词，参数2为您获取到结果后想要执行的回调函数。
+      }
+  
+      function loadScript () { 
+          var script = document.createElement("script"); 
+          script.type = "text/javascript";
+          script.charset = "utf-8";
+          script.src = "http://zhannei.baidu.com/api/customsearch/apiaccept?sid=15596006506253001804&v=2.0&callback=init";
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(script, s);
+      }
+  
+      document.querySelector("#searchFM").addEventListener("submit", function(e){
+        console.log('do search ...');
+        loadScript();
+      });
+  </script>
+
+
+<!-- END BAIDUSEARCH -->
+
+<!-- BEGIN INTEGRATIONS -->
+
+
+
+<script>
+  
+    var disqus_config = function () {
+      this.page.url = 'http://saboloh.com/2016/08/26/mysql-options/';
+    };
+  
+  (function() {  // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//saboloh.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+
+<script id="dsq-count-scr" src="//saboloh.disqus.com/count.js" async></script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+
+<!-- END INTEGRATIONS -->
+
+</body>
+</html>

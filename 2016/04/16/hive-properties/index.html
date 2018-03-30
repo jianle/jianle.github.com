@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hive常用配置参数 | Loh&#39;s Blog</title>
+
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="baidu-site-verification" content="SKU1ruzzZG" />
+
+  <meta name="description" content="HIVE配置详情 熟悉HIVE配置，了解HIVE调优及一些配置所带来的效果">
+<meta name="keywords" content="hive,参数配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hive常用配置参数">
+<meta property="og:url" content="http://saboloh.com/2016/04/16/hive-properties/index.html">
+<meta property="og:site_name" content="Loh&#39;s Blog">
+<meta property="og:description" content="HIVE配置详情 熟悉HIVE配置，了解HIVE调优及一些配置所带来的效果">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2016-09-10T14:37:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hive常用配置参数">
+<meta name="twitter:description" content="HIVE配置详情 熟悉HIVE配置，了解HIVE调优及一些配置所带来的效果">
+  
+    <link rel="alternative" href="/atom.xml" title="Loh&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+    
+  <meta content="{{ title }}" name="description">
+  <meta content="{{ title }}" name="keywords">
+  <meta content="{{ title }}" name="author">
+
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|PT+Sans+Narrow|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css">
+
+  <!-- Global styles START -->   
+  <link rel="stylesheet" href="/metronic/assets/plugins/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/metronic/assets/plugins/bootstrap/css/bootstrap.min.css">
+  <!-- Global styles END --> 
+   
+  <!-- Page level plugin styles START -->
+  <link rel="stylesheet" href="/metronic/assets/pages/css/animate.css">
+  <link rel="stylesheet" href="/metronic/assets/plugins/owl.carousel/assets/owl.carousel.css">
+  <!-- Page level plugin styles END -->
+
+  <!-- Theme styles START -->
+  <link rel="stylesheet" href="/metronic/assets/pages/css/components.css">
+  <link rel="stylesheet" href="/metronic/assets/pages/css/slider.css">
+  <link rel="stylesheet" href="/metronic/assets/corporate/css/style.css">
+  <link rel="stylesheet" href="/metronic/assets/pages/css/portfolio.css">
+  <link rel="stylesheet" href="/metronic/assets/corporate/css/style-responsive.css">
+  <link rel="stylesheet" href="/metronic/assets/corporate/css/themes/red.css">
+  <link rel="stylesheet" href="/css/theme-styles.css">
+  <!-- Theme styles END -->
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body class="corporate">
+  <!-- BEGIN TOP BAR -->
+<!-- END TOP BAR -->
+<!-- BEGIN HEADER -->
+<div class="header reduce-header">
+  <div class="container">
+    <!--<a class="site-logo" href="/" id="logo">Loh&#39;s Blog</a>-->
+
+    <a class="site-logo" href="/" style="text-decoration: none">
+      <h2 style="margin-top: 0px;">Loh&#39;s Blog</h2>
+      <!-- <img src="/metronic/assets/corporate/img/logos/logo-corp-red.png" alt="Metronic FrontEnd"> -->
+    </a>
+
+    <a href="javascript:void(0);" class="mobi-toggler"><i class="fa fa-bars"></i></a>
+
+    <!-- BEGIN NAVIGATION -->
+    <div class="header-navigation pull-right font-transform-inherit">
+      <ul>
+	
+	<li class="">
+	  <a  href="/">Home</a>
+	</li>
+	
+	<li class="">
+	  <a  href="/archives/">Blog</a>
+	</li>
+	
+	<li class="">
+	  <a  href="/contact/">Contact</a>
+	</li>
+	
+	<li class="">
+	  <a  href="/about/">About</a>
+	</li>
+	
+	<!-- BEGIN TOP SEARCH -->
+	<li class="menu-search">
+	  <span class="sep"></span>
+	  <i class="fa fa-search search-btn"></i>
+	  <div class="search-box">
+	    <form action="#" id="searchFM">
+	      <div class="input-group">
+		<input type="text" placeholder="Search" class="form-control st-default-search-input">
+		<span class="input-group-btn">
+		  <button class="btn btn-primary" type="submit">Search</button>
+		</span>
+	      </div>
+	    </form>
+	  </div> 
+	</li>
+	<!-- END TOP SEARCH -->
+      </ul>
+    </div>
+    <!-- END NAVIGATION -->
+  </div>
+</div>
+<!-- Header END -->
+
+  <div class="container">
+  <ul class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/archives/">Blog</a></li>
+    <li class="active">Post</li>
+  </ul>
+  <section id="main">
+    
+    <h2 itemprop="name">
+      <a class="article-title" href="/2016/04/16/hive-properties/">Hive常用配置参数</a>
+    </h2>
+
+
+    <div class="row">
+<div class="col-md-9 col-sm-9 blog-posts">
+<article id="post-hive-properties" class="article article-type-post blog-item" itemscope itemprop="blogPost">
+  <div class="article-meta">
+  </div>
+  <div class="article-inner">
+    
+    
+    <header class="article-header">
+      <ul class="blog-info">
+	<li><i class="fa fa-user"></i> Anonymous</li>
+	<li><i class="fa fa-calendar"></i>
+	  <time datetime="2016-04-16T10:09:09.000Z" itemprop="datePublished">2016/04/16</time>
+
+	</li>
+	<li class="hidden-xs"><i class="fa fa-comments"></i>
+	  <a href="http://saboloh.com/2016/04/16/hive-properties/#disqus_thread" class="article-comment-link">Comments</a>
+	</li>
+	<li class="hidden-xs"><i class="fa fa-tags"></i> 
+	  
+  
+    <a href="/tags/hive/" title="hive">hive</a>,
+  
+    <a href="/tags/参数配置/" title="参数配置">参数配置</a>
+  
+
+
+	</li>
+      </ul>
+      
+  <div class="article-category">
+    
+    Category: 
+    
+    Categories:
+    <a class="article-category-link" href="/categories/BigData/">BigData</a>
+  </div>
+  <br>
+
+
+    </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://cwiki.apache.org/confluence/display/Hive/Configuration+Properties" target="_blank" rel="external">HIVE配置详情</a></p>
+<p>熟悉HIVE配置，了解HIVE调优及一些配置所带来的效果</p>
+<a id="more"></a>
+<ul>
+<li>Map相关参数</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> mapred.max.split.size = <span class="number">256000000</span> ; //最大分割</div><div class="line"><span class="keyword">set</span> mapred.min.split.size=<span class="number">1</span> ; //最小分割</div><div class="line"><span class="keyword">set</span> hive.input.format=org.apache.hadoop.hive.ql.io.CombineHiveInputFormat; //Map端输入、合并文件之后按照block的大小分割（默认）</div><div class="line"><span class="keyword">set</span> hive.input.format=org.apache.hadoop.hive.ql.io.HiveInputFormat; //Map端输入，不合并 一个文件起一个Map</div><div class="line"><span class="keyword">set</span> hive.mapjoin.maxsize=<span class="number">1000000</span>; //Map Join 所处理的最大的行数。超过此行数，Map Join进程会异常退出  </div><div class="line"><span class="keyword">set</span> hive.merge.mapfiles = <span class="literal">true</span> ;//是否开启合并 Map 端输出小文件</div><div class="line"><span class="keyword">set</span> hive.merge.mapredfiles = <span class="literal">false</span> ;//是否开启合并 Map/Reduce 端输出小文件</div></pre></td></tr></table></figure>
+<ul>
+<li>Reduce参数配置</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> mapred.reduce.tasks=<span class="number">-1</span> ; //设置Reduce的个数，-1为默认，表示由hive自动分配管理</div></pre></td></tr></table></figure>
+<ul>
+<li>并行计算参数</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> hive.exec.parallel=<span class="literal">true</span>;  //无关的计算可以并行调起JOB  </div><div class="line"><span class="keyword">set</span> hive.exec.parallel.thread.number=<span class="number">8</span> ; //并发提交时的并发线程的个数</div></pre></td></tr></table></figure>
+<ul>
+<li><p>group by</p>
+</li>
+<li><p>自动分区</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> hive.exec.dynamic.partition = <span class="literal">false</span> ; // 是否打开动态分区。</div><div class="line"><span class="keyword">set</span> hive.exec.dynamic.partition.mode = <span class="keyword">strict</span> ;//打开动态分区后，动态分区的模式，有 strict 和 nonstrict 两个值可选，strict 要求至少包含一个静态分区列，nonstrict 则无此要求。</div><div class="line"><span class="keyword">set</span> hive.exec.max.dynamic.partitions = <span class="number">1000</span>; // 所允许的最大的动态分区的个数。</div><div class="line"><span class="keyword">set</span> hive.exec.max.dynamic.partitions.pernode = <span class="number">100</span>; //单个 reduce 结点所允许的最大的动态分区的个数。</div><div class="line"><span class="keyword">set</span> hive.exec.default.partition.name = <span class="string">'__HIVE_DEFAULT_PARTITION__'</span>;//默认的动态分区的名称，当动态分区列为''或者null时，使用此名称。''</div></pre></td></tr></table></figure>
+<ul>
+<li>笛卡尔积join</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> hive.mapred.mode = <span class="keyword">strict</span> ;//阻止笛卡尔积    </div><div class="line"><span class="keyword">set</span> hive.mapred.mode = nostrict ;//允许笛卡尔积</div></pre></td></tr></table></figure>
+<ul>
+<li>Map-Side Join</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> hive.auto.convert.join = <span class="literal">true</span> ; //将小表刷入内存中  </div><div class="line"><span class="keyword">set</span> hive.mapjoin.smalltable.filesize = <span class="number">2500000</span> ;//刷入内存表的大小(字节)  </div><div class="line">Map Join 的计算步骤分两步，将小表的数据变成hashtable广播到所有的map 端，将大表的数据进行合理的切分，然后在map 阶段的时候用大表的数据一行一行的去探测(probe) 小表的hashtable. 如果join key 相等，就写入HDFS.</div><div class="line">map join 之所以叫做map join 是因为它所有的工作都在map 端进行计算.</div><div class="line"></div><div class="line">hive 在map join 上做了几个优化：</div><div class="line">hive 0.6 的时候默认认为写在<span class="keyword">select</span> 后面的是大表，前面的是小表， 或者使用 <span class="comment">/*+mapjoin(map_table) */</span> 提示进行设定.</div><div class="line">hive <span class="number">0.7</span> 的时候这个计算是自动化的，它首先会自动判断哪个是小表，哪个是大表，这个参数由（hive.auto.convert.join=<span class="literal">true</span>）来控制. 然后控制小表的大小由（hive.smalltable.filesize=<span class="number">25000000</span>L）参数控制（默认是<span class="number">25</span>M），当小表超过这个大小，hive 会默认转化成common join.</div><div class="line">你可以查看HIVE<span class="number">-1642.</span>首先小表的<span class="keyword">Map</span> 阶段它会将自己转化成MapReduce <span class="keyword">Local</span> Task ，然后从HDFS 取小表的所有数据，将自己转化成Hashtable <span class="keyword">file</span> 并压缩打包放入DistributedCache 里面.</div><div class="line">目前hive 的<span class="keyword">map</span> <span class="keyword">join</span> 有几个限制，一个是它打算用BloomFilter 来实现hashtable , BloomFilter 大概比hashtable 省<span class="number">8</span><span class="number">-10</span>倍的内存, 但是BloomFilter 的大小比较难控制.</div><div class="line">现在DistributedCache 里面hashtable默认的复制是<span class="number">3</span>份，对于一个有<span class="number">1000</span>个<span class="keyword">map</span> 的大表来说，这个数字太小，大多数<span class="keyword">map</span> 操作都等着DistributedCache 复制.</div></pre></td></tr></table></figure>
+<ul>
+<li>Skew Join</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">真实数据中数据倾斜是一定的, hadoop 中默认是使用</div><div class="line">hive.exec.reducers.bytes.per.reducer = 1000000000</div><div class="line"></div><div class="line">也就是每个节点的reduce 默认是处理1G大小的数据，如果你的join 操作也产生了数据倾斜，那么你可以在hive 中设定</div><div class="line"><span class="keyword">set</span> hive.optimize.skewjoin = <span class="literal">true</span>;</div><div class="line"><span class="keyword">set</span> hive.skewjoin.key = skew_key_threshold （<span class="keyword">default</span> = <span class="number">100000</span>）</div><div class="line"></div><div class="line">hive 在运行的时候没有办法判断哪个<span class="keyword">key</span> 会产生多大的倾斜，所以使用这个参数控制倾斜的阈值，如果超过这个值，新的值会发送给那些还没有达到的reduce, 一般可以设置成你（处理的总记录数/reduce个数）的<span class="number">2</span><span class="number">-4</span>倍都可以接受.  </div><div class="line">倾斜是经常会存在的，一般<span class="keyword">select</span> 的层数超过<span class="number">2</span>层，翻译成执行计划多于<span class="number">3</span>个以上的mapreduce job 都很容易产生倾斜，建议每次运行比较复杂的<span class="keyword">sql</span> 之前都可以设一下这个参数. 如果你不知道设置多少，可以就按官方默认的<span class="number">1</span>个reduce 只处理<span class="number">1</span>G 的算法，那么  skew_key_threshold  = <span class="number">1</span>G/平均行长. 或者默认直接设成<span class="number">250000000</span> (差不多算平均行长<span class="number">4</span>个字节)</div></pre></td></tr></table></figure>
+<ul>
+<li>Map/Reduce Memory</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">set</span> mapreduce.reduce.memory.mb=<span class="number">8192</span>;</div><div class="line"><span class="keyword">set</span> mapreduce.map.memory.mb=<span class="number">8192</span>;</div></pre></td></tr></table></figure>
+<ul>
+<li>Hive cli调试日志</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ hive --hiveconf hive.root.logger=DEBUG,console</div><div class="line">hive&gt; <span class="built_in">set</span> hiveconf:hive.root.logger=DEBUG,console;</div></pre></td></tr></table></figure>
+<ul>
+<li>Hive cli打印字段名</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hive&gt; set hive.cli.print.header=true;</div><div class="line">hive&gt; set hive.resultset.use.unique.column.names=false; //该参数表示结果列是否带表名</div></pre></td></tr></table></figure>
+<ul>
+<li>Support subdirecotries</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hive.mapred.supports.subdirectories true</div><div class="line">mapreduce.input.fileinputformat.input.dir.recursive true</div></pre></td></tr></table></figure>
+
+      
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/04/16/linux-ops/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Linux运维
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/04/16/hive-skills/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hive使用技巧</div>
+    </a>
+  
+</nav>
+
+  
+  <br>
+</article>
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+<br>
+
+
+</div>
+<div class="col-md-3 col-sm-3 blog-sidebar">
+  <!-- CATEGORIES START -->
+<h2 class="no-top-space">Categories</h2>
+
+<div class="widget-wrap">
+  <div class="widget">
+    <ul class="nav sidebar-categories margin-bottom-40">
+      
+	<li>
+	  <a href="/categories/Java/">Java (4)</a>
+	</li>
+      
+	<li>
+	  <a href="/categories/BigData/">BigData (12)</a>
+	</li>
+      
+	<li>
+	  <a href="/categories/Linux/">Linux (6)</a>
+	</li>
+      
+	<li>
+	  <a href="/categories/Git/">Git (2)</a>
+	</li>
+      
+	<li>
+	  <a href="/categories/Frontend/">Frontend (1)</a>
+	</li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<!-- CATEGORIES END -->
+
+<!-- BEGIN BLOG TAGS -->
+<div class="blog-tags margin-bottom-20">
+  <h2>Tags</h2>
+  
+  <div class="widget-wrap">
+    <div class="widget">
+      
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/"><i class='fa fa-tags'></i>Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hive/"><i class='fa fa-tags'></i>Hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ORC/"><i class='fa fa-tags'></i>ORC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/analytics/"><i class='fa fa-tags'></i>analytics</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/"><i class='fa fa-tags'></i>blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chd/"><i class='fa fa-tags'></i>chd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloudera/"><i class='fa fa-tags'></i>cloudera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/command/"><i class='fa fa-tags'></i>command</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/debug/"><i class='fa fa-tags'></i>debug</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/"><i class='fa fa-tags'></i>ejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/find/"><i class='fa fa-tags'></i>find</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/"><i class='fa fa-tags'></i>github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/"><i class='fa fa-tags'></i>hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/"><i class='fa fa-tags'></i>hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/"><i class='fa fa-tags'></i>hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/"><i class='fa fa-tags'></i>html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/issue/"><i class='fa fa-tags'></i>issue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/"><i class='fa fa-tags'></i>java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk/"><i class='fa fa-tags'></i>jdk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/"><i class='fa fa-tags'></i>js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/"><i class='fa fa-tags'></i>kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/languageManual/"><i class='fa fa-tags'></i>languageManual</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/"><i class='fa fa-tags'></i>linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mail/"><i class='fa fa-tags'></i>mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/"><i class='fa fa-tags'></i>mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/"><i class='fa fa-tags'></i>nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rsync/"><i class='fa fa-tags'></i>rsync</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/"><i class='fa fa-tags'></i>shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/"><i class='fa fa-tags'></i>ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/supervisor/"><i class='fa fa-tags'></i>supervisor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vps/"><i class='fa fa-tags'></i>vps</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/"><i class='fa fa-tags'></i>webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wget/"><i class='fa fa-tags'></i>wget</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windowing/"><i class='fa fa-tags'></i>windowing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分区/"><i class='fa fa-tags'></i>分区</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/参数配置/"><i class='fa fa-tags'></i>参数配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日志/"><i class='fa fa-tags'></i>日志</a></li></ul>
+    </div>
+  </div>
+
+
+</div>
+<!-- END BLOG TAGS -->
+
+
+<!-- BEGIN FEATURED POSTS -->                            
+<h2>Featured Posts</h2>
+<div class="recent-news margin-bottom-10">
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/hadoop.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/markdown-syntax-language.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/08/14/git-tutorial-markdown/">Git学习指南（二）— MarkDown</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+  
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/orc-logo.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/04/28/hive-issue/">Hive使用遇到的一些问题</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/protocol-buffers.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+</div>
+<!-- END FEATURED POSTS -->                            
+
+</div>
+</div>
+
+  </section>
+</div>
+
+      <!-- BEGIN PRE-FOOTER -->
+    <!-- END PRE-FOOTER -->
+
+    <!-- BEGIN FOOTER -->
+    <div class="footer">
+      <div class="container">
+        <div class="row">
+          <!-- BEGIN COPYRIGHT -->
+          <div class="col-md-6 col-sm-6 padding-top-10">
+                  &copy; 2018 Loh&#39;s Blog<br>
+ <a href="javascript:;">Privacy Policy</a> | <a href="javascript:;">Terms of Service</a>
+          </div>
+          <!-- END COPYRIGHT -->
+	  <!-- BEGIN SOCIAL -->
+<div class="col-md-6 col-sm-6">
+  <ul class="social-footer list-unstyled list-inline pull-right">
+    
+      <li><a href="https://github.com/jianle"><i class="fa fa-github"></i></a></li>
+    
+      <li><a href="/atom.xml"><i class="fa fa-rss"></i></a></li>
+    
+  </ul>  
+</div>
+<!-- END SOCIAL -->
+
+        </div>
+      </div>
+    </div>
+    <!-- END FOOTER -->
+
+  <!-- BEGIN CORE PLUGINS (REQUIRED FOR ALL PAGES) -->
+<!--[if lt IE 9]>
+<script src="/metronic/assets/plugins/respond.min.js"></script>
+<![endif]--> 
+<script src="/metronic/assets/plugins/jquery.min.js"></script>
+<script src="/metronic/assets/plugins/jquery-migrate.min.js"></script>
+<script src="/metronic/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="/metronic/assets/corporate/scripts/back-to-top.js"></script>
+<script src="/metronic/assets/plugins/owl.carousel/owl.carousel.min.js"></script>
+<script src="/metronic/assets/corporate/scripts/layout.js"></script>
+<script src="/js/wow.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        Layout.init();    
+        Layout.initOWL();
+        Layout.initTwitter();
+        Layout.initFixHeaderWithPreHeader(); /* Switch On Header Fixing (only if you have pre-header) */
+        //Layout.initNavScrolling(); 
+	new WOW().init();
+    });
+</script>
+<!-- END CORE PLUGINS -->
+
+<!-- BEGIN PAGE-SPECIFIC PLUGINS --> 
+
+
+
+
+
+
+
+<!-- END PAGE-SPECIFIC PLUGINS --> 
+
+<!-- BEGIN BAIDUSEARCH -->
+
+
+  <script type="text/javascript">
+      var cse;
+      
+      //处理结果回调函数示例
+      function display (data) {
+          console.log(data);
+      }
+  
+      //初始化回调函数示例
+      function init () {
+          cse = new BCse.Search("15596006506253001804");    //参数为您的API引擎ID，已自动填写，必需。
+          var key = document.getElementsByClassName('st-default-search-input')[0].value; 
+          cse.getResult(key, display);    //此方法获取搜索结果，参数1为搜索词，参数2为您获取到结果后想要执行的回调函数。
+      }
+  
+      function loadScript () { 
+          var script = document.createElement("script"); 
+          script.type = "text/javascript";
+          script.charset = "utf-8";
+          script.src = "http://zhannei.baidu.com/api/customsearch/apiaccept?sid=15596006506253001804&v=2.0&callback=init";
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(script, s);
+      }
+  
+      document.querySelector("#searchFM").addEventListener("submit", function(e){
+        console.log('do search ...');
+        loadScript();
+      });
+  </script>
+
+
+<!-- END BAIDUSEARCH -->
+
+<!-- BEGIN INTEGRATIONS -->
+
+
+
+<script>
+  
+    var disqus_config = function () {
+      this.page.url = 'http://saboloh.com/2016/04/16/hive-properties/';
+    };
+  
+  (function() {  // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//saboloh.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+
+<script id="dsq-count-scr" src="//saboloh.disqus.com/count.js" async></script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+
+<!-- END INTEGRATIONS -->
+
+</body>
+</html>

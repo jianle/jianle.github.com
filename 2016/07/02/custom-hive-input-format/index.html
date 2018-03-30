@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <title>Custom hive input format | Loh&#39;s Blog</title>
+
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="baidu-site-verification" content="SKU1ruzzZG" />
+
+  <meta name="description" content="针对一定规则的HDFS文件，为了更好地和Hive表结合，定制HiveInputFormat 查看GitHub项目, 需要实现包含如下：  FileInputFormat RecordReader SerDe HiveStorageHandler">
+<meta name="keywords" content="java,hive">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Custom hive input format">
+<meta property="og:url" content="http://saboloh.com/2016/07/02/custom-hive-input-format/index.html">
+<meta property="og:site_name" content="Loh&#39;s Blog">
+<meta property="og:description" content="针对一定规则的HDFS文件，为了更好地和Hive表结合，定制HiveInputFormat 查看GitHub项目, 需要实现包含如下：  FileInputFormat RecordReader SerDe HiveStorageHandler">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2016-09-04T12:32:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Custom hive input format">
+<meta name="twitter:description" content="针对一定规则的HDFS文件，为了更好地和Hive表结合，定制HiveInputFormat 查看GitHub项目, 需要实现包含如下：  FileInputFormat RecordReader SerDe HiveStorageHandler">
+  
+    <link rel="alternative" href="/atom.xml" title="Loh&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+    
+  <meta content="{{ title }}" name="description">
+  <meta content="{{ title }}" name="keywords">
+  <meta content="{{ title }}" name="author">
+
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|PT+Sans+Narrow|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css">
+
+  <!-- Global styles START -->   
+  <link rel="stylesheet" href="/metronic/assets/plugins/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/metronic/assets/plugins/bootstrap/css/bootstrap.min.css">
+  <!-- Global styles END --> 
+   
+  <!-- Page level plugin styles START -->
+  <link rel="stylesheet" href="/metronic/assets/pages/css/animate.css">
+  <link rel="stylesheet" href="/metronic/assets/plugins/owl.carousel/assets/owl.carousel.css">
+  <!-- Page level plugin styles END -->
+
+  <!-- Theme styles START -->
+  <link rel="stylesheet" href="/metronic/assets/pages/css/components.css">
+  <link rel="stylesheet" href="/metronic/assets/pages/css/slider.css">
+  <link rel="stylesheet" href="/metronic/assets/corporate/css/style.css">
+  <link rel="stylesheet" href="/metronic/assets/pages/css/portfolio.css">
+  <link rel="stylesheet" href="/metronic/assets/corporate/css/style-responsive.css">
+  <link rel="stylesheet" href="/metronic/assets/corporate/css/themes/red.css">
+  <link rel="stylesheet" href="/css/theme-styles.css">
+  <!-- Theme styles END -->
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body class="corporate">
+  <!-- BEGIN TOP BAR -->
+<!-- END TOP BAR -->
+<!-- BEGIN HEADER -->
+<div class="header reduce-header">
+  <div class="container">
+    <!--<a class="site-logo" href="/" id="logo">Loh&#39;s Blog</a>-->
+
+    <a class="site-logo" href="/" style="text-decoration: none">
+      <h2 style="margin-top: 0px;">Loh&#39;s Blog</h2>
+      <!-- <img src="/metronic/assets/corporate/img/logos/logo-corp-red.png" alt="Metronic FrontEnd"> -->
+    </a>
+
+    <a href="javascript:void(0);" class="mobi-toggler"><i class="fa fa-bars"></i></a>
+
+    <!-- BEGIN NAVIGATION -->
+    <div class="header-navigation pull-right font-transform-inherit">
+      <ul>
+	
+	<li class="">
+	  <a  href="/">Home</a>
+	</li>
+	
+	<li class="">
+	  <a  href="/archives/">Blog</a>
+	</li>
+	
+	<li class="">
+	  <a  href="/contact/">Contact</a>
+	</li>
+	
+	<li class="">
+	  <a  href="/about/">About</a>
+	</li>
+	
+	<!-- BEGIN TOP SEARCH -->
+	<li class="menu-search">
+	  <span class="sep"></span>
+	  <i class="fa fa-search search-btn"></i>
+	  <div class="search-box">
+	    <form action="#" id="searchFM">
+	      <div class="input-group">
+		<input type="text" placeholder="Search" class="form-control st-default-search-input">
+		<span class="input-group-btn">
+		  <button class="btn btn-primary" type="submit">Search</button>
+		</span>
+	      </div>
+	    </form>
+	  </div> 
+	</li>
+	<!-- END TOP SEARCH -->
+      </ul>
+    </div>
+    <!-- END NAVIGATION -->
+  </div>
+</div>
+<!-- Header END -->
+
+  <div class="container">
+  <ul class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/archives/">Blog</a></li>
+    <li class="active">Post</li>
+  </ul>
+  <section id="main">
+    
+    <h2 itemprop="name">
+      <a class="article-title" href="/2016/07/02/custom-hive-input-format/">Custom hive input format</a>
+    </h2>
+
+
+    <div class="row">
+<div class="col-md-9 col-sm-9 blog-posts">
+<article id="post-custom-hive-input-format" class="article article-type-post blog-item" itemscope itemprop="blogPost">
+  <div class="article-meta">
+  </div>
+  <div class="article-inner">
+    
+    
+    <header class="article-header">
+      <ul class="blog-info">
+	<li><i class="fa fa-user"></i> Anonymous</li>
+	<li><i class="fa fa-calendar"></i>
+	  <time datetime="2016-07-02T09:53:48.000Z" itemprop="datePublished">2016/07/02</time>
+
+	</li>
+	<li class="hidden-xs"><i class="fa fa-comments"></i>
+	  <a href="http://saboloh.com/2016/07/02/custom-hive-input-format/#disqus_thread" class="article-comment-link">Comments</a>
+	</li>
+	<li class="hidden-xs"><i class="fa fa-tags"></i> 
+	  
+  
+    <a href="/tags/java/" title="java">java</a>,
+  
+    <a href="/tags/hive/" title="hive">hive</a>
+  
+
+
+	</li>
+      </ul>
+      
+  <div class="article-category">
+    
+    Category: 
+    
+    Categories:
+    <a class="article-category-link" href="/categories/BigData/">BigData</a>
+  </div>
+  <br>
+
+
+    </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>针对一定规则的HDFS文件，为了更好地和Hive表结合，定制HiveInputFormat</p>
+<p><a href="https://github.com/jianle/UDHiveInputFormat" target="_blank" rel="external">查看GitHub项目</a>, 需要实现包含如下：</p>
+<ul>
+<li>FileInputFormat</li>
+<li>RecordReader</li>
+<li>SerDe</li>
+<li>HiveStorageHandler</li>
+</ul>
+<a id="more"></a>
+<h3 id="FileInputFormat"><a href="#FileInputFormat" class="headerlink" title="FileInputFormat"></a>FileInputFormat</h3><p>定义MyFileInputFormat 继承 FileInputFormat（旧接口 org.apache.hadoop.mapred）该类没有做任何其它操作，仅仅只是重写了<code>getRecordReader</code>方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyHiveInputFormat</span> <span class="keyword">extends</span> <span class="title">FileInputFormat</span>&lt;<span class="title">Text</span>, <span class="title">BytesWritable</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> RecordReader&lt;Text, BytesWritable&gt; <span class="title">getRecordReader</span><span class="params">(InputSplit split, JobConf job, Reporter reporter)</span></span></div><div class="line">            <span class="keyword">throws</span> IOException &#123;</div><div class="line">        <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MyHiveRecordReader(split, job);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="RecordReader-—-MapReduce-重要组件"><a href="#RecordReader-—-MapReduce-重要组件" class="headerlink" title="RecordReader — MapReduce 重要组件"></a>RecordReader — MapReduce 重要组件</h3><ul>
+<li>以怎样的方式从分片中读取一条记录，每读取一条记录都会调用RecordReader类</li>
+<li>默认的RecordReader是LineRecordReader，如TextInputFormat</li>
+<li>LineRecordReader是用每行的偏移量作为map的key，每行的内容作为map的value</li>
+<li>读入数据主要处理逻辑在<code>next</code>方法中</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyHiveRecordReader</span> <span class="keyword">implements</span> <span class="title">RecordReader</span>&lt;<span class="title">Text</span>, <span class="title">BytesWritable</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Log LOG = LogFactory.getLog(MyHiveRecordReader.class);</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">long</span> start;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">long</span> pos;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">long</span> end;</div><div class="line">    <span class="keyword">private</span> InputStream in;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyHiveRecordReader</span><span class="params">(InputSplit genericSplit, Configuration conf)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line"></div><div class="line">        FileSplit split = (FileSplit) genericSplit;</div><div class="line">        start = split.getStart();</div><div class="line">        end = start + split.getLength();</div><div class="line"></div><div class="line">        <span class="keyword">final</span> Path file = split.getPath();</div><div class="line">        FileSystem fs = file.getFileSystem(conf);</div><div class="line">        FSDataInputStream fileIn = fs.open(file);</div><div class="line"></div><div class="line">        CompressionCodecFactory compressionCodecFactory = <span class="keyword">new</span> CompressionCodecFactory(conf);</div><div class="line">        <span class="keyword">final</span> CompressionCodec codec = compressionCodecFactory.getCodec(file);</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (codec != <span class="keyword">null</span>) &#123;</div><div class="line">            LOG.debug(<span class="string">"use conf compressioncodec."</span>);</div><div class="line">            in = codec.createInputStream(fileIn);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            in = <span class="keyword">new</span> SnappyInputStream(fileIn);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        pos = start;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">next</span><span class="params">(Text key, BytesWritable value)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        <span class="keyword">byte</span>[] header = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4</span>];</div><div class="line">        <span class="keyword">while</span> (in.read(header, <span class="number">0</span>, <span class="number">4</span>) != -<span class="number">1</span>) &#123;</div><div class="line">            <span class="keyword">int</span> bodyLength = bytesToInt(header);</div><div class="line">            <span class="keyword">byte</span>[] body = <span class="keyword">new</span> <span class="keyword">byte</span>[bodyLength];</div><div class="line">            in.read(body, <span class="number">0</span>, bodyLength);</div><div class="line">            key.set(<span class="keyword">new</span> Text());</div><div class="line">            value.set(body, <span class="number">0</span>, bodyLength);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Text <span class="title">createKey</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Text();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> BytesWritable <span class="title">createValue</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> BytesWritable();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getPos</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.pos;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">float</span> <span class="title">getProgress</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        <span class="keyword">if</span> (start == end) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="number">0.0f</span>;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> Math.min(<span class="number">1.0f</span>, (pos - start) / (<span class="keyword">float</span>) (end - start));</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        <span class="keyword">if</span> (in != <span class="keyword">null</span>) &#123;</div><div class="line">            in.close();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// bytes 高位存储转int</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">bytesToInt</span><span class="params">(<span class="keyword">byte</span>[] bits)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> val;</div><div class="line">        val = (<span class="keyword">int</span>) ((bits[<span class="number">3</span>] &amp; <span class="number">0xFF</span>)</div><div class="line">                | ((bits[<span class="number">2</span>] &amp; <span class="number">0xFF</span>) &lt;&lt; <span class="number">8</span>)</div><div class="line">                | ((bits[<span class="number">1</span>] &amp; <span class="number">0xFF</span>) &lt;&lt; <span class="number">16</span>)</div><div class="line">                | ((bits[<span class="number">0</span>] &amp; <span class="number">0xFF</span>) &lt;&lt; <span class="number">24</span>));</div><div class="line">        <span class="keyword">return</span> val;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="SerDe"><a href="#SerDe" class="headerlink" title="SerDe"></a>SerDe</h3><p>Hive的反序列化是对key/value反序列化成hive table的每个列的值。SerDe是Serialize/Deserilize的简称，目的是用于序列化和反序列化</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyHiveSerDe</span> <span class="keyword">implements</span> <span class="title">SerDe</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> StructObjectInspector objectInspector;</div><div class="line">    <span class="keyword">private</span> List&lt;String&gt; columnNames;</div><div class="line">    <span class="keyword">private</span> List&lt;Object&gt; row;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> numColumns;</div><div class="line">    <span class="keyword">private</span> List&lt;PrimitiveCategory&gt; columnTypes;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOG = LoggerFactory.getLogger(MyHiveSerDe.class);</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initialize</span><span class="params">(Configuration conf, Properties tbl)</span> <span class="keyword">throws</span> SerDeException </span>&#123;</div><div class="line">        <span class="comment">// TODO Auto-generated method stub</span></div><div class="line"></div><div class="line">        LOG.debug(<span class="string">"Initializing WTableHiveSerDe"</span>);</div><div class="line">        <span class="comment">// Get column names and types</span></div><div class="line">        String columnNameProperty = tbl.getProperty(serdeConstants.LIST_COLUMNS);</div><div class="line">        String columnTypeProperty = tbl.getProperty(serdeConstants.LIST_COLUMN_TYPES);</div><div class="line"></div><div class="line">        <span class="comment">// all table column names</span></div><div class="line">        <span class="keyword">if</span> (columnNameProperty.length() == <span class="number">0</span>) &#123;</div><div class="line">          columnNames = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">          columnNames = Arrays.asList(columnNameProperty.split(<span class="string">","</span>));</div><div class="line">        &#125;</div><div class="line">        numColumns = columnNames.size();</div><div class="line">        String[] hiveColumnTypes = columnTypeProperty.split(<span class="string">":"</span>);</div><div class="line"></div><div class="line">        <span class="comment">// all column types</span></div><div class="line">        List&lt;ObjectInspector&gt; fieldInspectors = <span class="keyword">new</span> ArrayList&lt;ObjectInspector&gt;(numColumns);</div><div class="line">        columnTypes = <span class="keyword">new</span> ArrayList&lt;PrimitiveCategory&gt;(numColumns);</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numColumns; i++) &#123;</div><div class="line">            String typeName = hiveColumnTypes[i];</div><div class="line">            PrimitiveCategory type = <span class="keyword">null</span>;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                type = PrimitiveObjectInspectorUtils.getTypeEntryFromTypeName(typeName).primitiveCategory;</div><div class="line">                columnTypes.add(type);</div><div class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> SerDeException(typeName + <span class="string">" is not supported!"</span>);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            fieldInspectors.add(PrimitiveObjectInspectorFactory.getPrimitiveJavaObjectInspector(type));</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        LOG.debug(<span class="string">"columns: &#123;&#125;, &#123;&#125;"</span>, columnNameProperty, columnNames);</div><div class="line">        LOG.debug(<span class="string">"types: &#123;&#125;, &#123;&#125; "</span>, columnTypeProperty, columnTypes);</div><div class="line"></div><div class="line">        <span class="keyword">assert</span> (columnNames.size() == columnTypes.size());</div><div class="line"></div><div class="line">        row = <span class="keyword">new</span> ArrayList&lt;Object&gt;(numColumns);</div><div class="line">        objectInspector = ObjectInspectorFactory.getStandardStructObjectInspector(columnNames, fieldInspectors);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">deserialize</span><span class="params">(Writable blob)</span> <span class="keyword">throws</span> SerDeException </span>&#123;</div><div class="line">        <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">        BytesWritable writable = (BytesWritable) blob;</div><div class="line">        CommonDump commonDump = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            commonDump = CommonDump.parseFrom(writable.copyBytes());</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            <span class="comment">// <span class="doctag">TODO:</span> handle exception</span></div><div class="line">            e.printStackTrace();</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Map&lt;FieldDescriptor, Object&gt; _fields = commonDump.getAllFields();</div><div class="line">        Map&lt;String, Object&gt; fields = <span class="keyword">new</span> HashMap&lt;String, Object&gt;(_fields.size());</div><div class="line">        row.clear();</div><div class="line"></div><div class="line">        Iterator&lt;FieldDescriptor&gt; fieldKeys = _fields.keySet().iterator();</div><div class="line">        <span class="keyword">while</span> (fieldKeys.hasNext()) &#123;</div><div class="line"></div><div class="line">            FieldDescriptor fieldKey = fieldKeys.next();</div><div class="line">            fields.put(fieldKey.getName().toLowerCase(), _fields.get(fieldKey));</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numColumns; i++) &#123;</div><div class="line"></div><div class="line">            String colName = columnNames.get(i).toLowerCase();</div><div class="line">            row.add(optVal(columnTypes.get(i), fields.get(colName)));</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> row;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> ObjectInspector <span class="title">getObjectInspector</span><span class="params">()</span> <span class="keyword">throws</span> SerDeException </span>&#123;</div><div class="line">        <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">        <span class="keyword">return</span> objectInspector;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> SerDeStats <span class="title">getSerDeStats</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SerDeStats();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> Class&lt;? extends Writable&gt; getSerializedClass() &#123;</div><div class="line">        <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">        <span class="keyword">return</span> MyWritable.class;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Writable <span class="title">serialize</span><span class="params">(Object obj, ObjectInspector objInspector)</span> <span class="keyword">throws</span> SerDeException </span>&#123;</div><div class="line">        <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> SerDeException(<span class="string">"Serialize to db does not supported. Pull-request is appreciated."</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Object <span class="title">optVal</span><span class="params">(PrimitiveCategory pcat, Object val)</span> </span>&#123;</div><div class="line">        <span class="keyword">switch</span> (pcat) &#123;</div><div class="line">        <span class="keyword">case</span> INT:</div><div class="line">            <span class="keyword">return</span> Integer.valueOf(String.valueOf(val));</div><div class="line">        <span class="keyword">case</span> LONG:</div><div class="line">            <span class="keyword">return</span> Long.valueOf(String.valueOf(val));</div><div class="line">        <span class="keyword">case</span> BINARY:</div><div class="line">            <span class="keyword">return</span> ((ByteString) val).toByteArray();</div><div class="line">        <span class="keyword">case</span> STRING:</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> String(((ByteString) val).toByteArray());</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="HiveStorageHandler"><a href="#HiveStorageHandler" class="headerlink" title="HiveStorageHandler"></a>HiveStorageHandler</h3><p>使用HiveStorageHandler 整合InputFormat、OutputFormat、SerDe</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyStorageHandler</span> <span class="keyword">implements</span> <span class="title">HiveStorageHandler</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Configuration conf;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setConf</span><span class="params">(Configuration conf)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.conf = conf;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Configuration <span class="title">getConf</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.conf;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"rawtypes"</span>)</div><div class="line">    <span class="keyword">public</span> Class&lt;? extends InputFormat&gt; getInputFormatClass() &#123;</div><div class="line">        <span class="keyword">return</span> MyHiveInputFormat.class;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"rawtypes"</span>)</div><div class="line">    <span class="keyword">public</span> Class&lt;? extends OutputFormat&gt; getOutputFormatClass() &#123;</div><div class="line">        <span class="keyword">return</span> HiveIgnoreKeyTextOutputFormat.class;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> Class&lt;? extends SerDe&gt; getSerDeClass() &#123;</div><div class="line">        <span class="keyword">return</span> MyHiveSerDe.class;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> HiveMetaHook <span class="title">getMetaHook</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> HiveAuthorizationProvider <span class="title">getAuthorizationProvider</span><span class="params">()</span> <span class="keyword">throws</span> HiveException </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configureInputJobProperties</span><span class="params">(TableDesc tableDesc, Map&lt;String, String&gt; jobProperties)</span> </span>&#123;</div><div class="line">        <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configureOutputJobProperties</span><span class="params">(TableDesc tableDesc, Map&lt;String, String&gt; jobProperties)</span> </span>&#123;</div><div class="line">        <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configureTableJobProperties</span><span class="params">(TableDesc tableDesc, Map&lt;String, String&gt; jobProperties)</span> </span>&#123;</div><div class="line">        <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configureJobConf</span><span class="params">(TableDesc tableDesc, JobConf jobConf)</span> </span>&#123;</div><div class="line">        <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>定制HiveInputFormat可灵活让Hive与HDFS文件结合， 重点掌握<code>FileInputFormat</code>，如果考虑到小文件，可使用<code>CombineFileInputFormat</code>  </p>
+
+      
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/08/14/git-tutorial-markdown/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Git学习指南（二）— MarkDown
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/06/29/use-protocol-buffers/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">初试 Protocol Buffers</div>
+    </a>
+  
+</nav>
+
+  
+  <br>
+</article>
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+<br>
+
+
+</div>
+<div class="col-md-3 col-sm-3 blog-sidebar">
+  <!-- CATEGORIES START -->
+<h2 class="no-top-space">Categories</h2>
+
+<div class="widget-wrap">
+  <div class="widget">
+    <ul class="nav sidebar-categories margin-bottom-40">
+      
+	<li>
+	  <a href="/categories/Java/">Java (4)</a>
+	</li>
+      
+	<li>
+	  <a href="/categories/BigData/">BigData (12)</a>
+	</li>
+      
+	<li>
+	  <a href="/categories/Linux/">Linux (6)</a>
+	</li>
+      
+	<li>
+	  <a href="/categories/Git/">Git (2)</a>
+	</li>
+      
+	<li>
+	  <a href="/categories/Frontend/">Frontend (1)</a>
+	</li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<!-- CATEGORIES END -->
+
+<!-- BEGIN BLOG TAGS -->
+<div class="blog-tags margin-bottom-20">
+  <h2>Tags</h2>
+  
+  <div class="widget-wrap">
+    <div class="widget">
+      
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/"><i class='fa fa-tags'></i>Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hive/"><i class='fa fa-tags'></i>Hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ORC/"><i class='fa fa-tags'></i>ORC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/analytics/"><i class='fa fa-tags'></i>analytics</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/"><i class='fa fa-tags'></i>blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chd/"><i class='fa fa-tags'></i>chd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloudera/"><i class='fa fa-tags'></i>cloudera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/command/"><i class='fa fa-tags'></i>command</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/debug/"><i class='fa fa-tags'></i>debug</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/"><i class='fa fa-tags'></i>ejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/find/"><i class='fa fa-tags'></i>find</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/"><i class='fa fa-tags'></i>github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/"><i class='fa fa-tags'></i>hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/"><i class='fa fa-tags'></i>hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/"><i class='fa fa-tags'></i>hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/"><i class='fa fa-tags'></i>html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/issue/"><i class='fa fa-tags'></i>issue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/"><i class='fa fa-tags'></i>java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk/"><i class='fa fa-tags'></i>jdk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/"><i class='fa fa-tags'></i>js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/"><i class='fa fa-tags'></i>kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/languageManual/"><i class='fa fa-tags'></i>languageManual</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/"><i class='fa fa-tags'></i>linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mail/"><i class='fa fa-tags'></i>mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/"><i class='fa fa-tags'></i>mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/"><i class='fa fa-tags'></i>nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rsync/"><i class='fa fa-tags'></i>rsync</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/"><i class='fa fa-tags'></i>shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/"><i class='fa fa-tags'></i>ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/supervisor/"><i class='fa fa-tags'></i>supervisor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vps/"><i class='fa fa-tags'></i>vps</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/"><i class='fa fa-tags'></i>webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wget/"><i class='fa fa-tags'></i>wget</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windowing/"><i class='fa fa-tags'></i>windowing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分区/"><i class='fa fa-tags'></i>分区</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/参数配置/"><i class='fa fa-tags'></i>参数配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日志/"><i class='fa fa-tags'></i>日志</a></li></ul>
+    </div>
+  </div>
+
+
+</div>
+<!-- END BLOG TAGS -->
+
+
+<!-- BEGIN FEATURED POSTS -->                            
+<h2>Featured Posts</h2>
+<div class="recent-news margin-bottom-10">
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/hadoop.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/markdown-syntax-language.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/08/14/git-tutorial-markdown/">Git学习指南（二）— MarkDown</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+  
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/orc-logo.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/04/28/hive-issue/">Hive使用遇到的一些问题</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/protocol-buffers.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+</div>
+<!-- END FEATURED POSTS -->                            
+
+</div>
+</div>
+
+  </section>
+</div>
+
+      <!-- BEGIN PRE-FOOTER -->
+    <!-- END PRE-FOOTER -->
+
+    <!-- BEGIN FOOTER -->
+    <div class="footer">
+      <div class="container">
+        <div class="row">
+          <!-- BEGIN COPYRIGHT -->
+          <div class="col-md-6 col-sm-6 padding-top-10">
+                  &copy; 2018 Loh&#39;s Blog<br>
+ <a href="javascript:;">Privacy Policy</a> | <a href="javascript:;">Terms of Service</a>
+          </div>
+          <!-- END COPYRIGHT -->
+	  <!-- BEGIN SOCIAL -->
+<div class="col-md-6 col-sm-6">
+  <ul class="social-footer list-unstyled list-inline pull-right">
+    
+      <li><a href="https://github.com/jianle"><i class="fa fa-github"></i></a></li>
+    
+      <li><a href="/atom.xml"><i class="fa fa-rss"></i></a></li>
+    
+  </ul>  
+</div>
+<!-- END SOCIAL -->
+
+        </div>
+      </div>
+    </div>
+    <!-- END FOOTER -->
+
+  <!-- BEGIN CORE PLUGINS (REQUIRED FOR ALL PAGES) -->
+<!--[if lt IE 9]>
+<script src="/metronic/assets/plugins/respond.min.js"></script>
+<![endif]--> 
+<script src="/metronic/assets/plugins/jquery.min.js"></script>
+<script src="/metronic/assets/plugins/jquery-migrate.min.js"></script>
+<script src="/metronic/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="/metronic/assets/corporate/scripts/back-to-top.js"></script>
+<script src="/metronic/assets/plugins/owl.carousel/owl.carousel.min.js"></script>
+<script src="/metronic/assets/corporate/scripts/layout.js"></script>
+<script src="/js/wow.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        Layout.init();    
+        Layout.initOWL();
+        Layout.initTwitter();
+        Layout.initFixHeaderWithPreHeader(); /* Switch On Header Fixing (only if you have pre-header) */
+        //Layout.initNavScrolling(); 
+	new WOW().init();
+    });
+</script>
+<!-- END CORE PLUGINS -->
+
+<!-- BEGIN PAGE-SPECIFIC PLUGINS --> 
+
+
+
+
+
+
+
+<!-- END PAGE-SPECIFIC PLUGINS --> 
+
+<!-- BEGIN BAIDUSEARCH -->
+
+
+  <script type="text/javascript">
+      var cse;
+      
+      //处理结果回调函数示例
+      function display (data) {
+          console.log(data);
+      }
+  
+      //初始化回调函数示例
+      function init () {
+          cse = new BCse.Search("15596006506253001804");    //参数为您的API引擎ID，已自动填写，必需。
+          var key = document.getElementsByClassName('st-default-search-input')[0].value; 
+          cse.getResult(key, display);    //此方法获取搜索结果，参数1为搜索词，参数2为您获取到结果后想要执行的回调函数。
+      }
+  
+      function loadScript () { 
+          var script = document.createElement("script"); 
+          script.type = "text/javascript";
+          script.charset = "utf-8";
+          script.src = "http://zhannei.baidu.com/api/customsearch/apiaccept?sid=15596006506253001804&v=2.0&callback=init";
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(script, s);
+      }
+  
+      document.querySelector("#searchFM").addEventListener("submit", function(e){
+        console.log('do search ...');
+        loadScript();
+      });
+  </script>
+
+
+<!-- END BAIDUSEARCH -->
+
+<!-- BEGIN INTEGRATIONS -->
+
+
+
+<script>
+  
+    var disqus_config = function () {
+      this.page.url = 'http://saboloh.com/2016/07/02/custom-hive-input-format/';
+    };
+  
+  (function() {  // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//saboloh.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+
+<script id="dsq-count-scr" src="//saboloh.disqus.com/count.js" async></script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+
+<!-- END INTEGRATIONS -->
+
+</body>
+</html>

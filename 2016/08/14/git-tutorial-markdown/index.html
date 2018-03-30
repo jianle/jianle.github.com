@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <title>Git学习指南（二）— MarkDown | Loh&#39;s Blog</title>
+
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="baidu-site-verification" content="SKU1ruzzZG" />
+
+  <meta name="description" content="MarkDown 的目标是易读易写。 Markdown 强调可读性高于一切。一份Markdown格式的文档应该能直接以纯文本方式发布，而不致一眼看过去满眼都是标签和格式化指令。Markdown的语法确实受了几种现有的text转HTML过滤器影响－－包括 Setext , atx,Textile, reStructuredText,Grutatext, 和EtText – 其中对Markdown语法">
+<meta name="keywords" content="Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git学习指南（二）— MarkDown">
+<meta property="og:url" content="http://saboloh.com/2016/08/14/git-tutorial-markdown/index.html">
+<meta property="og:site_name" content="Loh&#39;s Blog">
+<meta property="og:description" content="MarkDown 的目标是易读易写。 Markdown 强调可读性高于一切。一份Markdown格式的文档应该能直接以纯文本方式发布，而不致一眼看过去满眼都是标签和格式化指令。Markdown的语法确实受了几种现有的text转HTML过滤器影响－－包括 Setext , atx,Textile, reStructuredText,Grutatext, 和EtText – 其中对Markdown语法">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2016-09-04T12:32:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git学习指南（二）— MarkDown">
+<meta name="twitter:description" content="MarkDown 的目标是易读易写。 Markdown 强调可读性高于一切。一份Markdown格式的文档应该能直接以纯文本方式发布，而不致一眼看过去满眼都是标签和格式化指令。Markdown的语法确实受了几种现有的text转HTML过滤器影响－－包括 Setext , atx,Textile, reStructuredText,Grutatext, 和EtText – 其中对Markdown语法">
+  
+    <link rel="alternative" href="/atom.xml" title="Loh&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+    
+  <meta content="{{ title }}" name="description">
+  <meta content="{{ title }}" name="keywords">
+  <meta content="{{ title }}" name="author">
+
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|PT+Sans+Narrow|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css">
+
+  <!-- Global styles START -->   
+  <link rel="stylesheet" href="/metronic/assets/plugins/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/metronic/assets/plugins/bootstrap/css/bootstrap.min.css">
+  <!-- Global styles END --> 
+   
+  <!-- Page level plugin styles START -->
+  <link rel="stylesheet" href="/metronic/assets/pages/css/animate.css">
+  <link rel="stylesheet" href="/metronic/assets/plugins/owl.carousel/assets/owl.carousel.css">
+  <!-- Page level plugin styles END -->
+
+  <!-- Theme styles START -->
+  <link rel="stylesheet" href="/metronic/assets/pages/css/components.css">
+  <link rel="stylesheet" href="/metronic/assets/pages/css/slider.css">
+  <link rel="stylesheet" href="/metronic/assets/corporate/css/style.css">
+  <link rel="stylesheet" href="/metronic/assets/pages/css/portfolio.css">
+  <link rel="stylesheet" href="/metronic/assets/corporate/css/style-responsive.css">
+  <link rel="stylesheet" href="/metronic/assets/corporate/css/themes/red.css">
+  <link rel="stylesheet" href="/css/theme-styles.css">
+  <!-- Theme styles END -->
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body class="corporate">
+  <!-- BEGIN TOP BAR -->
+<!-- END TOP BAR -->
+<!-- BEGIN HEADER -->
+<div class="header reduce-header">
+  <div class="container">
+    <!--<a class="site-logo" href="/" id="logo">Loh&#39;s Blog</a>-->
+
+    <a class="site-logo" href="/" style="text-decoration: none">
+      <h2 style="margin-top: 0px;">Loh&#39;s Blog</h2>
+      <!-- <img src="/metronic/assets/corporate/img/logos/logo-corp-red.png" alt="Metronic FrontEnd"> -->
+    </a>
+
+    <a href="javascript:void(0);" class="mobi-toggler"><i class="fa fa-bars"></i></a>
+
+    <!-- BEGIN NAVIGATION -->
+    <div class="header-navigation pull-right font-transform-inherit">
+      <ul>
+	
+	<li class="">
+	  <a  href="/">Home</a>
+	</li>
+	
+	<li class="">
+	  <a  href="/archives/">Blog</a>
+	</li>
+	
+	<li class="">
+	  <a  href="/contact/">Contact</a>
+	</li>
+	
+	<li class="">
+	  <a  href="/about/">About</a>
+	</li>
+	
+	<!-- BEGIN TOP SEARCH -->
+	<li class="menu-search">
+	  <span class="sep"></span>
+	  <i class="fa fa-search search-btn"></i>
+	  <div class="search-box">
+	    <form action="#" id="searchFM">
+	      <div class="input-group">
+		<input type="text" placeholder="Search" class="form-control st-default-search-input">
+		<span class="input-group-btn">
+		  <button class="btn btn-primary" type="submit">Search</button>
+		</span>
+	      </div>
+	    </form>
+	  </div> 
+	</li>
+	<!-- END TOP SEARCH -->
+      </ul>
+    </div>
+    <!-- END NAVIGATION -->
+  </div>
+</div>
+<!-- Header END -->
+
+  <div class="container">
+  <ul class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/archives/">Blog</a></li>
+    <li class="active">Post</li>
+  </ul>
+  <section id="main">
+    
+    <h2 itemprop="name">
+      <a class="article-title" href="/2016/08/14/git-tutorial-markdown/">Git学习指南（二）— MarkDown</a>
+    </h2>
+
+
+    <div class="row">
+<div class="col-md-9 col-sm-9 blog-posts">
+<article id="post-git-tutorial-markdown" class="article article-type-post blog-item" itemscope itemprop="blogPost">
+  <div class="article-meta">
+  </div>
+  <div class="article-inner">
+    
+    
+    <header class="article-header">
+      <ul class="blog-info">
+	<li><i class="fa fa-user"></i> Anonymous</li>
+	<li><i class="fa fa-calendar"></i>
+	  <time datetime="2016-08-14T10:08:49.000Z" itemprop="datePublished">2016/08/14</time>
+
+	</li>
+	<li class="hidden-xs"><i class="fa fa-comments"></i>
+	  <a href="http://saboloh.com/2016/08/14/git-tutorial-markdown/#disqus_thread" class="article-comment-link">Comments</a>
+	</li>
+	<li class="hidden-xs"><i class="fa fa-tags"></i> 
+	  
+  
+    <a href="/tags/Git/" title="Git">Git</a>
+  
+
+
+	</li>
+      </ul>
+      
+  <div class="article-category">
+    
+    Category: 
+    
+    Categories:
+    <a class="article-category-link" href="/categories/Git/">Git</a>
+  </div>
+  <br>
+
+
+    </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>MarkDown 的目标是易读易写。</p>
+<p>Markdown 强调可读性高于一切。一份Markdown格式的文档应该能直接以纯文本方式发布，而不致一眼看过去满眼都是标签和格式化指令。Markdown的语法确实受了几种现有的text转HTML过滤器影响－－包括 <code>Setext</code> , <code>atx</code>,<code>Textile</code>, <code>reStructuredText</code>,<code>Grutatext</code>, 和<code>EtText</code> – 其中对Markdown语法影响最大的单一来源是纯文本的Email格式。</p>
+<p>为实现这一目标，Markdown的语法几乎全部由标点符号构成，这些标点符号都是精心挑选而来，尽量做到能望文生义。如星号括着一个单词（Markdown中表示强调）看上去就像 <em> 强调 </em>。Markdown的列表看上去就像列表；Markdown的引文就象引文，和你使用email时的感觉一样。</p>
+<a id="more"></a>
+<h3 id="内嵌HTML"><a href="#内嵌HTML" class="headerlink" title="内嵌HTML"></a>内嵌HTML</h3><p>Markdown的语法为“方便地在网上写作”这一目标而生。</p>
+<p>Markdown不是HTML替代品，也不是为了终接HTML。它的语法非常简单，只相当于HTML标签的一个非常非常小的子集。它并非是为了更容易输入HTML标签而创造一种新语法。在我看来，HTML标签已经够容易书写的了。Markdown的目标是让（在网上）让读文章、写文章、修改文章更容易。HTML是一种适合发表的格式；而Markdown是一种书写格式。正因如此，Markdown的格式化语法仅需解决用纯文本表达的问题。</p>
+<p>对Markdown语法无法支持的格式，你可以直接用HTML。你不需要事先声明或者使用什么定界符来告诉Markdown要写HTML了，你直接写就是了。</p>
+<p>唯一的限制是那些块级HTML元素 – 如<strong><code>&lt;div&gt;</code></strong>,<strong><code>&lt;table&gt;</code></strong>,<strong><code>&lt;pre&gt;</code></strong>,<strong><code>&lt;p&gt;</code></strong>等等 – 必须使用空行与相邻内容分开，并且块元素的开始和结束标签之前不要留有空格或TAB。Markdown足够聪明不会添加额外的(也是不必要的)<strong><code>&lt;p&gt;</code></strong>标签包住这些块元素标签。</p>
+<p>下面这个例子，在一篇Markdown文章中添加了一个HTML表格：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">这是一个普通的段落。</div><div class="line"></div><div class="line">&lt;table&gt;  </div><div class="line"> &lt;tr&gt;</div><div class="line">   &lt;td&gt;Foo&lt;/td&gt;</div><div class="line"> &lt;/tr&gt;</div><div class="line">&lt;/table&gt;</div></pre></td></tr></table></figure>
+<p> 注意一点，不要在块级HTML元素内使用Markdown格式化命令，Markdown不会处理它们。比如你不要在一个HTML块中使用 <code>*emphasis*</code>这样的Markdown格式化命令。</p>
+<p> 行内HTML标签 – 如 <strong><code>&lt;span&gt;</code></strong>, <strong><code>&lt;cite&gt;</code></strong>, 或 <strong><code>&lt;del&gt;</code></strong> – 在一个Markdown段落里、列表中、或者标题中－－随便用。 如果需要，你甚至可以用HTML标签代替Markdown格式化命令。比方你可以直接用HTML标签 <strong><code>&lt;a&gt;</code></strong> 或 <strong><code>&lt;img&gt;</code></strong> 而不使用Markdown的链接和图片语法，随你的便。</p>
+<p>不同于这些块级HTML元素，在HTML行内元素内的Markdown语法标记会被正确处理</p>
+<h3 id="自动转换特殊字符"><a href="#自动转换特殊字符" class="headerlink" title="自动转换特殊字符"></a>自动转换特殊字符</h3><p>在HTML中，有两个字符需要特殊对待：<code>&lt;</code>和 <code>&amp;</code>。<code>&lt;</code>用于标签开始，<code>&amp;</code>用于标识HTML实体。如果打算把它们当成普通字符，你必须使用反引号转义它们，如<code>&lt;</code>和<code>&amp;</code>。</p>
+<p>对一些互联网作家来说，&amp;符号特别使人烦恼。如果你打算写’AT&amp;T’，你就得写 ‘AT&amp;T’。甚至在URL中也得想着转义&amp;符号。比方你打算写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://images.google.com/images?num=30&amp;q=larry+bird</div></pre></td></tr></table></figure>
+<p>你就得在A标签中把href属性中的URL编码成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://images.google.com/images?num=30&amp;amp;q=larry+bird</div></pre></td></tr></table></figure>
+<p>不用说，这很容易忘。这往往是那些良构HTML站点中最容易出错的地方。</p>
+<p>在Markdown中，你尽管自然的使用这些字符，只需要关心那些必要的转义。如果使用在HTML实体中使用&amp;符号，它会保持不变；而在其它场合，它会转换成<code>&amp;</code>。</p>
+<p>所以，如果你打算在文章中书写版权符号，你可以这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&amp;copy;</div></pre></td></tr></table></figure>
+<p>Markdown不会碰它。然而如果你书写</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">AT&amp;T</div></pre></td></tr></table></figure>
+<p>Markdown就会把它翻译成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">AT&amp;amp;T</div></pre></td></tr></table></figure>
+<p>类似的，既然Markdown支持内嵌HTML，如果你使用<code>&lt;</code>作为HTML标签定界符，Markdown就会把它们当成HTML标签定界符。可是如果你书写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">4 &lt; 5</div></pre></td></tr></table></figure>
+<p>Markdown就会把它翻译成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">4&amp;lt;5</div></pre></td></tr></table></figure>
+<p>然而，在Mardown代码行内标记和块级标记之中，<code>&lt;</code>和<code>&amp;</code>始终会被自动编码。这使得在Markdown文件中书写HTML代码更容易.(相对于纯HTML。如果想在纯在纯HTML里贴一段HTML代码，那才是糟糕透顶，必须对代码中的每一个<code>&lt;</code>和<code>&amp;</code>都转义才成。)</p>
+<hr>
+<h2 id="块级元素"><a href="#块级元素" class="headerlink" title="块级元素"></a>块级元素</h2><h4 id="段落和换行"><a href="#段落和换行" class="headerlink" title="段落和换行"></a>段落和换行</h4><p>一个段落由一行或多个相关文本行构成。段落之间用一个或多个空行分隔。（一个空行就是一个看上去什么也没有的行－－如果一行什么也没有或者只有空格和TAB都会被视为空行）正常的段落不要以空白或TAB字符开始。</p>
+<p>一行或多个相关文本行意味着Markdown支持“硬折行”。这一点与其它text转HTML的程序完全不同（包括Moveable Type的“Convert Line Breaks”选项），它们会将段落中的每一个换行符转换成<code>&lt;br /&gt;</code>标签。</p>
+<p>如果你确实需要使用Markdown插入一个<code>&lt;br /&gt;</code>换行符，只需要在每一行的末尾以两个或更多个空格符号结束，然后再打回车键。</p>
+<p>没错，在Markdown里生成一个<code>&lt;br /&gt;</code>稍稍有一点麻烦，但那种简单的“把每一个换行符都转换<code>&lt;br /&gt;</code>规则”并不适用于Markdown。Markdown Email风格的 blockquoting 和 multi-paragraph list items更好用 – 并且更美观 – 在你用换行符对其格式化时。</p>
+<h4 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h4><p>Markdown 支持两种风格的标题，<code>Setext</code> 和 <code>atx</code>.</p>
+<p>Setext-风格的一级标题下面一行使用等号符号，二级标题下面使用连字符符号，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">这是一个一级标题</div><div class="line">=============</div><div class="line"></div><div class="line">这是一个二级标题</div><div class="line">-------------</div></pre></td></tr></table></figure>
+<p>至少有一个<strong><code>=</code></strong> 和 <strong><code>-</code></strong>就能正常工作。</p>
+<p>Atx-风格的标题在每行的开头使用1－6个井号字符，分别对应标题级别1－6。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># 这是一级标题</div><div class="line"></div><div class="line">## 这是二级标题</div><div class="line"></div><div class="line">###### 这是六级标题</div></pre></td></tr></table></figure>
+<p>如果愿意, 你也可以 “结束” atx-风格的标题。这纯粹是美观考虑–如果你觉得这样会看上更舒服些的话。结束用的井号个数随便，不必与起始井号数量相同 (起始井号的数量决定标题级别)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># 这是一级标题 #</div><div class="line"></div><div class="line">## 这是二级标题 ##</div><div class="line"></div><div class="line">###### 这是六级标题 ######</div></pre></td></tr></table></figure>
+<h4 id="引用块"><a href="#引用块" class="headerlink" title="引用块"></a>引用块</h4><p>Markdown使用Email风格的 <code>&gt;</code> 字符引用块。如果你熟悉Email中的引用块，你就知道在Markdown中如何使用引用块。如果每一行你都使用硬换行并在行首放一个<code>&gt;</code>符号，看上去会很美观：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,</div><div class="line">&gt; consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.</div><div class="line">&gt; Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.</div><div class="line">&gt;</div><div class="line">&gt; Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse</div><div class="line">&gt; id sem consectetuer libero luctus adipiscing.</div></pre></td></tr></table></figure>
+<p>（如果觉得每行写一个<code>&gt;</code>太累，）Markdown允许你偷懒，你只需在硬换行段落的第一行之前放一个<code>&gt;</code>号:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,</div><div class="line">consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.</div><div class="line">Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.</div><div class="line"></div><div class="line">&gt; Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse</div><div class="line">id sem consectetuer libero luctus adipiscing.</div></pre></td></tr></table></figure>
+<p>只需要多加一个<code>&gt;</code>，就得到嵌套的引用块(即引用块中的引用块):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt; This is the first level of quoting.</div><div class="line">&gt;</div><div class="line">&gt; &gt; This is nested blockquote.</div><div class="line">&gt;</div><div class="line">&gt; Back to the first level.</div></pre></td></tr></table></figure>
+<p>引用块中可包含其它Markdown元素，如标题、列表和代码块：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt; ## This is a header.</div><div class="line">&gt;</div><div class="line">&gt; 1.   This is the first list item.</div><div class="line">&gt; 2.   This is the second list item.</div><div class="line">&gt;</div><div class="line">&gt; Here&apos;s some example code:</div><div class="line">&gt;</div><div class="line">&gt;     return shell_exec(&quot;echo $input | $markdown_script&quot;);</div></pre></td></tr></table></figure>
+<p>是个象样的文本编辑器都能实现Email风格的引用。比如在BBEdit里，你就可以选中一些文字之后从Text菜单里选择引用级别。</p>
+<h4 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h4><p>Markdown 支持有序列表和无序列表</p>
+<p>无序列表可使用星号、加号和连字符（这几个符号是等价的，你喜欢哪个就用哪个）作为列表标记：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">* Red</div><div class="line">* Green</div><div class="line">* Blue</div></pre></td></tr></table></figure>
+<p>等同于:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">+ Red</div><div class="line">+ Green</div><div class="line">+ Blue</div></pre></td></tr></table></figure>
+<p>也等同于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- Red</div><div class="line">- Green</div><div class="line">- Blue</div></pre></td></tr></table></figure>
+<p>有序列表则使用数字加英文句点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1.  Bird</div><div class="line">2.  McHale</div><div class="line">3.  Parish</div></pre></td></tr></table></figure>
+<p>有一点需要注意，你在列表中输入的标记数字并不会反映到Markdown输出的HTML之中。上面这个列表Markdown会输出为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;ol&gt;</div><div class="line">&lt;li&gt;Bird&lt;/li&gt;</div><div class="line">&lt;li&gt;McHale&lt;/li&gt;</div><div class="line">&lt;li&gt;Parish&lt;/li&gt;</div><div class="line">&lt;/ol&gt;</div></pre></td></tr></table></figure>
+<p>即使你写成下面这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1.  Bird</div><div class="line">1.  McHale</div><div class="line">1.  Parish</div></pre></td></tr></table></figure>
+<p>甚至这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">3. Bird</div><div class="line">1. McHale</div><div class="line">8. Parish</div></pre></td></tr></table></figure>
+<p>都会得到一模一样（但正确的）输出。要点在于，如果你愿意，就在你的Markdown有序列表里顺序使用数字（这样源代码里的顺序和生成的顺序会一致），如果你希望省点儿事，你就不用费心（去手工编号）。</p>
+<p>如果你打算偷懒，记住列表的第一行使用数字 1。以后Markdown或许会支持有序列表从任意数字开始（译者注：这儿和前面的例子有点矛盾，原文如此）。</p>
+<p>列表标记通常从左边界开始，至多可以有三个空格的缩进。列表标记之后至少要跟一个空格或TAB。</p>
+<p>为了让列表看起来美观，你可以使用TAB缩进列表项内容，使其整齐:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">*   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div><div class="line">    Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi,</div><div class="line">    viverra nec, fringilla in, laoreet vitae, risus.</div><div class="line">*   Donec sit amet nisl. Aliquam semper ipsum sit amet velit.</div><div class="line">    Suspendisse id sem consectetuer libero luctus adipiscing.</div></pre></td></tr></table></figure>
+<p>不过如果你很懒，下面这样也行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">*   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div><div class="line">Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi,</div><div class="line">viverra nec, fringilla in, laoreet vitae, risus.</div><div class="line">*   Donec sit amet nisl. Aliquam semper ipsum sit amet velit.</div><div class="line">Suspendisse id sem consectetuer libero luctus adipiscing.</div></pre></td></tr></table></figure>
+<p>如果列表项之间用空行分隔，Markdown就会在HTML输出中使用<code>&lt;p&gt;</code>标签包裹列表项。比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">*   Bird</div><div class="line">*   Magic</div></pre></td></tr></table></figure>
+<p>生成的HTML如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;ul&gt;</div><div class="line">&lt;li&gt;Bird&lt;/li&gt;</div><div class="line">&lt;li&gt;Magic&lt;/li&gt;</div><div class="line">&lt;/ul&gt;</div></pre></td></tr></table></figure>
+<p>而这个：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">*   Bird</div><div class="line"></div><div class="line">*   Magic</div></pre></td></tr></table></figure>
+<p>生成的HTML是这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;ul&gt;</div><div class="line">&lt;li&gt;&lt;p&gt;Bird&lt;/p&gt;&lt;/li&gt;</div><div class="line">&lt;li&gt;&lt;p&gt;Magic&lt;/p&gt;&lt;/li&gt;</div><div class="line">&lt;/ul&gt;</div></pre></td></tr></table></figure>
+<p>列表项有可能由多个段落组成，列表项的每个后续段落必须缩进至少4个空格或者一个TAB：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">1.  This is a list item with two paragraphs. Lorem ipsum dolor</div><div class="line">    sit amet, consectetuer adipiscing elit. Aliquam hendrerit</div><div class="line">    mi posuere lectus.</div><div class="line"></div><div class="line">    Vestibulum enim wisi, viverra nec, fringilla in, laoreet</div><div class="line">    vitae, risus. Donec sit amet nisl. Aliquam semper ipsum</div><div class="line">    sit amet velit.</div><div class="line"></div><div class="line">2.  Suspendisse id sem consectetuer libero luctus adipiscing.</div></pre></td></tr></table></figure>
+<p>像上面这样缩进后续段落的每一行看起来很美观（但稍有些麻烦），如果你比较懒（和我一样），没问题，Markdown支持你：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">*   This is a list item with two paragraphs.</div><div class="line"></div><div class="line">    This is the second paragraph in the list item. You&apos;re only required to indent the  </div><div class="line">    first line. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div><div class="line"></div><div class="line">*   Another item in the same list.</div></pre></td></tr></table></figure>
+<p>要在列表项中使用引用，引用定界符 <code>&gt;</code> 需要缩进：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">*   A list item with a blockquote:</div><div class="line"></div><div class="line">    &gt; This is a blockquote</div><div class="line">    &gt; inside a list item.</div></pre></td></tr></table></figure>
+<p>要在列表项中使用代码块，代码块需要缩进两次 – 8个空格或者两个TAB：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">*   A list item with a code block:</div><div class="line"></div><div class="line">        &lt;code goes here&gt;</div></pre></td></tr></table></figure>
+<p>有时候不小心会触发一个有序列表，比方在写类似下面这样的东西时：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">1986. What a great season.</div></pre></td></tr></table></figure>
+<p>换言之， 以数字＋句点＋空格 序列起始的行会触发有序列表。为避免此情况，要对句点符号进行转义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">1986\. What a great season.</div></pre></td></tr></table></figure>
+<h5 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h5><p>我们经常在写有关编程或标记语言源代码时用到预格式化的代码块。不像格式化普通段落，代码块中的行会按字面进行解释。Markdown对代码块同时使用<code>&lt;pre&gt;</code>和<code>&lt;code&gt;</code>标签包裹：</p>
+<p>在Markdown中要生成一个代码块，只需要在代码块内容的每一行缩进至少四个空格或者一个TAB。比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">This is a normal paragraph:</div><div class="line"></div><div class="line">    This is a code block.</div></pre></td></tr></table></figure>
+<p>Markdown会生成:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;This is a normal paragraph:&lt;/p&gt;</div><div class="line">&lt;pre&gt;&lt;code&gt;This is a code block.</div><div class="line">&lt;/code&gt;&lt;/pre&gt;</div></pre></td></tr></table></figure>
+<p>Markdown会从生成的代码块中删除一级缩进 – 4个空格或者1个TAB。看下面这个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Here is an example of AppleScript:</div><div class="line"></div><div class="line">    tell application &quot;Foo&quot;</div><div class="line">        beep</div><div class="line">    end tell</div></pre></td></tr></table></figure>
+<p>会得到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;Here is an example of AppleScript:&lt;/p&gt;</div><div class="line"></div><div class="line">&lt;pre&gt;&lt;code&gt;tell application &quot;Foo&quot;</div><div class="line">   beep</div><div class="line">end tell</div><div class="line">&lt;/code&gt;&lt;/pre&gt;</div></pre></td></tr></table></figure>
+<p>代码块在遇到没有缩进的一行，或者文件末尾时自动结束。</p>
+<p>在代码块中，<code>&amp;</code>符号和<code>&lt;</code>、<code>&gt;</code>会自动转换成HTML实体。因此在Markdown中包含HTML源代码只是小菜一碟－－粘贴进去，缩进一下。剩下的脏活累活Markdown自会处理。看下面这个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;sample_footer&quot;&gt;</div><div class="line">    &amp;copy; 2004 Foo Corporation</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<p>Markdown会生成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">© 2004 Foo Corporation</div></pre></td></tr></table></figure>
+<p>Markdown不会解析代码块中的Markdown标记。如代码块中的星号就是星号，失去了它原来的Markdown含义。这意味着你能够使用Markdown编写Markdown自己的语法教程。（就象这篇文章一样）。</p>
+<h6 id="水平线"><a href="#水平线" class="headerlink" title="水平线"></a>水平线</h6><p>如果在一行里只放三个或更多个连字符，或星号或下划线，你就会得到一个水平线标记(<code>&lt;hr /&gt;</code>)。下面每一行都会得到一个水平线：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">* * *</div><div class="line"></div><div class="line">***</div><div class="line"></div><div class="line">*****</div><div class="line"></div><div class="line">- - -</div><div class="line"></div><div class="line">---------------------------------------</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="行内元素"><a href="#行内元素" class="headerlink" title="行内元素"></a>行内元素</h3><h4 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h4><p>Markdown 支持两种风格的链接： 行内链接 和 引用链接.</p>
+<p>两种风格的链接，链接文本都放在中括号之内[square brackets]。</p>
+<p>要生成一个行内链接，在链接文本之后紧跟用一对小括号。小括号里放链接地址和可选的的链接title。如果提供链接title的话，链接title要用引号包起来。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">这是一个 [an example](http://example.com/ &quot;Title&quot;) 行内链接。</div><div class="line"></div><div class="line">[这个链接](http://example.net/) 没有title属性。</div></pre></td></tr></table></figure>
+<p>Markdown会生成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;This is &lt;a href=&quot;http://example.com/&quot; title=&quot;Title&quot;&gt;</div><div class="line">an example&lt;/a&gt; inline link.&lt;/p&gt;</div><div class="line"></div><div class="line">&lt;p&gt;&lt;a href=&quot;http://example.net/&quot;&gt;This link&lt;/a&gt; has no</div><div class="line">title attribute.&lt;/p&gt;</div></pre></td></tr></table></figure>
+<p>如果你打算引用一个本地资源或者同一站点的资源，可以使用相对路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">如果想进一步了解我，请参阅我的 [关于我](/about/) 页。</div></pre></td></tr></table></figure>
+<p>引用风格的链接，在链接文本之后紧跟又一对中括号。这对中括号里放的是该链接的标识符（可以理解为别名）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">这是一个引用型链接 [示例][id]。</div></pre></td></tr></table></figure>
+<p>如果你嫌弃两对中括号过于亲密，Markdown允许你在两对中括号之间放一个空格：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">这是一个引用型链接 [示例] [id]。</div></pre></td></tr></table></figure>
+<p>然后，我们可以在文档的任意位置，像下面这样定义链接标识与链接的对应关系（一行一个链接）:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[id] : http://example.com/  &quot;Optional Title Here&quot;</div></pre></td></tr></table></figure>
+<p>即：</p>
+<ul>
+<li>中括号内放链接标识符(行前可选缩进，至多不超过三个空格)；</li>
+<li>之后紧跟一个冒号；</li>
+<li>再后面是一个或多个空格（TAB也行）；</li>
+<li>接下来是链接URL；</li>
+<li>最后面是可选的用双引号或单引号或小括号括起来的链接title。</li>
+</ul>
+<p>下面三种链接定义方式是等价的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[foo] : http://example.com/  &quot;Optional Title Here&quot;</div><div class="line">[foo] : http://example.com/  &apos;Optional Title Here&apos;</div><div class="line">[foo] : http://example.com/  (Optional Title Here)</div></pre></td></tr></table></figure>
+<p><strong>注意： Markdown.pl 1.0.1</strong> 版本有一个已知的bug，用单引号作为链接title的定界符会出问题。</p>
+<p>至于链接URL，还支持使用一对可选的尖括号包裹起来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[id] : &lt;http://example.com/&gt;  &quot;Optional Title Here&quot;</div></pre></td></tr></table></figure>
+<p>你也可以将链接的title属性放在下一行并使用额外的空格或TAB填充，这样较长的URL会比较美观：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[id] : http://example.com/longish/path/to/resource/here</div><div class="line">    &quot;Optional Title Here&quot;</div></pre></td></tr></table></figure>
+<p>链妆定义仅供Markdown解析器使用。最终输出的HTML当中不会包含链接定义。</p>
+<p>链接标识符可以由字母、数字、空格和标点符号组成－－不区分大小写。下面这两个链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[link text][a]</div><div class="line">[link text][A]</div></pre></td></tr></table></figure>
+<p>是等价的。</p>
+<p>隐式链接标识 允许我们省略链接标识，这时链接文本本身就是链接标识。在链接文本之后加一对空的中括号－－例如，使用”Google”文本链接到google.com站点，可以这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[Google][]</div></pre></td></tr></table></figure>
+<p>然后这样定义它的链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[Google] : http://google.com/</div></pre></td></tr></table></figure>
+<p>链接名字有可能包含空格，不过没问题，这种情况照样正常工作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Visit [Daring Fireball][] for more information.</div></pre></td></tr></table></figure>
+<p>然后这样定义这个链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[Daring Fireball] : http://daringfireball.net/</div></pre></td></tr></table></figure>
+<p>链接定义可放于Markdown文档的任意位置。我建议把它们就近放到最先使用它的段落之后。不过如果你更喜欢放到文档末尾，当成某种形式的尾注，随你的便。</p>
+<p>下面是一些引用链接的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">I get 10 times more traffic from [Google] [11] than from</div><div class="line">[Yahoo] [12] or [MSN] [13].</div><div class="line"></div><div class="line">  [1] : http://google.com/        &quot;Google&quot;</div><div class="line">  [2] : http://search.yahoo.com/  &quot;Yahoo Search&quot;</div><div class="line">  [3] : http://search.msn.com/    &quot;MSN Search&quot;</div></pre></td></tr></table></figure>
+<p>换成隐式链接标识，也可以这么写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">I get 10 times more traffic from [Google][] than from</div><div class="line">[Yahoo][] or [MSN][].</div><div class="line"></div><div class="line">  [google] : http://google.com/        &quot;Google&quot;</div><div class="line">  [yahoo] :  http://search.yahoo.com/  &quot;Yahoo Search&quot;</div><div class="line">  [msn] :    http://search.msn.com/    &quot;MSN Search&quot;</div></pre></td></tr></table></figure>
+<p>上面两种写法最终得到HTML输出是一样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;I get 10 times more traffic from &lt;a href=&quot;http://google.com/  </div><div class="line">   title=&quot;Google&quot;&gt;Google&lt;/a&gt; than from</div><div class="line">&lt;a href=&quot;http://search.yahoo.com/&quot; title=&quot;Yahoo Search&quot;&gt;Yahoo&lt;/a&gt;</div><div class="line">or &lt;a href=&quot;http://search.msn.com/&quot; title=&quot;MSN  Search&quot;&gt;MSN&lt;/a&gt;.&lt;/p&gt;</div></pre></td></tr></table></figure>
+<p>作为比较，下面这个段落使用Markdown的行内链接风格编写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">I get 10 times more traffic from [Google](http://google.com/ &quot;Google&quot;)</div><div class="line">than from [Yahoo](http://search.yahoo.com/ &quot;Yahoo Search&quot;) or</div><div class="line">[MSN](http://search.msn.com/ &quot;MSN Search&quot;).</div></pre></td></tr></table></figure>
+<p>引用型链接的亮点并不在于它更容易书写，而在于引用型链接让你的文档可读性更好。看看上面的例子：使用引用型链接，段落本身仅81个字符；而使用行内链接的例子，是176个字符。最终输出的HTML则有234个字符。纯HTML中标记字符甚至超过了文本本身。</p>
+<p>使用Markdown的引用型链接，源文档更接近于最终的浏览器输出效果。再加上Markdown允许将标记有关的元数据移到段落之外，你尽管添加链接，而不必担心打断文件的故事情节。</p>
+<h4 id="强调"><a href="#强调" class="headerlink" title="强调"></a>强调</h4><p>Markdown使用星号(<code>*</code>)和下划线(<code>_</code>)作为表示强调。用一个 <code>*</code>或 <code>_</code> 包裹的文本会使用 HTML &lt;<code>em</code>&gt; 标签包裹; 用两个 <code>*</code> 或 <code>_</code>包裹的文本会使用HTML<code>&lt;strong&gt;</code> 标签包裹。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">*single asterisks*</div><div class="line"></div><div class="line">_single underscores_</div><div class="line"></div><div class="line">**double asterisks**</div><div class="line"></div><div class="line">__double underscores__</div></pre></td></tr></table></figure>
+<p>将会输出为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;em&gt;single asterisks&lt;/em&gt;</div><div class="line"></div><div class="line">&lt;em&gt;single underscores&lt;/em&gt;</div><div class="line"></div><div class="line">&lt;strong&gt;double asterisks&lt;/strong&gt;</div><div class="line"></div><div class="line">&lt;strong&gt;double underscores&lt;/strong&gt;</div></pre></td></tr></table></figure>
+<p>你喜欢哪一种风格就用哪一种，唯一的限制就是起始字符与关闭字符必须一致。</p>
+<p>强调符号可用于一个单词的一部分：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">un*frigging*believable</div></pre></td></tr></table></figure>
+<p>不过如果你用空格包裹单独的 <code>*</code> 或 <code>_</code>，它们就失去了强调的含义，而成为字面上的星号或下划线。</p>
+<p>如果不想让Markdown解释这两个元字符，就转义它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">\*this text is surrounded by literal asterisks\*</div></pre></td></tr></table></figure>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p>要在行内表示部分代码，用反引号( ` )包住它。与预格式代码块不同和，行内代码用于段落之内。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Use the `printf()` function.</div></pre></td></tr></table></figure>
+<p>会生成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;Use the &lt;code&gt;printf()&lt;/code&gt; function.&lt;/p&gt;</div></pre></td></tr></table></figure>
+<p>要在一个行内代码中使用反引号（`）本身，用多个反引号作为定界符包住它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">``There is a literal backtick (`) here.``</div></pre></td></tr></table></figure>
+<p>这样就会得到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;&lt;code&gt;There is a literal backtick (`) here.&lt;/code&gt;&lt;/p&gt;</div></pre></td></tr></table></figure>
+<p>包住行内代码的反引号定界符可以包括空格－－即在起始反引号之后，结束反引号之前可以有一个空格。这使得我们能够在行内代码的开始或结束处使用反引号：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">A single backtick in a code span: `` ` ``</div><div class="line"></div><div class="line">A backtick-delimited string in a code span: `` `foo` ``</div></pre></td></tr></table></figure>
+<p>会生成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;A single backtick in a code span: &lt;code&gt;`&lt;/code&gt;&lt;/p&gt;</div><div class="line"></div><div class="line">&lt;p&gt;A backtick-delimited string in a code span:  </div><div class="line">&lt;code&gt;`foo`&lt;/code&gt;&lt;/p&gt;</div></pre></td></tr></table></figure>
+<p>在行内代码中，&amp;和&lt;和&gt;会自动编码为HTML实体，以方便包含HTML标签。Markdown会把下面这行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Please don&apos;t use any `&lt;blink&gt;` tags.</div></pre></td></tr></table></figure>
+<p>转换为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;Please don&apos;t use any &lt;code&gt;&lt;blink&gt;&lt;/code&gt; tags.&lt;/p&gt;</div></pre></td></tr></table></figure>
+<p>你也可以这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">`&amp;#8212;` is the decimal-encoded equivalent of `&amp;mdash;`.</div></pre></td></tr></table></figure>
+<p>会得到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;&lt;code&gt;&amp;#8212;&lt;/code&gt; is the decimal-encoded  </div><div class="line">equivalent of &lt;code&gt;&amp;mdash;&lt;/code&gt;.&lt;/p&gt;</div></pre></td></tr></table></figure>
+<h4 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h4><p>必须承认，要以“自然的”语法把一个图片放到一个纯文本文档之中，确实是一个挑战。</p>
+<p>Markdown使用了类似链接语法来表示图片，同样有两种风格：行内图片和引用图片。</p>
+<p>行内图片语法示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">![Alt text](/path/to/img.jpg)</div><div class="line"></div><div class="line">![Alt text](/path/to/img.jpg &quot;Optional title&quot;)</div></pre></td></tr></table></figure>
+<p>即：</p>
+<ul>
+<li>一个感叹号<code>!</code>开头；</li>
+<li>其后紧跟一对中括号，中括号内存放图片的<code>alt</code>属性；</li>
+<li>其后紧跟一对小括号，小括号内存放图片的URL或路径，及可选的用双引号或单引号或小括号括起来的图片<code>title</code></li>
+</ul>
+<p>引用图片语法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">![Alt text][id]</div></pre></td></tr></table></figure>
+<p>这里 “id” 是图片引用标识。图片引用定义的语法与链接定义完全相同：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[id] : url/to/image  &quot;Optional title attribute&quot;</div></pre></td></tr></table></figure>
+<p>在写这篇文章时，Markdown还没有语法指定图片的大小，如果这一点对你特别重要，你可以直接使用<code>&lt;img&gt;</code>标签。</p>
+<h3 id="杂七杂八"><a href="#杂七杂八" class="headerlink" title="杂七杂八"></a>杂七杂八</h3><h4 id="自动链接"><a href="#自动链接" class="headerlink" title="自动链接"></a>自动链接</h4><p>Markdown提供了一种快捷方式”自动地”定义链接和Email地址：直接用一对尖括号把URL或Email地址包住。这表示链接文本就是URL本身，Email文本就是Email本身。这样你就得到了一个可点击的链接，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;http://example.com/&gt;</div></pre></td></tr></table></figure>
+<p>Markdown会将它转换为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;http://example.com/&quot;&gt;http://example.com/&lt;/a&gt;</div></pre></td></tr></table></figure>
+<p>自动Email地址工作方式相似，只有一点不同。Markdown自动的用一些十进制和十六进制数字表示你的Email，以防止遭遇垃圾邮件袭击。 例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;address@example.com&gt;</div></pre></td></tr></table></figure>
+<p>会被转换为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;&amp;#x6D;&amp;#x61;i&amp;#x6C;&amp;#x74;&amp;#x6F;:&amp;#x61;&amp;#x64;&amp;#x64;&amp;#x72;&amp;#x65;</div><div class="line">&amp;#115;&amp;#115;&amp;#64;&amp;#101;&amp;#120;&amp;#x61;&amp;#109;&amp;#x70;&amp;#x6C;e&amp;#x2E;&amp;#99;&amp;#111;</div><div class="line">&amp;#109;&quot;&gt;&amp;#x61;&amp;#x64;&amp;#x64;&amp;#x72;&amp;#x65;&amp;#115;&amp;#115;&amp;#64;&amp;#101;&amp;#120;&amp;#x61;</div><div class="line">&amp;#109;&amp;#x70;&amp;#x6C;e&amp;#x2E;&amp;#99;&amp;#111;&amp;#109;&lt;/a&gt;</div></pre></td></tr></table></figure>
+<p>浏览器会将它渲染为一个可点击的链接，并正确显示”address@example.com”。</p>
+<p>(这种实体编码的小方法可以骗过一些收集邮件地址的机器人，不过它确实无法骗过所有的机器人。有总比没有强，聊胜于无。能阻止一点就阻止一点好了。)</p>
+<h4 id="反斜线转义"><a href="#反斜线转义" class="headerlink" title="反斜线转义"></a>反斜线转义</h4><p>Markdown允许你使用反斜线转义那些Markdown元字符，让它们失去原有的“魔力”。举个例子，如果你确实想用星号包住一个词组（而不是想得到<code>&lt;em&gt;</code>标签），就可以在星号之前使用反斜线将其转义。即：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">\*literal asterisks\*</div></pre></td></tr></table></figure>
+<p>Markdown中，以下字符支持使用反斜线转义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">\   反斜线</div><div class="line">`   反引号</div><div class="line">*   星号</div><div class="line">_   下划线</div><div class="line">&#123;&#125;  大括号</div><div class="line">[]  中括号</div><div class="line">()  小括号</div><div class="line">#   井号</div><div class="line">+   加号</div><div class="line">-   减号（连字符）</div><div class="line">.   句点</div><div class="line">!   感叹号</div></pre></td></tr></table></figure>
+
+      
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/08/19/hadoop-frequently-options/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hadoop常用操作
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/07/02/custom-hive-input-format/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Custom hive input format</div>
+    </a>
+  
+</nav>
+
+  
+  <br>
+</article>
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+<br>
+
+
+</div>
+<div class="col-md-3 col-sm-3 blog-sidebar">
+  <!-- CATEGORIES START -->
+<h2 class="no-top-space">Categories</h2>
+
+<div class="widget-wrap">
+  <div class="widget">
+    <ul class="nav sidebar-categories margin-bottom-40">
+      
+	<li>
+	  <a href="/categories/Java/">Java (4)</a>
+	</li>
+      
+	<li>
+	  <a href="/categories/BigData/">BigData (12)</a>
+	</li>
+      
+	<li>
+	  <a href="/categories/Linux/">Linux (6)</a>
+	</li>
+      
+	<li>
+	  <a href="/categories/Git/">Git (2)</a>
+	</li>
+      
+	<li>
+	  <a href="/categories/Frontend/">Frontend (1)</a>
+	</li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<!-- CATEGORIES END -->
+
+<!-- BEGIN BLOG TAGS -->
+<div class="blog-tags margin-bottom-20">
+  <h2>Tags</h2>
+  
+  <div class="widget-wrap">
+    <div class="widget">
+      
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/"><i class='fa fa-tags'></i>Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hive/"><i class='fa fa-tags'></i>Hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ORC/"><i class='fa fa-tags'></i>ORC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/analytics/"><i class='fa fa-tags'></i>analytics</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/"><i class='fa fa-tags'></i>blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chd/"><i class='fa fa-tags'></i>chd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloudera/"><i class='fa fa-tags'></i>cloudera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/command/"><i class='fa fa-tags'></i>command</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/debug/"><i class='fa fa-tags'></i>debug</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/"><i class='fa fa-tags'></i>ejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/find/"><i class='fa fa-tags'></i>find</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/"><i class='fa fa-tags'></i>github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/"><i class='fa fa-tags'></i>hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/"><i class='fa fa-tags'></i>hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/"><i class='fa fa-tags'></i>hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/"><i class='fa fa-tags'></i>html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/issue/"><i class='fa fa-tags'></i>issue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/"><i class='fa fa-tags'></i>java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk/"><i class='fa fa-tags'></i>jdk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/"><i class='fa fa-tags'></i>js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/"><i class='fa fa-tags'></i>kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/languageManual/"><i class='fa fa-tags'></i>languageManual</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/"><i class='fa fa-tags'></i>linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mail/"><i class='fa fa-tags'></i>mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/"><i class='fa fa-tags'></i>mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/"><i class='fa fa-tags'></i>nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rsync/"><i class='fa fa-tags'></i>rsync</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/"><i class='fa fa-tags'></i>shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/"><i class='fa fa-tags'></i>ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/supervisor/"><i class='fa fa-tags'></i>supervisor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vps/"><i class='fa fa-tags'></i>vps</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/"><i class='fa fa-tags'></i>webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wget/"><i class='fa fa-tags'></i>wget</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windowing/"><i class='fa fa-tags'></i>windowing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分区/"><i class='fa fa-tags'></i>分区</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/参数配置/"><i class='fa fa-tags'></i>参数配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日志/"><i class='fa fa-tags'></i>日志</a></li></ul>
+    </div>
+  </div>
+
+
+</div>
+<!-- END BLOG TAGS -->
+
+
+<!-- BEGIN FEATURED POSTS -->                            
+<h2>Featured Posts</h2>
+<div class="recent-news margin-bottom-10">
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/hadoop.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/markdown-syntax-language.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/08/14/git-tutorial-markdown/">Git学习指南（二）— MarkDown</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+  
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/orc-logo.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/04/28/hive-issue/">Hive使用遇到的一些问题</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/protocol-buffers.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+</div>
+<!-- END FEATURED POSTS -->                            
+
+</div>
+</div>
+
+  </section>
+</div>
+
+      <!-- BEGIN PRE-FOOTER -->
+    <!-- END PRE-FOOTER -->
+
+    <!-- BEGIN FOOTER -->
+    <div class="footer">
+      <div class="container">
+        <div class="row">
+          <!-- BEGIN COPYRIGHT -->
+          <div class="col-md-6 col-sm-6 padding-top-10">
+                  &copy; 2018 Loh&#39;s Blog<br>
+ <a href="javascript:;">Privacy Policy</a> | <a href="javascript:;">Terms of Service</a>
+          </div>
+          <!-- END COPYRIGHT -->
+	  <!-- BEGIN SOCIAL -->
+<div class="col-md-6 col-sm-6">
+  <ul class="social-footer list-unstyled list-inline pull-right">
+    
+      <li><a href="https://github.com/jianle"><i class="fa fa-github"></i></a></li>
+    
+      <li><a href="/atom.xml"><i class="fa fa-rss"></i></a></li>
+    
+  </ul>  
+</div>
+<!-- END SOCIAL -->
+
+        </div>
+      </div>
+    </div>
+    <!-- END FOOTER -->
+
+  <!-- BEGIN CORE PLUGINS (REQUIRED FOR ALL PAGES) -->
+<!--[if lt IE 9]>
+<script src="/metronic/assets/plugins/respond.min.js"></script>
+<![endif]--> 
+<script src="/metronic/assets/plugins/jquery.min.js"></script>
+<script src="/metronic/assets/plugins/jquery-migrate.min.js"></script>
+<script src="/metronic/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="/metronic/assets/corporate/scripts/back-to-top.js"></script>
+<script src="/metronic/assets/plugins/owl.carousel/owl.carousel.min.js"></script>
+<script src="/metronic/assets/corporate/scripts/layout.js"></script>
+<script src="/js/wow.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        Layout.init();    
+        Layout.initOWL();
+        Layout.initTwitter();
+        Layout.initFixHeaderWithPreHeader(); /* Switch On Header Fixing (only if you have pre-header) */
+        //Layout.initNavScrolling(); 
+	new WOW().init();
+    });
+</script>
+<!-- END CORE PLUGINS -->
+
+<!-- BEGIN PAGE-SPECIFIC PLUGINS --> 
+
+
+
+
+
+
+
+<!-- END PAGE-SPECIFIC PLUGINS --> 
+
+<!-- BEGIN BAIDUSEARCH -->
+
+
+  <script type="text/javascript">
+      var cse;
+      
+      //处理结果回调函数示例
+      function display (data) {
+          console.log(data);
+      }
+  
+      //初始化回调函数示例
+      function init () {
+          cse = new BCse.Search("15596006506253001804");    //参数为您的API引擎ID，已自动填写，必需。
+          var key = document.getElementsByClassName('st-default-search-input')[0].value; 
+          cse.getResult(key, display);    //此方法获取搜索结果，参数1为搜索词，参数2为您获取到结果后想要执行的回调函数。
+      }
+  
+      function loadScript () { 
+          var script = document.createElement("script"); 
+          script.type = "text/javascript";
+          script.charset = "utf-8";
+          script.src = "http://zhannei.baidu.com/api/customsearch/apiaccept?sid=15596006506253001804&v=2.0&callback=init";
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(script, s);
+      }
+  
+      document.querySelector("#searchFM").addEventListener("submit", function(e){
+        console.log('do search ...');
+        loadScript();
+      });
+  </script>
+
+
+<!-- END BAIDUSEARCH -->
+
+<!-- BEGIN INTEGRATIONS -->
+
+
+
+<script>
+  
+    var disqus_config = function () {
+      this.page.url = 'http://saboloh.com/2016/08/14/git-tutorial-markdown/';
+    };
+  
+  (function() {  // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//saboloh.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+
+<script id="dsq-count-scr" src="//saboloh.disqus.com/count.js" async></script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+
+<!-- END INTEGRATIONS -->
+
+</body>
+</html>
