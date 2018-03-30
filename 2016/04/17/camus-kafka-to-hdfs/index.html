@@ -7,24 +7,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Camus 落地kafka Topic | Loh&#39;s Blog</title>
+  <title>Camus 落地 kafka Topic | Loh&#39;s Blog</title>
 
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="baidu-site-verification" content="SKU1ruzzZG" />
 
-  <meta name="description" content="应用场景，fluentd实时采集日志写入kafka 解析后数据写入另一topic. 为了实时获取分析数据，将topic落地hdfs然后load到hive表供分析使用  clone 代码  $ git clone https://github.com/linkedin/camus.git $ cd camus">
+  <meta name="description" content="应用场景，fluentd 实时采集日志写入 kafka 解析后数据写入另一 topic. 为了实时获取分析数据，将 topic 落地 hdfs 然后 load 到 hive 表供分析使用    clone 代码    $ git clone https://github.com/linkedin/camus.git $ cd camus">
 <meta name="keywords" content="kafka,日志">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Camus 落地kafka Topic">
+<meta property="og:title" content="Camus 落地 kafka Topic">
 <meta property="og:url" content="http://saboloh.com/2016/04/17/camus-kafka-to-hdfs/index.html">
 <meta property="og:site_name" content="Loh&#39;s Blog">
-<meta property="og:description" content="应用场景，fluentd实时采集日志写入kafka 解析后数据写入另一topic. 为了实时获取分析数据，将topic落地hdfs然后load到hive表供分析使用  clone 代码  $ git clone https://github.com/linkedin/camus.git $ cd camus">
+<meta property="og:description" content="应用场景，fluentd 实时采集日志写入 kafka 解析后数据写入另一 topic. 为了实时获取分析数据，将 topic 落地 hdfs 然后 load 到 hive 表供分析使用    clone 代码    $ git clone https://github.com/linkedin/camus.git $ cd camus">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-03-29T07:14:11.458Z">
+<meta property="og:updated_time" content="2018-03-30T06:16:29.906Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Camus 落地kafka Topic">
-<meta name="twitter:description" content="应用场景，fluentd实时采集日志写入kafka 解析后数据写入另一topic. 为了实时获取分析数据，将topic落地hdfs然后load到hive表供分析使用  clone 代码  $ git clone https://github.com/linkedin/camus.git $ cd camus">
+<meta name="twitter:title" content="Camus 落地 kafka Topic">
+<meta name="twitter:description" content="应用场景，fluentd 实时采集日志写入 kafka 解析后数据写入另一 topic. 为了实时获取分析数据，将 topic 落地 hdfs 然后 load 到 hive 表供分析使用    clone 代码    $ git clone https://github.com/linkedin/camus.git $ cd camus">
   
     <link rel="alternative" href="/atom.xml" title="Loh&#39;s Blog" type="application/atom+xml">
   
@@ -127,7 +127,7 @@
   <section id="main">
     
     <h2 itemprop="name">
-      <a class="article-title" href="/2016/04/17/camus-kafka-to-hdfs/">Camus 落地kafka Topic</a>
+      <a class="article-title" href="/2016/04/17/camus-kafka-to-hdfs/">Camus 落地 kafka Topic</a>
     </h2>
 
 
@@ -175,9 +175,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>应用场景，fluentd实时采集日志写入kafka 解析后数据写入另一topic. 为了实时获取分析数据，将topic落地hdfs然后load到hive表供分析使用</p>
+        <p>应用场景，fluentd 实时采集日志写入 kafka 解析后数据写入另一 topic. 为了实时获取分析数据，将 topic 落地 hdfs 然后 load 到 hive 表供分析使用  </p>
 <ul>
-<li>clone <a href="https://github.com/linkedin/camus" target="_blank" rel="noopener">代码</a></li>
+<li>clone <a href="https://github.com/linkedin/camus" target="_blank" rel="noopener">代码</a>  </li>
 </ul>
 <pre class="line-numbers language-shell"><code class="language-shell">$ git clone https://github.com/linkedin/camus.git
 $ cd camus
@@ -200,7 +200,7 @@ $ cd camus
  * MessageDecoder class that will convert the payload into a String object,
  * System.currentTimeMillis() will be used to set CamusWrapper's timestamp
  * property
- * 
+ *
  * This MessageDecoder returns a CamusWrapper that works with Strings payloads,
  */</span>
 <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">StringMessageDecoder</span> <span class="token keyword">extends</span> <span class="token class-name">MessageDecoder</span><span class="token operator">&lt;</span>Message<span class="token punctuation">,</span> String<span class="token operator">></span> <span class="token punctuation">{</span>
@@ -237,48 +237,49 @@ $ cd camus
 <li><p>配置camus.properties</p>
 </li>
 </ul>
-<pre class="line-numbers language-shell"><code class="language-shell">camus.job.name=soj_dtl_transfer
+<pre class="line-numbers language-bash"><code class="language-bash">camus.job.name<span class="token operator">=</span>soj_dtl_transfer
 
-fs.default.name=hdfs://nameservice1
-etl.destination.path=/tmp/saboloh/topics
-etl.execution.base.path=/tmp/saboloh/exec
-etl.execution.history.path=/tmp/saboloh/camus/exec/history
+fs.default.name<span class="token operator">=</span>hdfs://nameservice1
+etl.destination.path<span class="token operator">=</span>/tmp/saboloh/topics
+etl.execution.base.path<span class="token operator">=</span>/tmp/saboloh/exec
+etl.execution.history.path<span class="token operator">=</span>/tmp/saboloh/camus/exec/history
 
-camus.message.decoder.class=com.linkedin.camus.etl.kafka.coders.JsonStringMessageDecoder
-etl.record.writer.provider.class=com.linkedin.camus.etl.kafka.common.StringRecordWriterProvider
+camus.message.decoder.class<span class="token operator">=</span>com.linkedin.camus.etl.kafka.coders.JsonStringMessageDecoder
+etl.record.writer.provider.class<span class="token operator">=</span>com.linkedin.camus.etl.kafka.common.StringRecordWriterProvider
 
-camus.message.timestamp.field=log_time
-camus.message.timestamp.format=yyyy-MM-dd HH:mm:ss.SSS
-etl.partitioner.class=com.linkedin.camus.etl.kafka.partitioner.HourlyPartitioner
+camus.message.timestamp.field<span class="token operator">=</span>log_time
+camus.message.timestamp.format<span class="token operator">=</span>yyyy-MM-dd HH:mm:ss.SSS
+etl.partitioner.class<span class="token operator">=</span>com.linkedin.camus.etl.kafka.partitioner.HourlyPartitioner
 
-kafka.max.historical.days=1
-kafka.blacklist.topics=
-kafka.whitelist.topics=soj_topic_rt
-kafka.brokers=localhost:9092,localhost:9093
-kafka.client.name=soj_dtl_transfer_client
+kafka.max.historical.days<span class="token operator">=</span>1
+kafka.blacklist.topics<span class="token operator">=</span>
+kafka.whitelist.topics<span class="token operator">=</span>soj_topic_rt
+kafka.brokers<span class="token operator">=</span>localhost:9092,localhost:9093
+kafka.client.name<span class="token operator">=</span>soj_dtl_transfer_client
 
 
-etl.hourly=hourly
+etl.hourly<span class="token operator">=</span>hourly
 
-log4j.configuration=true
-mapred.output.compress=true
-etl.output.codec=deflate
-etl.deflate.level=6
+log4j.configuration<span class="token operator">=</span>true
+mapred.output.compress<span class="token operator">=</span>true
+etl.output.codec<span class="token operator">=</span>deflate
+etl.deflate.level<span class="token operator">=</span>6
 
-etl.default.timezone=Asia/Shanghai
-etl.output.file.time.partition.mins=60
-etl.keep.count.files=false
+etl.default.timezone<span class="token operator">=</span>Asia/Shanghai
+etl.output.file.time.partition.mins<span class="token operator">=</span>60
+etl.keep.count.files<span class="token operator">=</span>false
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
-<li>编译打包 </li>
+<li>编译打包</li>
 </ul>
-<pre><code>$ mvn clean [compile] package [-DskipTests]
-</code></pre><ul>
+<pre class="line-numbers language-bash"><code class="language-bash">$ mvn clean <span class="token punctuation">[</span>compile<span class="token punctuation">]</span> package <span class="token punctuation">[</span>-DskipTests<span class="token punctuation">]</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<ul>
 <li>运行</li>
 </ul>
-<pre class="line-numbers language-shell"><code class="language-shell">$ cd camus-example
-$ cp target/camus-example-0.1.0-SNAPSHOT-shaded.jar .
-$ hadoop jar camus-example-0.1.0-SNAPSHOT-shaded.jar com.linkedin.camus.etl.kafka.CamusJob -P ../camus.properties
+<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">cd</span> camus-example
+$ <span class="token function">cp</span> target/camus-example-0.1.0-SNAPSHOT-shaded.jar <span class="token keyword">.</span>
+$ hadoop jar camus-example-0.1.0-SNAPSHOT-shaded.jar com.linkedin.camus.etl.kafka.CamusJob -P <span class="token punctuation">..</span>/camus.properties
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>错误异常处理</li>
@@ -347,11 +348,11 @@ $ jar -tvf camus-example-0.1.0-SNAPSHOT-shaded.jar |grep META-INF/LICENSE
     <ul class="nav sidebar-categories margin-bottom-40">
       
 	<li>
-	  <a href="/categories/Java/">Java (4)</a>
+	  <a href="/categories/Linux/">Linux (6)</a>
 	</li>
       
 	<li>
-	  <a href="/categories/Linux/">Linux (6)</a>
+	  <a href="/categories/Java/">Java (4)</a>
 	</li>
       
 	<li>
@@ -398,6 +399,12 @@ $ jar -tvf camus-example-0.1.0-SNAPSHOT-shaded.jar |grep META-INF/LICENSE
     
   
     
+  
+    
+  
+    
+  
+    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
@@ -406,12 +413,6 @@ $ jar -tvf camus-example-0.1.0-SNAPSHOT-shaded.jar |grep META-INF/LICENSE
 	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
 	</div>                        
       </div>
-    
-  
-    
-  
-    
-  
     
   
     
@@ -472,8 +473,6 @@ $ jar -tvf camus-example-0.1.0-SNAPSHOT-shaded.jar |grep META-INF/LICENSE
     
   
     
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/protocol-buffers.png" class="img-responsive ">
@@ -482,6 +481,8 @@ $ jar -tvf camus-example-0.1.0-SNAPSHOT-shaded.jar |grep META-INF/LICENSE
 	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
 	</div>                        
       </div>
+    
+  
     
   
     

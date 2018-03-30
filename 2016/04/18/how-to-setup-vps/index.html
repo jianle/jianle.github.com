@@ -22,7 +22,7 @@
 <meta property="og:description" content="购买vps    本人在朋友推荐下购买了budgetvm 系统安装选择的是ubuntu14.04 购买完成之后初始化大概10分钟，之后便可自己通过ssh+pwd的方式登录vps（先确保能ping通，如果存在网络等任何问题，直接邮件development，解决速度还是可以的。密码在网上可以看到）">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://saboloh.com/img/budgetvm.png">
-<meta property="og:updated_time" content="2018-03-29T07:14:11.458Z">
+<meta property="og:updated_time" content="2018-03-30T06:23:26.976Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何搭建VPS">
 <meta name="twitter:description" content="购买vps    本人在朋友推荐下购买了budgetvm 系统安装选择的是ubuntu14.04 购买完成之后初始化大概10分钟，之后便可自己通过ssh+pwd的方式登录vps（先确保能ping通，如果存在网络等任何问题，直接邮件development，解决速度还是可以的。密码在网上可以看到）">
@@ -181,7 +181,7 @@
 <p>本人在朋友推荐下购买了<code>budgetvm</code> 系统安装选择的是<code>ubuntu14.04</code></p>
 <p>购买完成之后初始化大概10分钟，之后便可自己通过ssh+pwd的方式登录vps（先确保能ping通，如果存在网络等任何问题，直接邮件development，解决速度还是可以的。密码在网上可以看到）</p>
 <a id="more"></a>
-<p><img src="/img/budgetvm.png" alt=""></p>
+<p><img src="/img/budgetvm.png" alt="budgetvm"></p>
 <ul>
 <li>vps config</li>
 </ul>
@@ -227,19 +227,19 @@ $ vim /root/ss.conf
 <ul>
 <li>config local</li>
 </ul>
-<pre><code>$ sudo apt-get install shadowscoks
+<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> shadowscoks
 $ sslocal  -c ss.conf -b 0.0.0.0 -d start --pid-file /tmp/ss.pid --log-file /tmp/ss.log
 
-$ cat ss.conf
-{
-    &quot;server&quot;:&quot;${serverip}&quot;,
-    &quot;server_port&quot;:8080,
-    &quot;local_port&quot;:1080,
-    &quot;password&quot;:&quot;${yourpassword}&quot;,
-    &quot;method&quot;:&quot;aes-256-cfb&quot;
-}
-
-</code></pre><p>备注： budgetvm主机服务在洛杉矶，所以国内登录过去会有点慢-_-|| 岛国的vps似乎很快，推荐一款<a href="https://www.vultr.com/" target="_blank" rel="noopener">Vultr</a></p>
+$ <span class="token function">cat</span> ss.conf
+<span class="token punctuation">{</span>
+    <span class="token string">"server"</span><span class="token keyword">:</span><span class="token string">"<span class="token variable">${serverip}</span>"</span>,
+    <span class="token string">"server_port"</span>:8080,
+    <span class="token string">"local_port"</span>:1080,
+    <span class="token string">"password"</span><span class="token keyword">:</span><span class="token string">"<span class="token variable">${yourpassword}</span>"</span>,
+    <span class="token string">"method"</span><span class="token keyword">:</span><span class="token string">"aes-256-cfb"</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>备注： budgetvm主机服务在洛杉矶，所以国内登录过去会有点慢-_-|| 岛国的vps似乎很快，推荐一款<a href="https://www.vultr.com/" target="_blank" rel="noopener">Vultr</a></p>
 
       
     </div>
@@ -260,7 +260,7 @@ $ cat ss.conf
   
     <a href="/2016/04/17/camus-kafka-to-hdfs/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Camus 落地kafka Topic</div>
+      <div class="article-nav-title">Camus 落地 kafka Topic</div>
     </a>
   
 </nav>
@@ -289,11 +289,11 @@ $ cat ss.conf
     <ul class="nav sidebar-categories margin-bottom-40">
       
 	<li>
-	  <a href="/categories/Java/">Java (4)</a>
+	  <a href="/categories/Linux/">Linux (6)</a>
 	</li>
       
 	<li>
-	  <a href="/categories/Linux/">Linux (6)</a>
+	  <a href="/categories/Java/">Java (4)</a>
 	</li>
       
 	<li>
@@ -340,6 +340,12 @@ $ cat ss.conf
     
   
     
+  
+    
+  
+    
+  
+    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
@@ -348,12 +354,6 @@ $ cat ss.conf
 	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
 	</div>                        
       </div>
-    
-  
-    
-  
-    
-  
     
   
     
@@ -414,8 +414,6 @@ $ cat ss.conf
     
   
     
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/protocol-buffers.png" class="img-responsive ">
@@ -424,6 +422,8 @@ $ cat ss.conf
 	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
 	</div>                        
       </div>
+    
+  
     
   
     

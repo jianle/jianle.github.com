@@ -7,24 +7,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>SSH 的一些使用技巧 | Loh&#39;s Blog</title>
+  <title>SSH 使用技巧 | Loh&#39;s Blog</title>
 
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="baidu-site-verification" content="SKU1ruzzZG" />
 
-  <meta name="description" content="记录有关于SSH的一些使用，其中包含：  ssh|sshd 服务 配置ssh ssh 端口转发 使用ssh配置socks代理">
+  <meta name="description" content="在实际开发过程中，ssh 是必不可少的，在本文中我们将详细描述关于 ssh 的使用，如： 转发、代理、配置等等">
 <meta name="keywords" content="ssh">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SSH 的一些使用技巧">
+<meta property="og:title" content="SSH 使用技巧">
 <meta property="og:url" content="http://saboloh.com/2016/04/16/about-ssh/index.html">
 <meta property="og:site_name" content="Loh&#39;s Blog">
-<meta property="og:description" content="记录有关于SSH的一些使用，其中包含：  ssh|sshd 服务 配置ssh ssh 端口转发 使用ssh配置socks代理">
+<meta property="og:description" content="在实际开发过程中，ssh 是必不可少的，在本文中我们将详细描述关于 ssh 的使用，如： 转发、代理、配置等等">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-03-29T07:14:11.458Z">
+<meta property="og:updated_time" content="2018-03-30T06:05:17.412Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SSH 的一些使用技巧">
-<meta name="twitter:description" content="记录有关于SSH的一些使用，其中包含：  ssh|sshd 服务 配置ssh ssh 端口转发 使用ssh配置socks代理">
+<meta name="twitter:title" content="SSH 使用技巧">
+<meta name="twitter:description" content="在实际开发过程中，ssh 是必不可少的，在本文中我们将详细描述关于 ssh 的使用，如： 转发、代理、配置等等">
   
     <link rel="alternative" href="/atom.xml" title="Loh&#39;s Blog" type="application/atom+xml">
   
@@ -127,7 +127,7 @@
   <section id="main">
     
     <h2 itemprop="name">
-      <a class="article-title" href="/2016/04/16/about-ssh/">SSH 的一些使用技巧</a>
+      <a class="article-title" href="/2016/04/16/about-ssh/">SSH 使用技巧</a>
     </h2>
 
 
@@ -173,80 +173,93 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>记录有关于SSH的一些使用，其中包含：</p>
-<ul>
-<li>ssh|sshd 服务</li>
-<li>配置ssh</li>
-<li>ssh 端口转发</li>
-<li>使用ssh配置socks代理</li>
-</ul>
+        <p>在实际开发过程中，ssh 是必不可少的，在本文中我们将详细描述关于 ssh 的使用，如： 转发、代理、配置等等</p>
 <a id="more"></a>
 <h3 id="ssh-sshd-服务"><a href="#ssh-sshd-服务" class="headerlink" title="ssh|sshd 服务"></a>ssh|sshd 服务</h3><ul>
-<li>服务管理（启动/关闭/重启）<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">service</span> <span class="token function">ssh</span><span class="token operator">|</span>sshd start/status/stop
+<li>服务管理（启动/关闭/重启）</li>
+</ul>
+<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">service</span> <span class="token function">ssh</span><span class="token operator">|</span>sshd start/status/stop
 or
 $ /etc/init.d/ssh<span class="token operator">|</span>sshd start
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-</li>
-</ul>
 <h3 id="配置ssh"><a href="#配置ssh" class="headerlink" title="配置ssh"></a>配置ssh</h3><ul>
 <li>生成key</li>
-<li>配置.ssh/config<pre class="line-numbers language-bash"><code class="language-bash">$ ssh-keygen -t rsa                             //生成key
-$ ssh-add                                       //秘钥加入ssh-agent 
+<li>配置.ssh/config</li>
+</ul>
+<pre class="line-numbers language-bash"><code class="language-bash">$ ssh-keygen -t rsa                             //生成key
+$ ssh-add                                       //秘钥加入ssh-agent
 $ ssh-add -l                                    //查看
 $ <span class="token function">cat</span> ~/.ssh/id_rsa.pub <span class="token operator">>></span> authorized_keys
 $ vim ~/.ssh/config
 Host mid
-   User saboloh                               //配置默认用户
+     User saboloh                               //配置默认用户
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ul>
 <h3 id="ssh-端口转发"><a href="#ssh-端口转发" class="headerlink" title="ssh 端口转发"></a>ssh 端口转发</h3><ul>
-<li>端口转发/代理<br><code>`</code>bash<br>$ /usr/bin/ssh -f -N -Llocalhost:10000:10.126.215.131:10000 <a href="mailto:root@10.126.97.98" target="_blank" rel="noopener">root@10.126.97.98</a><br>$ ssh -fNg -L 3309:10.126.81.130:3306 <a href="mailto:hadoop@10.126.81.130" target="_blank" rel="noopener">hadoop@10.126.81.130</a><br>$ /usr/bin/ssh -f -N -D 0.0.0.0:8081 localhost</li>
+<li>端口转发/代理   </li>
 </ul>
-<p>本地查看端口：<br>$ telnet localhost 10000</p>
-<p>如果服务器报错：<br>open failed: administratively prohibited: open failed</p>
-<p>这是由于代理机器的ssh服务部支持转发 换过一台机子</p>
-<pre><code>
-### 使用ssh配置socks代理
+<pre class="line-numbers language-bash"><code class="language-bash">$ /usr/bin/ssh -f -N -Llocalhost:10000:10.126.215.131:10000 root@10.126.97.98
+$ <span class="token function">ssh</span> -fNg -L 3309:10.126.81.130:3306 hadoop@10.126.81.130
+$ /usr/bin/ssh -f -N -D 0.0.0.0:8081 localhost
 
-* 创建本地代理
-```bash
-$ ssh -f -N -D 0.0.0.0:8081 localhost 
-</code></pre><ul>
-<li><p>使用node.js实现FindProxyForURL  </p>
+本地查看端口：
+$ telnet localhost 10000
+
+如果服务器报错：
+<span class="token function">open</span> failed: administratively prohibited: <span class="token function">open</span> failed
+
+这是由于代理机器的ssh服务部支持转发 换过一台机子
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="使用ssh配置socks代理"><a href="#使用ssh配置socks代理" class="headerlink" title="使用ssh配置socks代理"></a>使用ssh配置socks代理</h3><ul>
+<li>创建本地代理  </li>
+</ul>
+<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">ssh</span> -f -N -D 0.0.0.0:8081 localhost
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <ul>
+<li>使用node.js实现FindProxyForURL  <ul>
 <li>app.js</li>
 <li>index.html</li>
 </ul>
-<p><code>`</code>js<br>var express = require(‘express’);<br>var path = require(‘path’);<br>var app = express();</p>
 </li>
 </ul>
-<p>app.use(express.static(path.join(__dirname, ‘public’)));</p>
-<p>app.listen(3000, function () {<br>  console.log(‘Example app listening on port 3000!’);<br>});</p>
-<pre><code>  ```js
-function FindProxyForURL(url, host) {
-  if (host.indexOf(&#39;10.&#39;) == 0 ||
-    host.indexOf(&#39;tjtx-&#39;) == 0 ||
-    host.indexOf(&#39;db20-&#39;) == 0 ||
-    host.indexOf(&#39;ods10-&#39;) == 0
-    ) {
-    return &quot;SOCKS 10.249.14.41:8081;&quot;;
-  }
-    return &quot;SOCKS 10.249.14.41:8081;&quot;;
-} 
-</code></pre><ul>
-<li>用supervisor守护node.js 进程<pre class="line-numbers language-bash"><code class="language-bash"><span class="token punctuation">[</span>program:app<span class="token punctuation">]</span>
+<pre class="line-numbers language-js"><code class="language-js"><span class="token comment" spellcheck="true">//app.js</span>
+<span class="token keyword">var</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>express<span class="token punctuation">.</span><span class="token keyword">static</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'public'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+app<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">3000</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Example app listening on port 3000!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//index.html</span>
+<span class="token keyword">function</span> <span class="token function">FindProxyForURL</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span> host<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>host<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">'10.'</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">||</span>
+    host<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">'tjtx-'</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">||</span>
+    host<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">'db20-'</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">||</span>
+    host<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">'ods10-'</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span>
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token string">"SOCKS 10.249.14.41:8081;"</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token string">"SOCKS 10.249.14.41:8081;"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>用supervisor守护node.js 进程   </li>
+</ul>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token punctuation">[</span>program:app<span class="token punctuation">]</span>
 directory <span class="token operator">=</span> /home/saboloh/dwetl/socks
 <span class="token function">command</span> <span class="token operator">=</span> /home/saboloh/developer/node-v5.1.0-linux-x64/bin/node app.js
 user <span class="token operator">=</span> root
 stdout_logfile <span class="token operator">=</span> /home/saboloh/dwetl/socks/log
 redirect_stderr <span class="token operator">=</span> <span class="token boolean">true</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-<li>配置url<pre class="line-numbers language-bash"><code class="language-bash">http://10.249.14.41:3000
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
+<ul>
+<li>配置url</li>
 </ul>
+<pre class="line-numbers language-bash"><code class="language-bash">http://localhost:3000
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
       
     </div>
@@ -291,11 +304,11 @@ redirect_stderr <span class="token operator">=</span> <span class="token boolean
     <ul class="nav sidebar-categories margin-bottom-40">
       
 	<li>
-	  <a href="/categories/Java/">Java (4)</a>
+	  <a href="/categories/Linux/">Linux (6)</a>
 	</li>
       
 	<li>
-	  <a href="/categories/Linux/">Linux (6)</a>
+	  <a href="/categories/Java/">Java (4)</a>
 	</li>
       
 	<li>
@@ -342,6 +355,12 @@ redirect_stderr <span class="token operator">=</span> <span class="token boolean
     
   
     
+  
+    
+  
+    
+  
+    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
@@ -350,12 +369,6 @@ redirect_stderr <span class="token operator">=</span> <span class="token boolean
 	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
 	</div>                        
       </div>
-    
-  
-    
-  
-    
-  
     
   
     
@@ -416,8 +429,6 @@ redirect_stderr <span class="token operator">=</span> <span class="token boolean
     
   
     
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/protocol-buffers.png" class="img-responsive ">
@@ -426,6 +437,8 @@ redirect_stderr <span class="token operator">=</span> <span class="token boolean
 	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
 	</div>                        
       </div>
+    
+  
     
   
     
