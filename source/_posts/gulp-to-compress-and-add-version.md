@@ -5,7 +5,7 @@ tags:
  - gulp
 categories: Frontend
 lede: "通过 gulp 来构建前端代码，压缩以及版本号管理"
-thumbnail: /img/gulp.png
+thumbnail: /img/gulp_build.png
 ---
 
 [gulp](https://gulpjs.com/) is a toolkit that helps you automate painful or time-consuming tasks in your development workflow.
