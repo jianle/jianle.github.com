@@ -20,7 +20,7 @@ thumbnail: /img/scalatra.png
 //slice upload
 var file = document.getElementById('file').files[0];
 var fileSize = file.size;
-var chunkSize = 8 * 1024 * 1024; // buffer bytes
+var chunkSize = 2 * 1024 * 1024; // buffer bytes
 var offset = 0;
 var filename = file.name;
 
@@ -42,7 +42,7 @@ while (offset < fileSize) {
 }
 ```
 
-切片上传中 `file.slice(offset, size, file.type)` 的 file.type 是保留切片之后的文件类型，这会影响到 request 的 Content-type 参数。可根据你的服务器接收类型来添加这个参数，我后端使用的 scalatra 框架，当 Content-type 为 application/octet-stream 时，文件流接收不到。
+切片上传中 `file.slice(offset, size, file.type)` 的 file.type 是保留切片之后的文件类型，可了解[MIME 类型](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Basics_of_HTTP/MIME_types)
 
 ### 后端接收
 
