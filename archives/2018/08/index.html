@@ -7,24 +7,22 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Fluentd数据采集写入Kafka | Loh&#39;s Blog</title>
+  <title>Archives: 2018/8 | Loh&#39;s Blog</title>
 
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="baidu-site-verification" content="SKU1ruzzZG" />
 
-  <meta name="description" content="日志实时采集 安装fluent  $ sudo apt-get install td-agent">
-<meta name="keywords" content="kafka,日志">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Fluentd数据采集写入Kafka">
-<meta property="og:url" content="http://saboloh.com/2016/04/16/fluentd-to-kafka/index.html">
+  <meta name="description" content="Loh&apos;s Blog">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Loh&#39;s Blog">
+<meta property="og:url" content="http://saboloh.com/archives/2018/08/index.html">
 <meta property="og:site_name" content="Loh&#39;s Blog">
-<meta property="og:description" content="日志实时采集 安装fluent  $ sudo apt-get install td-agent">
+<meta property="og:description" content="Loh&apos;s Blog">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-03-29T07:14:11.458Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Fluentd数据采集写入Kafka">
-<meta name="twitter:description" content="日志实时采集 安装fluent  $ sudo apt-get install td-agent">
+<meta name="twitter:title" content="Loh&#39;s Blog">
+<meta name="twitter:description" content="Loh&apos;s Blog">
   
     <link rel="alternative" href="/atom.xml" title="Loh&#39;s Blog" type="application/atom+xml">
   
@@ -121,201 +119,75 @@
   <div class="container">
   <ul class="breadcrumb">
     <li><a href="/">Home</a></li>
-    <li><a href="/archives/">Blog</a></li>
-    <li class="active">Post</li>
+    <li class="active">Blog</li>
   </ul>
-  <section id="main">
+<div id="main">
+  <h1>Blog</h1>
+  <div class="row">
+
+<div class="col-md-9 col-sm-9 blog-posts">
+
+
+  <section class="archives-wrap">
+    <div class="archives">
+      
+	<div class="row">
+  <div class="col-md-4 col-sm-4">
+    
+      <img src="/img/thread-pool.png" class="img-responsive">
+    
+  </div>
+  
+    <div class="col-md-8 col-sm-8">
+  
     
     <h2 itemprop="name">
-      <a class="article-title" href="/2016/04/16/fluentd-to-kafka/">Fluentd数据采集写入Kafka</a>
+      <a class="archive-article-title" href="/2018/08/14/java-priority-thread-pool-executor/">Java priority thread pool executor</a>
     </h2>
 
 
-    <div class="row">
-<div class="col-md-9 col-sm-9 blog-posts">
-<article id="post-fluentd-to-kafka" class="article article-type-post blog-item" itemscope itemprop="blogPost">
-  <div class="article-meta">
-  </div>
-  <div class="article-inner">
-    
-    
-    <header class="article-header">
-      <ul class="blog-info">
-	<li><i class="fa fa-user"></i> Anonymous</li>
-	<li><i class="fa fa-calendar"></i>
-	  <time datetime="2016-04-16T10:48:56.000Z" itemprop="datePublished">2016/04/16</time>
+    <ul class="blog-info">
+      <li>
+      	<i class="fa fa-calendar"></i> 
+        <time datetime="2018-08-14T05:47:17.000Z" itemprop="datePublished">2018/08/14</time>
 
-	</li>
-	<li class="hidden-xs"><i class="fa fa-comments"></i>
-	  <a href="http://saboloh.com/2016/04/16/fluentd-to-kafka/#disqus_thread" class="article-comment-link">Comments</a>
-	</li>
-	<li class="hidden-xs"><i class="fa fa-tags"></i> 
-	  
+      </li>
+      <li><i class="fa fa-comments"></i>
+        <a href="http://saboloh.com/2018/08/14/java-priority-thread-pool-executor/#disqus_thread" class="article-comment-link">Comments</a>
+      </li>
+      <li>
+	<i class="fa fa-tags"></i>
+	
   
-    <a href="/tags/kafka/" title="kafka">kafka</a>,
-  
-    <a href="/tags/日志/" title="日志">日志</a>
+    <a href="/tags/java/" title="java">java</a>
   
 
 
-	</li>
-      </ul>
+      </li>
+    </ul>
+    <div class="blog-item">
       
-  <div class="article-category">
-    
-    Category: 
-    
-    Categories:
-    <a class="article-category-link" href="/categories/BigData/">BigData</a>
-  </div>
-  <br>
-
-
-    </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="日志实时采集"><a href="#日志实时采集" class="headerlink" title="日志实时采集"></a>日志实时采集</h3><ul>
-<li>安装<a href="http://www.fluentd.org/" target="_blank" rel="noopener">fluent</a></li>
-</ul>
-<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> td-agent
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<a id="more"></a>
-<ul>
-<li>修改ruby 的gem源 </li>
-</ul>
-<pre class="line-numbers language-bash"><code class="language-bash">安装好Ruby
-$ gem <span class="token function">source</span>  <span class="token comment" spellcheck="true"># 查看源</span>
-
-删除默认源：
-$ gem <span class="token function">source</span> -r <span class="token operator">&lt;</span>url<span class="token operator">></span>
-添加新指向：
-$ gem <span class="token function">source</span> -a https://ruby.taobao.org/
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<ul>
-<li><p>安装<a href="https://github.com/htgc/fluent-plugin-kafka/" target="_blank" rel="noopener">fluent-plugin-kafka</a> (github上有详细介绍) </p>
-</li>
-<li><p>fluentd –setup /path/xxx  </p>
-</li>
-<li><p>配置/path/xxx下的fluent.conf</p>
-</li>
-</ul>
-<pre class="line-numbers language-bash"><code class="language-bash"><span class="token operator">&lt;</span>source<span class="token operator">></span>
-  @type forward
-  @id forward_input
-<span class="token operator">&lt;</span>/source<span class="token operator">></span>
-
-<span class="token operator">&lt;</span>source<span class="token operator">></span>
-  @type http
-  @id http_input
-  port 8888
-<span class="token operator">&lt;</span>/source<span class="token operator">></span>
-
-<span class="token operator">&lt;</span>source<span class="token operator">></span>
-  @type    <span class="token function">tail</span>  <span class="token comment" spellcheck="true">#### tail方式采集日志</span>
-  <span class="token comment" spellcheck="true">#format   none</span>
-  <span class="token function">format</span>   /^<span class="token punctuation">(</span>?<span class="token operator">&lt;</span>all<span class="token operator">></span>.*<span class="token punctuation">)</span>$/
-  path     /tmp/app_log.txt
-  pos_file /data/logs/td-agent/httpd-access.log.pos
-  tag      app_log.tag
-<span class="token operator">&lt;</span>/source<span class="token operator">></span>
-
-<span class="token operator">&lt;</span>match app_log.**<span class="token operator">></span>
-  @type               kafka
-  <span class="token comment" spellcheck="true">#brokers            localhost:9002,localhost:9003</span>
-  zookeeper           localhost:2181
-  default_topic       app_log_raw  
-  <span class="token comment" spellcheck="true">#刷新间隔</span>
-  flush_interval      30
-  buffer_type         <span class="token function">file</span>
-  ack_timeout_ms      2000
-  output_data_type    attr:all
-  compression_codec   none
-<span class="token operator">&lt;</span>/match<span class="token operator">></span>
-
-<span class="token operator">&lt;</span>source<span class="token operator">></span>
-  @type monitor_agent
-  @id monitor_agent_input
-  port 24220
-<span class="token operator">&lt;</span>/source<span class="token operator">></span>
-
-<span class="token operator">&lt;</span>source<span class="token operator">></span>
-  @type debug_agent
-  @id debug_agent_input
-  bind 127.0.0.1
-  port 24230
-<span class="token operator">&lt;</span>/source<span class="token operator">></span>
-
-<span class="token operator">&lt;</span>match debug.**<span class="token operator">></span>
-  @type stdout
-  @id stdout_output
-<span class="token operator">&lt;</span>/match<span class="token operator">></span>
-
-<span class="token operator">&lt;</span>match system.**<span class="token operator">></span>
-  @type forward
-  @id forward_output
-
-  <span class="token operator">&lt;</span>server<span class="token operator">></span>
-    host 192.168.0.11
-  <span class="token operator">&lt;</span>/server<span class="token operator">></span>
-  <span class="token operator">&lt;</span>secondary<span class="token operator">></span>
-    <span class="token operator">&lt;</span>server<span class="token operator">></span>
-      host 192.168.0.12
-    <span class="token operator">&lt;</span>/server<span class="token operator">></span>
-  <span class="token operator">&lt;</span>/secondary<span class="token operator">></span>
-<span class="token operator">&lt;</span>/match<span class="token operator">></span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<ul>
-<li><p>确保<a href="http://kafka.apache.org/documentation.html#quickstart" target="_blank" rel="noopener">kafka</a>已经启动完成</p>
-</li>
-<li><p>启动fluentd</p>
-</li>
-</ul>
-<pre><code>$ fluentd -c fluent.conf
-</code></pre><ul>
-<li>查看kafka中数据是否进入 </li>
-</ul>
-<pre><code>$ bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic app_log_raw
-</code></pre>
+	Java 使用 ThreadPoolExecutor 和 PriorityBlockingQueue 实现优先级线程池
       
     </div>
+    <br>
+    <br>
+    <a href="http://saboloh.com/2018/08/14/java-priority-thread-pool-executor/" class="more">Read more <i class="icon-angle-right"></i></a>
   </div>
-  
+</div>
+<hr class="blog-post-sep">
+
+      
+    </div>
     
-<nav id="article-nav">
-  
-    <a href="/2016/04/17/camus-kafka-to-hdfs/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Camus 落地 kafka Topic
-        
+      <div id="page-nav" class="pagination">
+	<span class="page-number current">1</span>
       </div>
-    </a>
-  
-  
-    <a href="/2016/04/16/linux-ops/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Linux运维</div>
-    </a>
-  
-</nav>
-
-  
-  <br>
-</article>
-
-
-
-<section id="comments">
-  <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
-</section>
-<br>
-
+    
+  </section>
 
 </div>
+
 <div class="col-md-3 col-sm-3 blog-sidebar">
   <!-- CATEGORIES START -->
 <h2 class="no-top-space">Categories</h2>
@@ -476,9 +348,10 @@ $ gem <span class="token function">source</span> -a https://ruby.taobao.org/
 <!-- END FEATURED POSTS -->                            
 
 </div>
+
 </div>
 
-  </section>
+</div>
 </div>
 
       <!-- BEGIN PRE-FOOTER -->
@@ -589,20 +462,6 @@ $ gem <span class="token function">source</span> -a https://ruby.taobao.org/
 <!-- BEGIN INTEGRATIONS -->
 
 
-
-<script>
-  
-    var disqus_config = function () {
-      this.page.url = 'http://saboloh.com/2016/04/16/fluentd-to-kafka/';
-    };
-  
-  (function() {  // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = '//saboloh.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-  })();
-</script>
 
 <script id="dsq-count-scr" src="//saboloh.disqus.com/count.js" async></script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
