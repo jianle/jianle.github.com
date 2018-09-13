@@ -33,20 +33,20 @@ $ printf "%d\n" 0x1450a  -- 对应进程ID(83210)
 $ lsof -p 85869 | grep TCP 
 $ ss -atnp | grep :25  (查看邮件相关网络请求) 
 $ ss -atnp | grep :25 | grep  223.252.214
-ESTAB      0      69120          10.126.97.98:39905       223.252.214.64:25     users:(("java",85869,195))
-ESTAB      0      288000         10.126.97.98:30519       223.252.214.64:25     users:(("java",85869,185))
-ESTAB      0      43835          10.126.97.98:58921       223.252.214.65:25     users:(("java",85869,59))
-ESTAB      0      201600         10.126.97.98:50990       223.252.214.65:25     users:(("java",85869,183))
-ESTAB      0      276480         10.126.97.98:51453       223.252.214.65:25     users:(("java",85869,186))
-ESTAB      0      243360         10.126.97.98:31148       223.252.214.64:25     users:(("java",85869,181))
+ESTAB      0      69120          127.0.0.1:39905       223.252.214.64:25     users:(("java",85869,195))
+ESTAB      0      288000         127.0.0.1:30519       223.252.214.64:25     users:(("java",85869,185))
+ESTAB      0      43835          127.0.0.1:58921       223.252.214.65:25     users:(("java",85869,59))
+ESTAB      0      201600         127.0.0.1:50990       223.252.214.65:25     users:(("java",85869,183))
+ESTAB      0      276480         127.0.0.1:51453       223.252.214.65:25     users:(("java",85869,186))
+ESTAB      0      243360         127.0.0.1:31148       223.252.214.64:25     users:(("java",85869,181))
 
 $ lsof -p 85869 | grep TCP | grep smtp 
-java    85869 root   59u  IPv4           96189338        0t0      TCP tjtx-97-98.58os.org:58921->mail0401.icoremail.net:smtp (ESTABLISHED)
-java    85869 root  181u  IPv4           96062679        0t0      TCP tjtx-97-98.58os.org:31148->mail0402.icoremail.net:smtp (ESTABLISHED)
-java    85869 root  183u  IPv4           96036545        0t0      TCP tjtx-97-98.58os.org:50990->mail0401.icoremail.net:smtp (ESTABLISHED)
-java    85869 root  185u  IPv4           96047561        0t0      TCP tjtx-97-98.58os.org:30519->mail0402.icoremail.net:smtp (ESTABLISHED)
-java    85869 root  186u  IPv4           96047309        0t0      TCP tjtx-97-98.58os.org:51453->mail0401.icoremail.net:smtp (ESTABLISHED)
-java    85869 root  195u  IPv4           96240773        0t0      TCP tjtx-97-98.58os.org:39905->mail0402.icoremail.net:smtp (ESTABLISHED)
+java    85869 root   59u  IPv4           96189338        0t0      TCP 127.0.0.1:58921->mail0401.icoremail.net:smtp (ESTABLISHED)
+java    85869 root  181u  IPv4           96062679        0t0      TCP 127.0.0.1:31148->mail0402.icoremail.net:smtp (ESTABLISHED)
+java    85869 root  183u  IPv4           96036545        0t0      TCP 127.0.0.1:50990->mail0401.icoremail.net:smtp (ESTABLISHED)
+java    85869 root  185u  IPv4           96047561        0t0      TCP 127.0.0.1:30519->mail0402.icoremail.net:smtp (ESTABLISHED)
+java    85869 root  186u  IPv4           96047309        0t0      TCP 127.0.0.1:51453->mail0401.icoremail.net:smtp (ESTABLISHED)
+java    85869 root  195u  IPv4           96240773        0t0      TCP 127.0.0.1:39905->mail0402.icoremail.net:smtp (ESTABLISHED)
 
 $ tcpdump -A -nn host 223.252.214.65 and port 25
 $ tcpdump -i any -A -nn host 223.252.214.65 and dst|src port 25
@@ -65,7 +65,7 @@ read(196, "\10\342\271\360?a{\201\7p\37\272\330\36\240kj\177\225\303\325\364}U\3
 sendto(195, "HxyjfNV3Yz2RBmgq7JZxCMUJ+rDu/C6t"..., 8190, 0, NULL, 0  
 
 $ lsof -P -p 85869 | grep TCP | grep 195
-java    85869 root  195u  IPv4           96240773        0t0      TCP tjtx-97-98.58os.org:39905->mail0402.icoremail.net:smtp (ESTABLISHED)  
+java    85869 root  195u  IPv4           96240773        0t0      TCP 127.0.0.1:39905->mail0402.icoremail.net:smtp (ESTABLISHED)  
 
 $ lsof -p 85869 | grep 196
 java    85869 root  196r   REG               8,10   14009262 18481291 /data1/dw_monitor/mini/excel/太平洋数据.xlsx
@@ -190,7 +190,7 @@ $ make install
 * 同步目录
 
 ```
-$ rsync -a -f"+ */" -f"- *" /data/ root@10.126.92.72:/data/
+$ rsync -a -f"+ */" -f"- *" /data/ root@127.0.0.1:/data/
 ```
 
 * grep 使用 [零宽断言](http://deerchao.net/tutorials/regex/regex.htm#lookaround)
