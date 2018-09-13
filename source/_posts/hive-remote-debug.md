@@ -24,10 +24,10 @@ Usage: hive --debug[:comma-separated parameters list]
 
 Parameters:
 
-recursive=&lt;y|n&gt;             Should child JVMs also be started in debug mode. Default: y
-port=&lt;port_number&gt;          Port on which main JVM listens for debug connection. Default: 8000
-mainSuspend=&lt;y|n&gt;           Should main JVM wait with execution for the debugger to connect. Default: y
-childSuspend=&lt;y|n&gt;          Should child JVMs wait with execution for the debugger to connect. Default: n
+recursive=<y|n>             Should child JVMs also be started in debug mode. Default: y
+port=<port_number>          Port on which main JVM listens for debug connection. Default: 8000
+mainSuspend=<y|n>           Should main JVM wait with execution for the debugger to connect. Default: y
+childSuspend=<y|n>          Should child JVMs wait with execution for the debugger to connect. Default: n
 swapSuspend                 Swaps suspend options between main and child JVMs
 ```
 
@@ -54,7 +54,7 @@ Run -> Debug... -> Edit Configurations ...
 ```java  
 @Override
 protected boolean isSplitable(FileSystem fs, Path file) {
-    return false;
+    return false
 }
 ```
 
