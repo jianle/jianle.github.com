@@ -1,5 +1,5 @@
 ---
-title: Java 排查内存溢出错误
+title: Java 内存溢出排查
 date: 2018-07-05 11:35:47
 tags:
   - java
@@ -13,7 +13,7 @@ Java OOM 毫无疑问是开发人员常见并且及其痛恨的问题，但是�
 
 #### 所遇到的问题
 
-在使用 scala 开发的一个 web 服务，在用户使用中，经常出现这个错误： `java.lang.OutOfMemoryError: Java heap space` 于是乎就想办法定位到底是什么原因导致。
+在使用 scala 开发的一个 web 服务，在用户使用中，经常出现： `java.lang.OutOfMemoryError: Java heap space` 。而且还束手无策，每次都只能重启服务解决。
 
 
 #### 准备
@@ -58,7 +58,7 @@ val outputFuture = Http(outputReq > { res =>
   out.close
 })
 ```  
-看不出问题，感觉一切正常。反源码会发现，`res.getResponseBodyAsStream()` 之前，已经将所有内容都存入一个 `ArrayList` 当中了。哎，没用对啊。   
+看不出问题，感觉一切正常。翻源码会发现，`res.getResponseBodyAsStream()` 之前，已经将所有内容都存入一个 `ArrayList` 当中了。哎，没用对啊。   
 
 #### 解决办法  
 
