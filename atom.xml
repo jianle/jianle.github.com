@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://saboloh.com/"/>
-  <updated>2018-08-14T06:39:58.668Z</updated>
+  <updated>2018-09-13T05:40:17.016Z</updated>
   <id>http://saboloh.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hive/Java Remote Debug</title>
+    <link href="http://saboloh.com/2018/09/13/hive-remote-debug/"/>
+    <id>http://saboloh.com/2018/09/13/hive-remote-debug/</id>
+    <published>2018-09-13T03:31:08.000Z</published>
+    <updated>2018-09-13T05:40:17.016Z</updated>
+    
+    <content type="html"><![CDATA[<p>背景： 在使用自定义 <a href="https://cwiki.apache.org/confluence/display/Hive/StorageHandlers" target="_blank" rel="noopener">Hive StorageHandlers</a> 时，被爆数据 bug. 出现重复记录，一开始怀疑是原始数据，单最后证明就是这个 <code>StorageHandlers</code> 出的问题，但是想不到是啥原因。于是采用了 remote debug 的方式来排查整个自定义类的执行过程。</p><h3 id="先了解-Hive-DEBUG-的使用"><a href="#先了解-Hive-DEBUG-的使用" class="headerlink" title="先了解 Hive DEBUG 的使用"></a>先了解 Hive DEBUG 的使用</h3><p>在 hive-cli 中，默认是支持 <code>--debug</code> 的启动配置的。详情如下：</p><pre class="line-numbers language-bash"><code class="language-bash">hive --debug --helpAllows to debug Hive by connecting to it via JDI APIUsage: hive --debug<span class="token punctuation">[</span>:comma-separated parameters list<span class="token punctuation">]</span>Parameters:recursive<span class="token operator">=</span><span class="token operator">&amp;</span>lt<span class="token punctuation">;</span>y<span class="token operator">|</span>n<span class="token operator">&amp;</span>gt<span class="token punctuation">;</span>             Should child JVMs also be started <span class="token keyword">in</span> debug mode. Default: yport<span class="token operator">=</span><span class="token operator">&amp;</span>lt<span class="token punctuation">;</span>port_number<span class="token operator">&amp;</span>gt<span class="token punctuation">;</span>          Port on <span class="token function">which</span> main JVM listens <span class="token keyword">for</span> debug connection. Default: 8000mainSuspend<span class="token operator">=</span><span class="token operator">&amp;</span>lt<span class="token punctuation">;</span>y<span class="token operator">|</span>n<span class="token operator">&amp;</span>gt<span class="token punctuation">;</span>           Should main JVM <span class="token function">wait</span> with execution <span class="token keyword">for</span> the debugger to connect. Default: ychildSuspend<span class="token operator">=</span><span class="token operator">&amp;</span>lt<span class="token punctuation">;</span>y<span class="token operator">|</span>n<span class="token operator">&amp;</span>gt<span class="token punctuation">;</span>          Should child JVMs <span class="token function">wait</span> with execution <span class="token keyword">for</span> the debugger to connect. Default: nswapSuspend                 Swaps <span class="token function">suspend</span> options between main and child JVMs<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>可以看到， 默认启动 debug 的端口为 <code>8000</code>, 可以自行修改，包括是否挂起等设定。我这边启动命令为：    </p><pre class="line-numbers language-bash"><code class="language-bash">hive --debug:port<span class="token operator">=</span>5005,mainSuspend<span class="token operator">=</span>y -f debug.hql<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>说明: 由于我们限制了开发环境和正式环境的端口访问，也就是本地无法连接线上 debug 的 5005 这个端口，无奈用了 ssh 打了一个洞 <code>ssh -f -N -Lthishost:5005:targethost:5005 localhost</code>  </p><h3 id="本地-IDEA-启动-Remote-Debug"><a href="#本地-IDEA-启动-Remote-Debug" class="headerlink" title="本地 IDEA 启动 Remote Debug"></a>本地 IDEA 启动 Remote Debug</h3><p>以 Intellij IDEA 为例：   </p><p>Run -&gt; Debug… -&gt; Edit Configurations …<br><img src="/img/hive_debug.png" alt="">  </p><p>如上图所示，配置好 IP 和端口，点击 Debug.  </p><p>最终定位问题，因为在自定义 <code>getSplit</code> 的时候，文件做了切割，切割之后又做了转换，导致文件读取了2次。因为文件是压缩文件，不允许切割的，所以覆写了 <code>isSplitable</code> 就可以了。</p><pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span><span class="token keyword">protected</span> <span class="token keyword">boolean</span> <span class="token function">isSplitable</span><span class="token punctuation">(</span>FileSystem fs<span class="token punctuation">,</span> Path file<span class="token punctuation">)</span> <span class="token punctuation">{</span>    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span><span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul><li><a href="https://cwiki.apache.org/confluence/display/Hive/StorageHandlers" target="_blank" rel="noopener">Hive StorageHandlers</a></li><li><a href="https://stackify.com/java-remote-debugging/" target="_blank" rel="noopener">Java Remote Debugging</a></li><li><a href="https://hadoop.apache.org/docs/r2.7.5/api/org/apache/hadoop/mapred/FileInputFormat.html" target="_blank" rel="noopener">FileInputFormat API</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;背景： 在使用自定义 &lt;a href=&quot;https://cwiki.apache.org/confluence/display/Hive/StorageHandlers&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hive StorageHandlers
+      
+    
+    </summary>
+    
+      <category term="BigData" scheme="http://saboloh.com/categories/BigData/"/>
+    
+    
+      <category term="hive" scheme="http://saboloh.com/tags/hive/"/>
+    
+      <category term="debug" scheme="http://saboloh.com/tags/debug/"/>
+    
+  </entry>
   
   <entry>
     <title>Java priority thread pool executor</title>
@@ -281,9 +308,9 @@
     
       <category term="hive" scheme="http://saboloh.com/tags/hive/"/>
     
-      <category term="Hive" scheme="http://saboloh.com/tags/Hive/"/>
-    
       <category term="hadoop" scheme="http://saboloh.com/tags/hadoop/"/>
+    
+      <category term="Hive" scheme="http://saboloh.com/tags/Hive/"/>
     
       <category term="command" scheme="http://saboloh.com/tags/command/"/>
     
@@ -546,39 +573,6 @@ $ rm -Rf /var/lib/flume-ng /var/lib/hadoop* /var/lib/hue /var/lib/navigator /var
       <category term="chd" scheme="http://saboloh.com/tags/chd/"/>
     
       <category term="cloudera" scheme="http://saboloh.com/tags/cloudera/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>使用supervisor守护进程</title>
-    <link href="http://saboloh.com/2016/04/19/use-supervisor/"/>
-    <id>http://saboloh.com/2016/04/19/use-supervisor/</id>
-    <published>2016-04-19T02:04:27.000Z</published>
-    <updated>2018-03-29T07:14:11.462Z</updated>
-    
-    <content type="html"><![CDATA[<ul><li>Install </li></ul><pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> supervisor<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><ul><li>配置 </li></ul><ol><li>使用默认路径下配置(/etc/supervisord.conf)</li><li>指定目录<code>supervisord.conf</code>配置 </li></ol><a id="more"></a><pre class="line-numbers language-bash"><code class="language-bash"><span class="token punctuation">;</span> supervisor config <span class="token function">file</span><span class="token punctuation">[</span>unix_http_server<span class="token punctuation">]</span>file<span class="token operator">=</span>/home/hadoop/supervisor/supervisor.sock   <span class="token punctuation">;</span> <span class="token punctuation">(</span>the path to the socket file<span class="token punctuation">)</span>chmod<span class="token operator">=</span>0700                       <span class="token punctuation">;</span> sockef <span class="token function">file</span> mode <span class="token punctuation">(</span>default 0700<span class="token punctuation">)</span><span class="token punctuation">[</span>supervisord<span class="token punctuation">]</span>logfile<span class="token operator">=</span>/home/hadoop/supervisor/supervisord.log <span class="token punctuation">;</span> <span class="token punctuation">(</span>main log <span class="token function">file</span><span class="token punctuation">;</span>default <span class="token variable">$CWD</span>/supervisord.log<span class="token punctuation">)</span>pidfile<span class="token operator">=</span>/home/hadoop/supervisor/supervisord.pid <span class="token punctuation">;</span> <span class="token punctuation">(</span>supervisord pidfile<span class="token punctuation">;</span>default supervisord.pid<span class="token punctuation">)</span>childlogdir<span class="token operator">=</span>/home/hadoop/supervisor             <span class="token punctuation">;</span> <span class="token punctuation">(</span><span class="token string">'AUTO'</span> child log dir, default <span class="token variable">$TEMP</span><span class="token punctuation">)</span><span class="token punctuation">;</span> the below section must remain <span class="token keyword">in</span> the config <span class="token function">file</span> <span class="token keyword">for</span> RPC<span class="token punctuation">;</span> <span class="token punctuation">(</span>supervisorctl/web interface<span class="token punctuation">)</span> to work, additional interfaces may be<span class="token punctuation">;</span> added by defining them <span class="token keyword">in</span> separate rpcinterface: sections<span class="token punctuation">[</span>rpcinterface:supervisor<span class="token punctuation">]</span>supervisor.rpcinterface_factory <span class="token operator">=</span> supervisor.rpcinterface:make_main_rpcinterface<span class="token punctuation">[</span>supervisorctl<span class="token punctuation">]</span>serverurl<span class="token operator">=</span>unix:///home/hadoop/supervisor/supervisor.sock <span class="token punctuation">;</span> use a unix:// URL  <span class="token keyword">for</span> a unix socket<span class="token punctuation">;</span> The <span class="token punctuation">[</span>include<span class="token punctuation">]</span> section can just contain the <span class="token string">"files"</span> setting.  This<span class="token punctuation">;</span> setting can list multiple files <span class="token punctuation">(</span>separated by whitespace or<span class="token punctuation">;</span> newlines<span class="token punctuation">)</span>.  It can also contain wildcards.  The filenames are<span class="token punctuation">;</span> interpreted as relative to this file.  Included files *cannot*<span class="token punctuation">;</span> include files themselves.<span class="token punctuation">[</span>include<span class="token punctuation">]</span>files <span class="token operator">=</span> /home/hadoop/supervisor/conf.d/*.conf<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>启动：</p><pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">cd</span> /home/hadoop/supervisor/$ supervisord -c supervisord.conf<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><ul><li>守护进程<code>/home/hadoop/supervisor/conf.d/*.conf</code> 下创建<code>app.conf</code></li></ul><pre><code>[program:app]command=/home/hadoop/spark-1.5.2-bin-hadoop2.6/bin/spark-submit  --executor-cores 1  --num-executors 2  --queue root.spark  --master yarn-cluster  --files /home/hadoop/spark-mining/log4j-spark.properties  --class com.app.dw.MainClassCount  --conf &quot;spark.driver.extraJavaOptions=-Xms512M -Xmn256M -XX:+UseConcMarkSweepGC -Dlog4j.configuration=log4j-spark.properties -Ddm.logging.level=DEBUG&quot;  --conf &quot;spark.executor.extraJavaOptions=-XX:+UseConcMarkSweepGC -Dlog4j.configuration=log4j-spark.properties -Ddm.logging.level=DEBUG&quot;  /home/hadoop/realtime/app.jar resetautostart=trueautorestart=trueenvironment=JAVA_HOME=&quot;/usr/local/java/jdk1.8.0_60&quot;stdout_logfile=/home/hadoop/realtime/logs/app.logredirect_stderr=trueuser=hadoop</code></pre><ul><li>命令行操作</li></ul><pre class="line-numbers language-bash"><code class="language-bash">$ supervisorctl update<span class="token operator">|</span>status<span class="token operator">|</span>stop<span class="token operator">|</span>start<span class="token operator">|</span>restart   // 更新配置<span class="token operator">|</span>查看状态<span class="token operator">|</span>停止指定进程<span class="token operator">|</span>启动进程<span class="token operator">|</span>重启进程<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;ul&gt;
-&lt;li&gt;Install &lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;$ sudo apt-get install supervisor
-&lt;/code&gt;&lt;/pre&gt;
-&lt;ul&gt;
-&lt;li&gt;配置 &lt;/li&gt;
-&lt;/ul&gt;
-&lt;ol&gt;
-&lt;li&gt;使用默认路径下配置(/etc/supervisord.conf)&lt;/li&gt;
-&lt;li&gt;指定目录&lt;code&gt;supervisord.conf&lt;/code&gt;配置 &lt;/li&gt;
-&lt;/ol&gt;
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://saboloh.com/categories/Linux/"/>
-    
-    
-      <category term="supervisor" scheme="http://saboloh.com/tags/supervisor/"/>
     
   </entry>
   
