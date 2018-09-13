@@ -62,7 +62,7 @@ val outputFuture = Http(outputReq > { res =>
 
 #### 解决办法  
 
-问题已经定位到，于是取了解了一下这个项目，该如何使用 stream 的方式来读取并写入文件流。然后发现，人家有一个 [read line by line](https://github.com/dispatch/reboot/blob/master/core/src/main/scala/stream/strings.scala) 的实现。但是切割上其实是有问题的，因为拿到一批 bytes 之后，直接转成了 string 并用分隔符分割，
+问题已经定位到，于是去了解了一下这个项目，该如何使用 stream 的方式来读取并写入文件流。然后发现，人家有一个 [read line by line](https://github.com/dispatch/reboot/blob/master/core/src/main/scala/stream/strings.scala) 的实现。但是切割上其实是有问题的，因为拿到一批 bytes 之后，直接转成了 string 并用分隔符分割，
 奈何内容里面有中文，出现乱码了。
 
 最终，参考项目本身的 `as.stream.Lines` 写了一个 `as.stream.Bytes` 来通过 bytes 边读边写，如下：  
