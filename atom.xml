@@ -308,9 +308,9 @@
     
       <category term="hive" scheme="http://saboloh.com/tags/hive/"/>
     
-      <category term="hadoop" scheme="http://saboloh.com/tags/hadoop/"/>
-    
       <category term="Hive" scheme="http://saboloh.com/tags/Hive/"/>
+    
+      <category term="hadoop" scheme="http://saboloh.com/tags/hadoop/"/>
     
       <category term="command" scheme="http://saboloh.com/tags/command/"/>
     
