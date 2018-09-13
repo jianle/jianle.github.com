@@ -21,7 +21,7 @@
 <meta property="og:site_name" content="Loh&#39;s Blog">
 <meta property="og:description" content="记录Linux相关ISSUE 邮件发送失败问题排查 jstack 查看堆栈信息(RUNNABLE)  $ jstack 85869 | less  $ printf &amp;quot;%d\n&amp;quot; 0x1450a  -- 对应进程ID(83210)">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-03-29T07:14:11.458Z">
+<meta property="og:updated_time" content="2018-09-13T06:08:51.750Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux运维">
 <meta name="twitter:description" content="记录Linux相关ISSUE 邮件发送失败问题排查 jstack 查看堆栈信息(RUNNABLE)  $ jstack 85869 | less  $ printf &amp;quot;%d\n&amp;quot; 0x1450a  -- 对应进程ID(83210)">
@@ -194,20 +194,20 @@ $ printf &quot;%d\n&quot; 0x1450a  -- 对应进程ID(83210)
 <pre><code>$ lsof -p 85869 | grep TCP 
 $ ss -atnp | grep :25  (查看邮件相关网络请求) 
 $ ss -atnp | grep :25 | grep  223.252.214
-ESTAB      0      69120          10.126.97.98:39905       223.252.214.64:25     users:((&quot;java&quot;,85869,195))
-ESTAB      0      288000         10.126.97.98:30519       223.252.214.64:25     users:((&quot;java&quot;,85869,185))
-ESTAB      0      43835          10.126.97.98:58921       223.252.214.65:25     users:((&quot;java&quot;,85869,59))
-ESTAB      0      201600         10.126.97.98:50990       223.252.214.65:25     users:((&quot;java&quot;,85869,183))
-ESTAB      0      276480         10.126.97.98:51453       223.252.214.65:25     users:((&quot;java&quot;,85869,186))
-ESTAB      0      243360         10.126.97.98:31148       223.252.214.64:25     users:((&quot;java&quot;,85869,181))
+ESTAB      0      69120          127.0.0.1:39905       223.252.214.64:25     users:((&quot;java&quot;,85869,195))
+ESTAB      0      288000         127.0.0.1:30519       223.252.214.64:25     users:((&quot;java&quot;,85869,185))
+ESTAB      0      43835          127.0.0.1:58921       223.252.214.65:25     users:((&quot;java&quot;,85869,59))
+ESTAB      0      201600         127.0.0.1:50990       223.252.214.65:25     users:((&quot;java&quot;,85869,183))
+ESTAB      0      276480         127.0.0.1:51453       223.252.214.65:25     users:((&quot;java&quot;,85869,186))
+ESTAB      0      243360         127.0.0.1:31148       223.252.214.64:25     users:((&quot;java&quot;,85869,181))
 
 $ lsof -p 85869 | grep TCP | grep smtp 
-java    85869 root   59u  IPv4           96189338        0t0      TCP tjtx-97-98.58os.org:58921-&gt;mail0401.icoremail.net:smtp (ESTABLISHED)
-java    85869 root  181u  IPv4           96062679        0t0      TCP tjtx-97-98.58os.org:31148-&gt;mail0402.icoremail.net:smtp (ESTABLISHED)
-java    85869 root  183u  IPv4           96036545        0t0      TCP tjtx-97-98.58os.org:50990-&gt;mail0401.icoremail.net:smtp (ESTABLISHED)
-java    85869 root  185u  IPv4           96047561        0t0      TCP tjtx-97-98.58os.org:30519-&gt;mail0402.icoremail.net:smtp (ESTABLISHED)
-java    85869 root  186u  IPv4           96047309        0t0      TCP tjtx-97-98.58os.org:51453-&gt;mail0401.icoremail.net:smtp (ESTABLISHED)
-java    85869 root  195u  IPv4           96240773        0t0      TCP tjtx-97-98.58os.org:39905-&gt;mail0402.icoremail.net:smtp (ESTABLISHED)
+java    85869 root   59u  IPv4           96189338        0t0      TCP 127.0.0.1:58921-&gt;mail0401.icoremail.net:smtp (ESTABLISHED)
+java    85869 root  181u  IPv4           96062679        0t0      TCP 127.0.0.1:31148-&gt;mail0402.icoremail.net:smtp (ESTABLISHED)
+java    85869 root  183u  IPv4           96036545        0t0      TCP 127.0.0.1:50990-&gt;mail0401.icoremail.net:smtp (ESTABLISHED)
+java    85869 root  185u  IPv4           96047561        0t0      TCP 127.0.0.1:30519-&gt;mail0402.icoremail.net:smtp (ESTABLISHED)
+java    85869 root  186u  IPv4           96047309        0t0      TCP 127.0.0.1:51453-&gt;mail0401.icoremail.net:smtp (ESTABLISHED)
+java    85869 root  195u  IPv4           96240773        0t0      TCP 127.0.0.1:39905-&gt;mail0402.icoremail.net:smtp (ESTABLISHED)
 
 $ tcpdump -A -nn host 223.252.214.65 and port 25
 $ tcpdump -i any -A -nn host 223.252.214.65 and dst|src port 25
@@ -224,7 +224,7 @@ read(196, &quot;\10\342\271\360?a{\201\7p\37\272\330\36\240kj\177\225\303\325\36
 sendto(195, &quot;HxyjfNV3Yz2RBmgq7JZxCMUJ+rDu/C6t&quot;..., 8190, 0, NULL, 0  
 
 $ lsof -P -p 85869 | grep TCP | grep 195
-java    85869 root  195u  IPv4           96240773        0t0      TCP tjtx-97-98.58os.org:39905-&gt;mail0402.icoremail.net:smtp (ESTABLISHED)  
+java    85869 root  195u  IPv4           96240773        0t0      TCP 127.0.0.1:39905-&gt;mail0402.icoremail.net:smtp (ESTABLISHED)  
 
 $ lsof -p 85869 | grep 196
 java    85869 root  196r   REG               8,10   14009262 18481291 /data1/dw_monitor/mini/excel/太平洋数据.xlsx
@@ -317,7 +317,7 @@ $ make install
 </code></pre><ul>
 <li>同步目录</li>
 </ul>
-<pre><code>$ rsync -a -f&quot;+ */&quot; -f&quot;- *&quot; /data/ root@10.126.92.72:/data/
+<pre><code>$ rsync -a -f&quot;+ */&quot; -f&quot;- *&quot; /data/ root@127.0.0.1:/data/
 </code></pre><ul>
 <li>grep 使用 <a href="http://deerchao.net/tutorials/regex/regex.htm#lookaround" target="_blank" rel="noopener">零宽断言</a><ul>
 <li>-E –extended-regexp</li>
@@ -449,8 +449,6 @@ $ ps -ef|grep &#39;/home/hadoop/apache-tomcat-6.0.36&#39;|grep -v grep|awk &#39;
     
   
     
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/markdown-syntax-language.png" class="img-responsive ">
@@ -459,6 +457,8 @@ $ ps -ef|grep &#39;/home/hadoop/apache-tomcat-6.0.36&#39;|grep -v grep|awk &#39;
 	  <h3><a href="http://saboloh.com/2016/08/14/git-tutorial-markdown/">Git学习指南（二）— MarkDown</a></h3>
 	</div>                        
       </div>
+    
+  
     
   
     
@@ -514,8 +514,6 @@ $ ps -ef|grep &#39;/home/hadoop/apache-tomcat-6.0.36&#39;|grep -v grep|awk &#39;
     
   
     
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/protocol-buffers.png" class="img-responsive ">
@@ -524,6 +522,8 @@ $ ps -ef|grep &#39;/home/hadoop/apache-tomcat-6.0.36&#39;|grep -v grep|awk &#39;
 	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
 	</div>                        
       </div>
+    
+  
     
   
     
