@@ -7,26 +7,26 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Java 排查内存溢出错误 | Loh&#39;s Blog</title>
+  <title>Java 内存溢出排查 | Loh&#39;s Blog</title>
 
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="baidu-site-verification" content="SKU1ruzzZG" />
 
-  <meta name="description" content="Java OOM 毫无疑问是开发人员常见并且及其痛恨的问题，但是任何服务的开发都没法避免 OOM。 因此，OOM 的排查及定位是每个 Java 工程师都必备的技能。 所遇到的问题在使用 scala 开发的一个 web 服务，在用户使用中，经常出现这个错误： java.lang.OutOfMemoryError: Java heap space 于是乎就想办法定位到底是什么原因导致。 准备服务使用">
+  <meta name="description" content="Java OOM 毫无疑问是开发人员常见并且及其痛恨的问题，但是任何服务的开发都没法避免 OOM。 因此，OOM 的排查及定位是每个 Java 工程师都必备的技能。 所遇到的问题在使用 scala 开发的一个 web 服务，在用户使用中，经常出现： java.lang.OutOfMemoryError: Java heap space 。而且还束手无策，每次都只能重启服务解决。 准备服务使用 je">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java 排查内存溢出错误">
+<meta property="og:title" content="Java 内存溢出排查">
 <meta property="og:url" content="http://saboloh.com/2018/07/05/java-detecting-out-of-memory-errors/index.html">
 <meta property="og:site_name" content="Loh&#39;s Blog">
-<meta property="og:description" content="Java OOM 毫无疑问是开发人员常见并且及其痛恨的问题，但是任何服务的开发都没法避免 OOM。 因此，OOM 的排查及定位是每个 Java 工程师都必备的技能。 所遇到的问题在使用 scala 开发的一个 web 服务，在用户使用中，经常出现这个错误： java.lang.OutOfMemoryError: Java heap space 于是乎就想办法定位到底是什么原因导致。 准备服务使用">
+<meta property="og:description" content="Java OOM 毫无疑问是开发人员常见并且及其痛恨的问题，但是任何服务的开发都没法避免 OOM。 因此，OOM 的排查及定位是每个 Java 工程师都必备的技能。 所遇到的问题在使用 scala 开发的一个 web 服务，在用户使用中，经常出现： java.lang.OutOfMemoryError: Java heap space 。而且还束手无策，每次都只能重启服务解决。 准备服务使用 je">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://saboloh.com/img/overview_mat.png">
 <meta property="og:image" content="http://saboloh.com/img/mat_find_problem.png">
-<meta property="og:updated_time" content="2018-07-05T06:16:48.121Z">
+<meta property="og:updated_time" content="2018-09-13T07:05:58.972Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java 排查内存溢出错误">
-<meta name="twitter:description" content="Java OOM 毫无疑问是开发人员常见并且及其痛恨的问题，但是任何服务的开发都没法避免 OOM。 因此，OOM 的排查及定位是每个 Java 工程师都必备的技能。 所遇到的问题在使用 scala 开发的一个 web 服务，在用户使用中，经常出现这个错误： java.lang.OutOfMemoryError: Java heap space 于是乎就想办法定位到底是什么原因导致。 准备服务使用">
+<meta name="twitter:title" content="Java 内存溢出排查">
+<meta name="twitter:description" content="Java OOM 毫无疑问是开发人员常见并且及其痛恨的问题，但是任何服务的开发都没法避免 OOM。 因此，OOM 的排查及定位是每个 Java 工程师都必备的技能。 所遇到的问题在使用 scala 开发的一个 web 服务，在用户使用中，经常出现： java.lang.OutOfMemoryError: Java heap space 。而且还束手无策，每次都只能重启服务解决。 准备服务使用 je">
 <meta name="twitter:image" content="http://saboloh.com/img/overview_mat.png">
   
     <link rel="alternative" href="/atom.xml" title="Loh&#39;s Blog" type="application/atom+xml">
@@ -130,7 +130,7 @@
   <section id="main">
     
     <h2 itemprop="name">
-      <a class="article-title" href="/2018/07/05/java-detecting-out-of-memory-errors/">Java 排查内存溢出错误</a>
+      <a class="article-title" href="/2018/07/05/java-detecting-out-of-memory-errors/">Java 内存溢出排查</a>
     </h2>
 
 
@@ -177,7 +177,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>Java OOM 毫无疑问是开发人员常见并且及其痛恨的问题，但是任何服务的开发都没法避免 OOM。 因此，OOM 的排查及定位是每个 Java 工程师都必备的技能。</p>
-<h4 id="所遇到的问题"><a href="#所遇到的问题" class="headerlink" title="所遇到的问题"></a>所遇到的问题</h4><p>在使用 scala 开发的一个 web 服务，在用户使用中，经常出现这个错误： <code>java.lang.OutOfMemoryError: Java heap space</code> 于是乎就想办法定位到底是什么原因导致。</p>
+<h4 id="所遇到的问题"><a href="#所遇到的问题" class="headerlink" title="所遇到的问题"></a>所遇到的问题</h4><p>在使用 scala 开发的一个 web 服务，在用户使用中，经常出现： <code>java.lang.OutOfMemoryError: Java heap space</code> 。而且还束手无策，每次都只能重启服务解决。</p>
 <h4 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h4><p>服务使用 jetty 发布的，先来看一下我这个服务的启动参数：</p>
 <pre class="line-numbers language-java"><code class="language-java"><span class="token operator">/</span>opt<span class="token operator">/</span>soft<span class="token operator">/</span>jdk<span class="token operator">/</span>jdk1<span class="token number">.7</span><span class="token punctuation">.</span>0_40<span class="token operator">/</span>bin<span class="token operator">/</span>java \
   <span class="token operator">-</span>server <span class="token operator">-</span>Xmx4G <span class="token operator">-</span>XX<span class="token operator">:</span>MaxPermSize<span class="token operator">=</span>1024M <span class="token operator">-</span>XX<span class="token operator">:</span>PermSize<span class="token operator">=</span>256M \
@@ -200,7 +200,7 @@
   out<span class="token punctuation">.</span>close
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>看不出问题，感觉一切正常。反源码会发现，<code>res.getResponseBodyAsStream()</code> 之前，已经将所有内容都存入一个 <code>ArrayList</code> 当中了。哎，没用对啊。   </p>
+<p>看不出问题，感觉一切正常。翻源码会发现，<code>res.getResponseBodyAsStream()</code> 之前，已经将所有内容都存入一个 <code>ArrayList</code> 当中了。哎，没用对啊。   </p>
 <h4 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h4><p>问题已经定位到，于是取了解了一下这个项目，该如何使用 stream 的方式来读取并写入文件流。然后发现，人家有一个 <a href="https://github.com/dispatch/reboot/blob/master/core/src/main/scala/stream/strings.scala" target="_blank" rel="noopener">read line by line</a> 的实现。但是切割上其实是有问题的，因为拿到一批 bytes 之后，直接转成了 string 并用分隔符分割，<br>奈何内容里面有中文，出现乱码了。</p>
 <p>最终，参考项目本身的 <code>as.stream.Lines</code> 写了一个 <code>as.stream.Bytes</code> 来通过 bytes 边读边写，如下：  </p>
 <pre class="line-numbers language-scala"><code class="language-scala"><span class="token keyword">val</span> bos <span class="token operator">=</span> <span class="token keyword">new</span> BufferedOutputStream<span class="token punctuation">(</span><span class="token keyword">new</span> FileOutputStream<span class="token punctuation">(</span><span class="token string">"/tmp/file.txt"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
@@ -391,6 +391,8 @@
     
   
     
+  
+    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/protocol-buffers.png" class="img-responsive ">
@@ -399,8 +401,6 @@
 	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
 	</div>                        
       </div>
-    
-  
     
   
     
