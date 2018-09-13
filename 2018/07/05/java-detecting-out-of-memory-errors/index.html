@@ -23,7 +23,7 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://saboloh.com/img/overview_mat.png">
 <meta property="og:image" content="http://saboloh.com/img/mat_find_problem.png">
-<meta property="og:updated_time" content="2018-09-13T07:05:58.972Z">
+<meta property="og:updated_time" content="2018-09-13T07:09:36.116Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 内存溢出排查">
 <meta name="twitter:description" content="Java OOM 毫无疑问是开发人员常见并且及其痛恨的问题，但是任何服务的开发都没法避免 OOM。 因此，OOM 的排查及定位是每个 Java 工程师都必备的技能。 所遇到的问题在使用 scala 开发的一个 web 服务，在用户使用中，经常出现： java.lang.OutOfMemoryError: Java heap space 。而且还束手无策，每次都只能重启服务解决。 准备服务使用 je">
@@ -201,7 +201,7 @@
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>看不出问题，感觉一切正常。翻源码会发现，<code>res.getResponseBodyAsStream()</code> 之前，已经将所有内容都存入一个 <code>ArrayList</code> 当中了。哎，没用对啊。   </p>
-<h4 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h4><p>问题已经定位到，于是取了解了一下这个项目，该如何使用 stream 的方式来读取并写入文件流。然后发现，人家有一个 <a href="https://github.com/dispatch/reboot/blob/master/core/src/main/scala/stream/strings.scala" target="_blank" rel="noopener">read line by line</a> 的实现。但是切割上其实是有问题的，因为拿到一批 bytes 之后，直接转成了 string 并用分隔符分割，<br>奈何内容里面有中文，出现乱码了。</p>
+<h4 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h4><p>问题已经定位到，于是去了解了一下这个项目，该如何使用 stream 的方式来读取并写入文件流。然后发现，人家有一个 <a href="https://github.com/dispatch/reboot/blob/master/core/src/main/scala/stream/strings.scala" target="_blank" rel="noopener">read line by line</a> 的实现。但是切割上其实是有问题的，因为拿到一批 bytes 之后，直接转成了 string 并用分隔符分割，<br>奈何内容里面有中文，出现乱码了。</p>
 <p>最终，参考项目本身的 <code>as.stream.Lines</code> 写了一个 <code>as.stream.Bytes</code> 来通过 bytes 边读边写，如下：  </p>
 <pre class="line-numbers language-scala"><code class="language-scala"><span class="token keyword">val</span> bos <span class="token operator">=</span> <span class="token keyword">new</span> BufferedOutputStream<span class="token punctuation">(</span><span class="token keyword">new</span> FileOutputStream<span class="token punctuation">(</span><span class="token string">"/tmp/file.txt"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token keyword">val</span> outputFuture <span class="token operator">=</span> Http<span class="token punctuation">(</span>outputReq <span class="token operator">></span> as<span class="token punctuation">.</span>stream<span class="token punctuation">.</span>Bytes<span class="token punctuation">(</span>bytes <span class="token keyword">=></span> <span class="token punctuation">{</span>
@@ -307,8 +307,6 @@
     
   
     
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
@@ -334,6 +332,8 @@
 	  <h3><a href="http://saboloh.com/2016/08/14/git-tutorial-markdown/">Git学习指南（二）— MarkDown</a></h3>
 	</div>                        
       </div>
+    
+  
     
   
     
