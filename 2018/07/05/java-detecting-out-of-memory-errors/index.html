@@ -23,7 +23,7 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://saboloh.com/img/overview_mat.png">
 <meta property="og:image" content="http://saboloh.com/img/mat_find_problem.png">
-<meta property="og:updated_time" content="2018-09-13T07:09:36.116Z">
+<meta property="og:updated_time" content="2018-10-10T05:58:33.517Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 内存溢出排查">
 <meta name="twitter:description" content="Java OOM 毫无疑问是开发人员常见并且及其痛恨的问题，但是任何服务的开发都没法避免 OOM。 因此，OOM 的排查及定位是每个 Java 工程师都必备的技能。 所遇到的问题在使用 scala 开发的一个 web 服务，在用户使用中，经常出现： java.lang.OutOfMemoryError: Java heap space 。而且还束手无策，每次都只能重启服务解决。 准备服务使用 je">
@@ -188,7 +188,8 @@
   <span class="token operator">-</span>Dscala<span class="token punctuation">.</span>concurrent<span class="token punctuation">.</span>context<span class="token punctuation">.</span>maxThreads<span class="token operator">=</span><span class="token number">500</span> \
   <span class="token operator">-</span>Dfile<span class="token punctuation">.</span>encoding<span class="token operator">=</span>UTF<span class="token operator">-</span><span class="token number">8</span> <span class="token operator">-</span>jar start<span class="token punctuation">.</span>jar <span class="token operator">>></span> log <span class="token number">2</span><span class="token operator">></span><span class="token operator">&amp;</span><span class="token number">1</span> <span class="token operator">&amp;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="排查"><a href="#排查" class="headerlink" title="排查"></a>排查</h4><p>通过增加了参数 <code>-XX:+HeapDumpOnOutOfMemoryError</code> 和 <code>-XX:HeapDumpPath</code> 当在 OOM 的时候，服务会生成一个 <code>java_pid$pid.hprof</code> 二进制文件。   </p>
+<h4 id="排查"><a href="#排查" class="headerlink" title="排查"></a>排查</h4><p>通过增加了参数 <code>-XX:+HeapDumpOnOutOfMemoryError</code> 和 <code>-XX:HeapDumpPath</code> 当在 OOM 的时候，服务会在 <code>/opt/soft/heapdump</code> 下生成一个 <code>java_pid$pid.hprof</code> 二进制文件。   </p>
+<p>这个 <code>java_pid$pid.hprof</code> 也可通过 <code>jmap</code> 命令来即时生成： <code>jmap -dump:format=b,file=java_pid$pid.hprof $pid</code> （将 $pid 为 java 进程 ID）</p>
 <p>下面就是使用工具分析这个 <code>.hprof</code> 文件来定位问题了。使用 <a href="https://www.eclipse.org/mat/" target="_blank" rel="noopener">Memory Analyzer (MAT)</a> 来分析该文件，效果如下：<br><img src="/img/overview_mat.png" alt=""></p>
 <p>效果很吓人，什么鬼，什么东西，吃了 3.8G 的内存，我#%$#@#@#&amp;^&amp;^&amp;#$….<br>打开 Leak Suspects» Leaks» Problem Suspect 1 看到如下详情：<br><img src="/img/mat_find_problem.png" alt=""></p>
 <p>一开始可能没那么快找到问题，但是这个图已经很明显说明了问题，是 <code>ArrayList</code> 的内容太大，沾满了内存。但是你可能还不清楚具体那块代码导致，这个时候你可以点击那个 <code>ArrayList</code> 在左侧栏看 <code>Attribute</code>。<br>然后一直鼠标右键 <code>into</code> 进去看里面的详情，最终是可以看内容的。   </p>
@@ -307,6 +308,10 @@
     
   
     
+  
+    
+  
+    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
@@ -337,8 +342,6 @@
     
   
     
-  
-    
       <div class="row margin-bottom-10">
 	<div class="col-md-4">
 	  <img src="/img/hadoop.png" class="img-responsive ">
@@ -362,8 +365,6 @@
 	  <h3><a href="http://saboloh.com/2016/04/28/hive-issue/">Hive使用遇到的一些问题</a></h3>
 	</div>                        
       </div>
-    
-  
     
   
     
