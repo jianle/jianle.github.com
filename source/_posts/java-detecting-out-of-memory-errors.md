@@ -33,7 +33,9 @@ Java OOM 毫无疑问是开发人员常见并且及其痛恨的问题，但是�
 
 #### 排查
 
-通过增加了参数 `-XX:+HeapDumpOnOutOfMemoryError` 和 `-XX:HeapDumpPath` 当在 OOM 的时候，服务会生成一个 `java_pid$pid.hprof` 二进制文件。   
+通过增加了参数 `-XX:+HeapDumpOnOutOfMemoryError` 和 `-XX:HeapDumpPath` 当在 OOM 的时候，服务会在 `/opt/soft/heapdump` 下生成一个 `java_pid$pid.hprof` 二进制文件。   
+
+这个 `java_pid$pid.hprof` 也可通过 `jmap` 命令来即时生成： `jmap -dump:format=b,file=java_pid$pid.hprof $pid` （将 $pid 为 java 进程 ID）
 
 下面就是使用工具分析这个 `.hprof` 文件来定位问题了。使用 [Memory Analyzer (MAT)](https://www.eclipse.org/mat/) 来分析该文件，效果如下：  
 ![](/img/overview_mat.png)
