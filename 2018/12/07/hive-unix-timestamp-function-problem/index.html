@@ -7,26 +7,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>安装CDH指定版本5.4.7 | Loh&#39;s Blog</title>
+  <title>Hive unix_timestamp function problem | Loh&#39;s Blog</title>
 
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="baidu-site-verification" content="SKU1ruzzZG" />
 
-  <meta name="description" content="离线安装CDH5.4.7  官方文档  删除已有cloudera manager   $ /usr/share/cmf/uninstall-cloudera-manager.sh  $ apt-get purge &amp;#39;cloudera-manager-*&amp;#39;  $ umount cm_processes $ rm -Rf /usr/share/cmf /var/lib/cloudera">
-<meta name="keywords" content="hadoop,chd,cloudera">
+  <meta name="description" content="该函数使用的是 SimpleDateFormat 来格式化日期，但该类解析日期的时候，依赖  Locale 但是集群机器的 Locale 似乎并不全是一致的。 所以会出现这样的现象：  SELECT from_unixtime(unix_timestamp(&apos;Sun Jun 17 14:27:22 CST 2012&apos;,  &apos;EEE MMM dd hh:mm:ss \&apos;CST\&apos; yyyy&apos;))">
+<meta name="keywords" content="hive">
 <meta property="og:type" content="article">
-<meta property="og:title" content="安装CDH指定版本5.4.7">
-<meta property="og:url" content="http://saboloh.com/2016/04/19/install-cdh-5.4.7/index.html">
+<meta property="og:title" content="Hive unix_timestamp function problem">
+<meta property="og:url" content="http://saboloh.com/2018/12/07/hive-unix-timestamp-function-problem/index.html">
 <meta property="og:site_name" content="Loh&#39;s Blog">
-<meta property="og:description" content="离线安装CDH5.4.7  官方文档  删除已有cloudera manager   $ /usr/share/cmf/uninstall-cloudera-manager.sh  $ apt-get purge &amp;#39;cloudera-manager-*&amp;#39;  $ umount cm_processes $ rm -Rf /usr/share/cmf /var/lib/cloudera">
+<meta property="og:description" content="该函数使用的是 SimpleDateFormat 来格式化日期，但该类解析日期的时候，依赖  Locale 但是集群机器的 Locale 似乎并不全是一致的。 所以会出现这样的现象：  SELECT from_unixtime(unix_timestamp(&apos;Sun Jun 17 14:27:22 CST 2012&apos;,  &apos;EEE MMM dd hh:mm:ss \&apos;CST\&apos; yyyy&apos;))">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://saboloh.com/img/filelist.png">
-<meta property="og:updated_time" content="2018-03-29T07:14:11.458Z">
+<meta property="og:updated_time" content="2018-12-07T05:54:35.913Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="安装CDH指定版本5.4.7">
-<meta name="twitter:description" content="离线安装CDH5.4.7  官方文档  删除已有cloudera manager   $ /usr/share/cmf/uninstall-cloudera-manager.sh  $ apt-get purge &amp;#39;cloudera-manager-*&amp;#39;  $ umount cm_processes $ rm -Rf /usr/share/cmf /var/lib/cloudera">
-<meta name="twitter:image" content="http://saboloh.com/img/filelist.png">
+<meta name="twitter:title" content="Hive unix_timestamp function problem">
+<meta name="twitter:description" content="该函数使用的是 SimpleDateFormat 来格式化日期，但该类解析日期的时候，依赖  Locale 但是集群机器的 Locale 似乎并不全是一致的。 所以会出现这样的现象：  SELECT from_unixtime(unix_timestamp(&apos;Sun Jun 17 14:27:22 CST 2012&apos;,  &apos;EEE MMM dd hh:mm:ss \&apos;CST\&apos; yyyy&apos;))">
   
     <link rel="alternative" href="/atom.xml" title="Loh&#39;s Blog" type="application/atom+xml">
   
@@ -129,13 +127,13 @@
   <section id="main">
     
     <h2 itemprop="name">
-      <a class="article-title" href="/2016/04/19/install-cdh-5.4.7/">安装CDH指定版本5.4.7</a>
+      <a class="article-title" href="/2018/12/07/hive-unix-timestamp-function-problem/">Hive unix_timestamp function problem</a>
     </h2>
 
 
     <div class="row">
 <div class="col-md-9 col-sm-9 blog-posts">
-<article id="post-install-cdh-5.4.7" class="article article-type-post blog-item" itemscope itemprop="blogPost">
+<article id="post-hive-unix-timestamp-function-problem" class="article article-type-post blog-item" itemscope itemprop="blogPost">
   <div class="article-meta">
   </div>
   <div class="article-inner">
@@ -145,20 +143,16 @@
       <ul class="blog-info">
 	<li><i class="fa fa-user"></i> Anonymous</li>
 	<li><i class="fa fa-calendar"></i>
-	  <time datetime="2016-04-19T08:34:42.000Z" itemprop="datePublished">2016/04/19</time>
+	  <time datetime="2018-12-07T05:44:41.000Z" itemprop="datePublished">2018/12/07</time>
 
 	</li>
 	<li class="hidden-xs"><i class="fa fa-comments"></i>
-	  <a href="http://saboloh.com/2016/04/19/install-cdh-5.4.7/#disqus_thread" class="article-comment-link">Comments</a>
+	  <a href="http://saboloh.com/2018/12/07/hive-unix-timestamp-function-problem/#disqus_thread" class="article-comment-link">Comments</a>
 	</li>
 	<li class="hidden-xs"><i class="fa fa-tags"></i> 
 	  
   
-    <a href="/tags/hadoop/" title="hadoop">hadoop</a>,
-  
-    <a href="/tags/chd/" title="chd">chd</a>,
-  
-    <a href="/tags/cloudera/" title="cloudera">cloudera</a>
+    <a href="/tags/hive/" title="hive">hive</a>
   
 
 
@@ -179,95 +173,54 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>离线安装CDH5.4.7</p>
-<ul>
-<li><p><a href="http://www.cloudera.com/documentation/enterprise/latest/topics/cm_ig_install_path_a.html#cmig_topic_6_5_unique_2" target="_blank" rel="noopener">官方文档</a></p>
-</li>
-<li><p>删除已有<a href="http://www.cloudera.com/documentation/enterprise/5-5-x/topics/cm_ig_uninstall_cm.html" target="_blank" rel="noopener">cloudera manager</a></p>
-</li>
-</ul>
-<pre class="line-numbers language-bash"><code class="language-bash">$ /usr/share/cmf/uninstall-cloudera-manager.sh
+        <p>该函数使用的是 <a href="https://docs.oracle.com/javase/tutorial/i18n/format/simpleDateFormat.html" target="_blank" rel="noopener"><code>SimpleDateFormat</code></a> 来格式化日期，但该类解析日期的时候，依赖  <code>Locale</code> 但是集群机器的 <code>Locale</code> 似乎并不全是一致的。</p>
+<p>所以会出现这样的现象： </p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">SELECT</span> from_unixtime<span class="token punctuation">(</span>unix_timestamp<span class="token punctuation">(</span><span class="token string">'Sun Jun 17 14:27:22 CST 2012'</span><span class="token punctuation">,</span>  <span class="token string">'EEE MMM dd hh:mm:ss \'CST\' yyyy'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>该 sql 返回有时候为 null，有时候又是正常。</p>
+<p><strong>解决办法</strong>: </p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">ADD</span> JAR hdfs:<span class="token comment" spellcheck="true">//nameservice/user/hadoop/udf/UDFUnixTimeStamp.jar;</span>
+<span class="token keyword">CREATE</span> <span class="token keyword">TEMPORARY</span> <span class="token keyword">FUNCTION</span> unixtimestamp <span class="token keyword">AS</span> <span class="token string">'com.hive.udf.UDFUnixTimeStamp'</span><span class="token punctuation">;</span>
+<span class="token keyword">SELECT</span> from_unixtime<span class="token punctuation">(</span>unixtimestamp<span class="token punctuation">(</span><span class="token string">'Sun Jun 17 14:27:22 CST 2012'</span><span class="token punctuation">,</span>  <span class="token string">'EEE MMM dd hh:mm:ss \'CST\' yyyy'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>该自定义函数指定了 Locale 为 <code>en</code>，所以日期格式如果是中文的，是不可已使用的。</p>
+<p>附加 UDF 代码： </p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@UDFType</span><span class="token punctuation">(</span>deterministic <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@Description</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"unix_timestamp"</span><span class="token punctuation">,</span>
+        value <span class="token operator">=</span> <span class="token string">"_FUNC_([date[, pattern]]) - Returns the UNIX timestamp"</span><span class="token punctuation">,</span>
+        extended <span class="token operator">=</span> <span class="token string">"Converts the current or specified time to number of seconds "</span>
+                <span class="token operator">+</span> <span class="token string">"since 1970-01-01."</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UDFUnixTimeStamp</span> <span class="token keyword">extends</span> <span class="token class-name">GenericUDFToUnixTimeStamp</span> <span class="token punctuation">{</span>
 
-$ <span class="token function">apt-get</span> purge <span class="token string">'cloudera-manager-*'</span>
-
-$ <span class="token function">umount</span> cm_processes
-$ <span class="token function">rm</span> -Rf /usr/share/cmf /var/lib/cloudera* /var/cache/yum/cloudera* /var/log/cloudera* /var/run/cloudera*
-
-$ <span class="token function">rm</span> -Rf /var/lib/flume-ng /var/lib/hadoop* /var/lib/hue /var/lib/navigator /var/lib/oozie /var/lib/solr /var/lib/sqoop* /var/lib/zookeeper
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<a id="more"></a>
-<ul>
-<li>查看系统版本 </li>
-</ul>
-<pre class="line-numbers language-bash"><code class="language-bash">$ lsb_release -a
-No LSB modules are available.
-Distributor ID: Ubuntu
-Description:    Ubuntu 12.04.4 LTS
-Release:    12.04
-Codename:   precise
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<ul>
-<li>下载对应包并且配置本地源(避免使用cloudera-manager-installer.bin直接安装总是获取最新版CDH) </li>
-</ul>
-<pre class="line-numbers language-bash"><code class="language-bash">下载好tarball
-
-$ <span class="token function">wget</span> http://archive.cloudera.com/cm5/repo-as-tarball/5.4.7/cm5.4.7-ubuntu12-04.tar.gz
-$ <span class="token function">tar</span> -zxvf cm5.4.7-ubuntu12-04.tar.gz
-$ <span class="token function">cp</span> -r cm /var/spool/apt-mirror/mirror/archive.cloudera.com/
-
-<span class="token comment" spellcheck="true"># 使用nginx配置</span>
-$ <span class="token function">apt-get</span> <span class="token function">install</span> nginx 
-$ vim /etc/nginx/nginx.conf
-<span class="token comment" spellcheck="true"># 访问本地目录列表</span>
-server <span class="token punctuation">{</span>
-    listen       80<span class="token punctuation">;</span>
-    server_name  dev-001<span class="token punctuation">;</span>
-
-    location / <span class="token punctuation">{</span>
-        root   /var/spool/apt-mirror/mirror/archive.cloudera.com/<span class="token punctuation">;</span>
-        index  index.html index.htm<span class="token punctuation">;</span>
-        autoindex on<span class="token punctuation">;</span>
-        autoindex_exact_size off<span class="token punctuation">;</span>
-        autoindex_localtime on<span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token punctuation">{</span>
+        Locale locale <span class="token operator">=</span> Locale<span class="token punctuation">.</span>ENGLISH<span class="token punctuation">;</span>
+        Locale<span class="token punctuation">.</span><span class="token function">setDefault</span><span class="token punctuation">(</span>locale<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"user.language"</span><span class="token punctuation">,</span> <span class="token string">"en"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 
-    error_page   500 502 503 504  /50x.html<span class="token punctuation">;</span>
-    location <span class="token operator">=</span> /50x.html <span class="token punctuation">{</span>
-        root   html<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">initializeInput</span><span class="token punctuation">(</span>ObjectInspector<span class="token punctuation">[</span><span class="token punctuation">]</span> arguments<span class="token punctuation">)</span> <span class="token keyword">throws</span> UDFArgumentException <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>arguments<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">initializeInput</span><span class="token punctuation">(</span>arguments<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>  
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<ul>
-<li>浏览确认是否能访问 </li>
-</ul>
-<p><img src="/img/filelist.png" alt=""></p>
-<ul>
-<li>配置apt source</li>
-</ul>
-<pre><code>$ vim /etc/apt/source.list.d/my-private-cloudera-repo.list
-# Packages for Clouderas Distribution for Hadoop, Version 4, on Ubuntu 12.04 x86_64
-deb [arch=amd64] http://dev-001/cm precise-cm5 contrib
-deb-src http://dev-001/cm precise-cm5.4.7 contrib
-</code></pre><ul>
-<li>下载对应<a href="http://archive.cloudera.com/cdh5/parcels/" target="_blank" rel="noopener">parcel</a></li>
-</ul>
-<pre><code>找到对应自己系统的parcels
-$ wget http://archive.cloudera.com/cdh5/parcels/5.4.7/CDH-5.4.7-1.cdh5.4.7.p0.3-precise.parcel
-$ wget wget http://archive.cloudera.com/cdh5/parcels/5.4.7/CDH-5.4.7-1.cdh5.4.7.p0.3-precise.parcel.sha1
-$ wget http://archive.cloudera.com/cdh5/parcels/5.4.7/manifest.json
 
-sha1需修改成sha
-$ mv CDH-5.4.7-1.cdh5.4.7.p0.3-precise.parcel.sha1 CDH-5.4.7-1.cdh5.4.7.p0.3-precise.parcel.sha
-</code></pre><ul>
-<li>下载安装<a href="https://archive.cloudera.com/cm5/installer/" target="_blank" rel="noopener">Cloudera Manager</a></li>
-</ul>
-<pre><code>$ wget https://archive.cloudera.com/cm5/installer/5.4.7/cloudera-manager-installer.bin
-</code></pre><ul>
-<li>安装</li>
-</ul>
-<pre><code>$ chmod +x cloudera-manager-installer.bin
-$ ./cloudera-manager-installer.bin --skip_repo_package=1
-</code></pre>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> String <span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"unix_timestamp"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> Object <span class="token function">evaluate</span><span class="token punctuation">(</span>DeferredObject<span class="token punctuation">[</span><span class="token punctuation">]</span> arguments<span class="token punctuation">)</span> <span class="token keyword">throws</span> HiveException <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>arguments<span class="token punctuation">.</span>length <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            retValue<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> retValue<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">evaluate</span><span class="token punctuation">(</span>arguments<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
       
     </div>
   </div>
@@ -275,19 +228,10 @@ $ ./cloudera-manager-installer.bin --skip_repo_package=1
     
 <nav id="article-nav">
   
-    <a href="/2016/04/19/hadoop-relocation-issue/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          hadoop 机房迁移相关问题
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/04/19/use-supervisor/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/09/13/hive-remote-debug/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">使用supervisor守护进程</div>
+      <div class="article-nav-title">Hive/Java Remote Debug</div>
     </a>
   
 </nav>
@@ -588,7 +532,7 @@ $ ./cloudera-manager-installer.bin --skip_repo_package=1
 <script>
   
     var disqus_config = function () {
-      this.page.url = 'http://saboloh.com/2016/04/19/install-cdh-5.4.7/';
+      this.page.url = 'http://saboloh.com/2018/12/07/hive-unix-timestamp-function-problem/';
     };
   
   (function() {  // DON'T EDIT BELOW THIS LINE
