@@ -21,7 +21,7 @@
 <meta property="og:site_name" content="Loh&#39;s Blog">
 <meta property="og:description" content="get_json_object rank    SELECT a.*, rank() over(partition by key order by created desc) as rk FROM   table_name a">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-03-29T07:14:11.458Z">
+<meta property="og:updated_time" content="2019-01-11T02:59:26.479Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hive常用函数">
 <meta name="twitter:description" content="get_json_object rank    SELECT a.*, rank() over(partition by key order by created desc) as rk FROM   table_name a">
@@ -207,6 +207,20 @@
 </ul>
 <pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">SELECT</span> regexp_extract<span class="token punctuation">(</span><span class="token string">'2016-09-07 02:07:13.02'</span><span class="token punctuation">,</span> <span class="token string">' ([0-9]+):'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//02</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<ul>
+<li><a href="https://cwiki.apache.org/confluence/display/Hive/ReflectUDF" target="_blank" rel="noopener">reflect</a>  </li>
+</ul>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">SELECT</span> reflect<span class="token punctuation">(</span><span class="token string">"java.lang.String"</span><span class="token punctuation">,</span> <span class="token string">"valueOf"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+       reflect<span class="token punctuation">(</span><span class="token string">"java.lang.String"</span><span class="token punctuation">,</span> <span class="token string">"isEmpty"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+       reflect<span class="token punctuation">(</span><span class="token string">"java.lang.Math"</span><span class="token punctuation">,</span> <span class="token string">"max"</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+       reflect<span class="token punctuation">(</span><span class="token string">"java.lang.Math"</span><span class="token punctuation">,</span> <span class="token string">"min"</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+       reflect<span class="token punctuation">(</span><span class="token string">"java.lang.Math"</span><span class="token punctuation">,</span> <span class="token string">"round"</span><span class="token punctuation">,</span> <span class="token number">2.5</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+       reflect<span class="token punctuation">(</span><span class="token string">"java.lang.Math"</span><span class="token punctuation">,</span> <span class="token string">"exp"</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+       reflect<span class="token punctuation">(</span><span class="token string">"java.lang.Math"</span><span class="token punctuation">,</span> <span class="token string">"floor"</span><span class="token punctuation">,</span> <span class="token number">1.9</span><span class="token punctuation">)</span>
+<span class="token keyword">FROM</span> src <span class="token keyword">LIMIT</span> <span class="token number">1</span><span class="token punctuation">;</span>
+
+<span class="token number">1</span>   <span class="token boolean">true</span>    <span class="token number">3</span>   <span class="token number">2</span>   <span class="token number">3</span>   <span class="token number">2.7182818284590455</span>  <span class="token number">1.0</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
       
     </div>
@@ -324,19 +338,6 @@
     
   
     
-      <div class="row margin-bottom-10">
-	<div class="col-md-4">
-	  <img src="/img/markdown-syntax-language.png" class="img-responsive ">
-	</div>
-	<div class="col-md-8">
-	  <h3><a href="http://saboloh.com/2016/08/14/git-tutorial-markdown/">Git学习指南（二）— MarkDown</a></h3>
-	</div>                        
-      </div>
-    
-  
-    
-  
-    
   
     
       <div class="row margin-bottom-10">
@@ -345,6 +346,17 @@
 	</div>
 	<div class="col-md-8">
 	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/markdown-syntax-language.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/08/14/git-tutorial-markdown/">Git学习指南（二）— MarkDown</a></h3>
 	</div>                        
       </div>
     
@@ -409,6 +421,8 @@
   
     
   
+    
+  
 </div>
 <!-- END FEATURED POSTS -->                            
 
@@ -427,7 +441,7 @@
         <div class="row">
           <!-- BEGIN COPYRIGHT -->
           <div class="col-md-6 col-sm-6 padding-top-10">
-                  &copy; 2018 Loh&#39;s Blog<br>
+                  &copy; 2019 Loh&#39;s Blog<br>
  <a href="javascript:;">Privacy Policy</a> | <a href="javascript:;">Terms of Service</a>
           </div>
           <!-- END COPYRIGHT -->
