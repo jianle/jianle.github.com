@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <title>Multi-version Testing with Cookies and Nginx | Loh&#39;s Blog</title>
+
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="baidu-site-verification" content="SKU1ruzzZG" />
+
+  <meta name="description" content="前言： 在一般而言，测试的时候，后台起一个服务，对应指定的某一个分支。但是在多分支并行开发不同模块的情况下，多个产品要同时测试和验收自己的模块开发。这样就要反复发布重启环境，并且无法做到多环境并行验收测试。本文描述如何使用 nginx 加上种 cookie 的方式来实现多版本测试。 准备工作 假设测试域名为： saboloh.test 克隆镜像仓库     git clone --mirror g">
+<meta name="keywords" content="java,nginx,testing">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Multi-version Testing with Cookies and Nginx">
+<meta property="og:url" content="http://saboloh.com/2019/10/08/multi-version-testing-with-cookies-and-nginx/index.html">
+<meta property="og:site_name" content="Loh&#39;s Blog">
+<meta property="og:description" content="前言： 在一般而言，测试的时候，后台起一个服务，对应指定的某一个分支。但是在多分支并行开发不同模块的情况下，多个产品要同时测试和验收自己的模块开发。这样就要反复发布重启环境，并且无法做到多环境并行验收测试。本文描述如何使用 nginx 加上种 cookie 的方式来实现多版本测试。 准备工作 假设测试域名为： saboloh.test 克隆镜像仓库     git clone --mirror g">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-10-08T08:24:08.567Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Multi-version Testing with Cookies and Nginx">
+<meta name="twitter:description" content="前言： 在一般而言，测试的时候，后台起一个服务，对应指定的某一个分支。但是在多分支并行开发不同模块的情况下，多个产品要同时测试和验收自己的模块开发。这样就要反复发布重启环境，并且无法做到多环境并行验收测试。本文描述如何使用 nginx 加上种 cookie 的方式来实现多版本测试。 准备工作 假设测试域名为： saboloh.test 克隆镜像仓库     git clone --mirror g">
+  
+    <link rel="alternative" href="/atom.xml" title="Loh&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+    
+  <meta content="{{ title }}" name="description">
+  <meta content="{{ title }}" name="keywords">
+  <meta content="{{ title }}" name="author">
+
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|PT+Sans+Narrow|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css">
+
+  <!-- Global styles START -->   
+  <link rel="stylesheet" href="/metronic/assets/plugins/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/metronic/assets/plugins/bootstrap/css/bootstrap.min.css">
+  <!-- Global styles END --> 
+   
+  <!-- Page level plugin styles START -->
+  <link rel="stylesheet" href="/metronic/assets/pages/css/animate.css">
+  <link rel="stylesheet" href="/metronic/assets/plugins/owl.carousel/assets/owl.carousel.css">
+  <!-- Page level plugin styles END -->
+
+  <!-- Theme styles START -->
+  <link rel="stylesheet" href="/metronic/assets/pages/css/components.css">
+  <link rel="stylesheet" href="/metronic/assets/pages/css/slider.css">
+  <link rel="stylesheet" href="/metronic/assets/corporate/css/style.css">
+  <link rel="stylesheet" href="/metronic/assets/pages/css/portfolio.css">
+  <link rel="stylesheet" href="/metronic/assets/corporate/css/style-responsive.css">
+  <link rel="stylesheet" href="/metronic/assets/corporate/css/themes/red.css">
+  <link rel="stylesheet" href="/css/theme-styles.css">
+  <!-- Theme styles END -->
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body class="corporate">
+  <!-- BEGIN TOP BAR -->
+<!-- END TOP BAR -->
+<!-- BEGIN HEADER -->
+<div class="header reduce-header">
+  <div class="container">
+    <!--<a class="site-logo" href="/" id="logo">Loh&#39;s Blog</a>-->
+
+    <a class="site-logo" href="/" style="text-decoration: none">
+      <h2 style="margin-top: 0px;">Loh&#39;s Blog</h2>
+      <!-- <img src="/metronic/assets/corporate/img/logos/logo-corp-red.png" alt="Metronic FrontEnd"> -->
+    </a>
+
+    <a href="javascript:void(0);" class="mobi-toggler"><i class="fa fa-bars"></i></a>
+
+    <!-- BEGIN NAVIGATION -->
+    <div class="header-navigation pull-right font-transform-inherit">
+      <ul>
+	
+	<li class="">
+	  <a  href="/">Home</a>
+	</li>
+	
+	<li class="">
+	  <a  href="/archives/">Blog</a>
+	</li>
+	
+	<li class="">
+	  <a  href="/contact/">Contact</a>
+	</li>
+	
+	<li class="">
+	  <a  href="/about/">About</a>
+	</li>
+	
+	<!-- BEGIN TOP SEARCH -->
+	<li class="menu-search">
+	  <span class="sep"></span>
+	  <i class="fa fa-search search-btn"></i>
+	  <div class="search-box">
+	    <form action="#" id="searchFM">
+	      <div class="input-group">
+		<input type="text" placeholder="Search" class="form-control st-default-search-input">
+		<span class="input-group-btn">
+		  <button class="btn btn-primary" type="submit">Search</button>
+		</span>
+	      </div>
+	    </form>
+	  </div> 
+	</li>
+	<!-- END TOP SEARCH -->
+      </ul>
+    </div>
+    <!-- END NAVIGATION -->
+  </div>
+</div>
+<!-- Header END -->
+
+  <div class="container">
+  <ul class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/archives/">Blog</a></li>
+    <li class="active">Post</li>
+  </ul>
+  <section id="main">
+    
+    <h2 itemprop="name">
+      <a class="article-title" href="/2019/10/08/multi-version-testing-with-cookies-and-nginx/">Multi-version Testing with Cookies and Nginx</a>
+    </h2>
+
+
+    <div class="row">
+<div class="col-md-9 col-sm-9 blog-posts">
+<article id="post-multi-version-testing-with-cookies-and-nginx" class="article article-type-post blog-item" itemscope itemprop="blogPost">
+  <div class="article-meta">
+  </div>
+  <div class="article-inner">
+    
+    
+    <header class="article-header">
+      <ul class="blog-info">
+	<li><i class="fa fa-user"></i> Anonymous</li>
+	<li><i class="fa fa-calendar"></i>
+	  <time datetime="2019-10-08T07:28:47.000Z" itemprop="datePublished">2019/10/08</time>
+
+	</li>
+	<li class="hidden-xs"><i class="fa fa-comments"></i>
+	  <a href="http://saboloh.com/2019/10/08/multi-version-testing-with-cookies-and-nginx/#disqus_thread" class="article-comment-link">Comments</a>
+	</li>
+	<li class="hidden-xs"><i class="fa fa-tags"></i> 
+	  
+  
+    <a href="/tags/java/" title="java">java</a>,
+  
+    <a href="/tags/nginx/" title="nginx">nginx</a>,
+  
+    <a href="/tags/testing/" title="testing">testing</a>
+  
+
+
+	</li>
+      </ul>
+      
+  <div class="article-category">
+    
+    Category: 
+    
+    Categories:
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+  <br>
+
+
+    </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前言：</p>
+<p>在一般而言，测试的时候，后台起一个服务，对应指定的某一个分支。但是在多分支并行开发不同模块的情况下，多个产品要同时测试和验收自己的模块开发。这样就要反复发布重启环境，并且无法做到多环境并行验收测试。本文描述如何使用 nginx 加上种 cookie 的方式来实现多版本测试。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
+<li>假设测试域名为： <code>saboloh.test</code></li>
+<li>克隆镜像仓库   </li>
+</ul>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">git</span> clone --mirror git@github.com:jianle/spring-boot-example.git
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="编写发布脚本"><a href="#编写发布脚本" class="headerlink" title="编写发布脚本"></a>编写发布脚本</h2><p>定义脚本名： <code>build.sh</code>  </p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
+
+<span class="token function">cd</span> <span class="token variable"><span class="token variable">$(</span><span class="token function">dirname</span> $0<span class="token variable">)</span></span>
+
+REVISION<span class="token operator">=</span><span class="token string">"<span class="token variable">$1</span>"</span>
+PORT<span class="token operator">=</span><span class="token string">"<span class="token variable">$2</span>"</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">[</span> -z <span class="token string">"<span class="token variable">$REVISION</span>"</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
+  REVISION<span class="token operator">=</span><span class="token string">"master"</span>
+<span class="token keyword">fi</span>
+
+REVISION_STR<span class="token operator">=</span><span class="token punctuation">$(</span>echo <span class="token variable">${REVISION}</span> <span class="token operator">|</span> <span class="token function">sed</span> <span class="token string">"s/\//\-/g"</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">[</span> -z <span class="token string">"<span class="token variable">$PORT</span>"</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
+  PORT<span class="token operator">=</span><span class="token punctuation">$(</span>grep -oP <span class="token string">"(?&lt;=<span class="token variable">${REVISION_STR}</span>=)(.*)"</span> version_port.txt<span class="token punctuation">)</span>
+<span class="token keyword">fi</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">[</span> -z <span class="token string">"<span class="token variable">$PORT</span>"</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
+  LAST_PORT<span class="token operator">=</span><span class="token punctuation">$(</span>tail -n1 version_port.txt <span class="token operator">|</span> <span class="token function">cut</span> -d<span class="token string">'='</span> -f2<span class="token punctuation">)</span>
+  PORT<span class="token operator">=</span><span class="token variable"><span class="token variable">$((</span>$LAST_PORT <span class="token operator">+</span> <span class="token number">4</span><span class="token variable">))</span></span>
+  <span class="token keyword">echo</span> <span class="token string">"<span class="token variable">${REVISION_STR}</span>=<span class="token variable">${PORT}</span>"</span> <span class="token operator">>></span> version_port.txt
+  update_nginx.sh <span class="token variable">${REVISION_STR}</span> <span class="token variable">${PORT}</span>
+<span class="token keyword">fi</span>
+
+<span class="token keyword">set</span> -e
+
+BASE_DIR<span class="token operator">=</span>/root/testing
+<span class="token function">export</span> JAVA_HOME<span class="token operator">=</span>/opt/soft/jdk1.8
+<span class="token function">export</span> PATH<span class="token operator">=</span><span class="token variable">${JAVA_HOME}</span>/bin:<span class="token variable">$PATH</span>
+
+<span class="token keyword">echo</span> <span class="token variable">$PATH</span>
+
+<span class="token function">cd</span> <span class="token variable">$BASE_DIR</span>/spring-boot-example.git
+<span class="token function">git</span> remote update
+<span class="token function">git</span> log -3
+
+VERSION<span class="token operator">=</span><span class="token variable"><span class="token variable">`</span><span class="token function">git</span> rev-parse $REVISION<span class="token variable">`</span></span>
+VERSION<span class="token operator">=</span><span class="token variable">${VERSION:0:7}</span>
+DATE<span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span><span class="token function">date</span> +%Y%m%d<span class="token variable">)</span></span>
+PREFIX<span class="token operator">=</span><span class="token string">"<span class="token variable">${DATE}</span>.<span class="token variable">${VERSION}</span>"</span>
+
+<span class="token keyword">echo</span> <span class="token string">"Building <span class="token variable">$PREFIX</span>.jar <span class="token variable">${PORT}</span>"</span>
+
+SOURCEDIR<span class="token operator">=</span><span class="token variable">$BASE_DIR</span>/build/source/<span class="token variable">$PREFIX</span>
+RESOURCEDIR<span class="token operator">=</span><span class="token variable">$SOURCEDIR</span>/src/main/resources/
+
+<span class="token keyword">echo</span> <span class="token string">"Extracting source to <span class="token variable">$SOURCEDIR</span>"</span>
+<span class="token function">rm</span> -rf <span class="token variable">$SOURCEDIR</span>
+<span class="token function">git</span> archive --prefix<span class="token operator">=</span><span class="token variable">$PREFIX</span>/ --format<span class="token operator">=</span>tar <span class="token variable">$VERSION</span> <span class="token operator">|</span> <span class="token function">tar</span> xf - -C <span class="token variable">$BASE_DIR</span>/build/source
+
+<span class="token keyword">echo</span> <span class="token string">"Building npm in <span class="token variable">$RESOURCEDIR</span>"</span>
+<span class="token function">cd</span> <span class="token variable">$RESOURCEDIR</span>
+
+<span class="token function">ln</span> -s <span class="token variable">${BASE_DIR}</span>/node_modules <span class="token variable">$RESOURCEDIR</span>
+<span class="token function">npm</span> <span class="token function">install</span> --save-dev
+PUBLIC_PATH<span class="token operator">=</span>http://saboloh.test/ <span class="token function">npm</span> run build
+
+<span class="token keyword">echo</span> <span class="token string">"maven building jar in <span class="token variable">$SOURCEDIR</span>"</span>
+<span class="token function">cd</span> <span class="token variable">$SOURCEDIR</span>
+mvn -Dmaven.test.skip<span class="token operator">=</span>true clean package
+
+<span class="token keyword">echo</span> <span class="token string">"
+----------- build result ----------
+--- Version: <span class="token variable">$PREFIX</span> <span class="token variable">$PORT</span>
+--- URL: http://saboloh.test/
+-----------------------------------
+
+"</span>
+
+<span class="token variable">$BASE_DIR</span>/start-web.sh <span class="token variable">$PREFIX</span> <span class="token variable">$PORT</span>
+
+<span class="token keyword">exit</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>其中使用到的文件有：</p>
+<ul>
+<li><code>version_port.txt</code>（版本对应端口号）</li>
+</ul>
+<pre class="line-numbers language-bash"><code class="language-bash">master<span class="token operator">=</span>8188
+testing<span class="token operator">=</span>8192
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<ul>
+<li><code>update_nginx.sh</code>（更新 nginx 配置）</li>
+</ul>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
+
+VERSION_STR<span class="token operator">=</span><span class="token string">"<span class="token variable">$1</span>"</span>
+PORT<span class="token operator">=</span><span class="token string">"<span class="token variable">$2</span>"</span>
+
+MAP_FILE<span class="token operator">=</span>/usr/local/nginx/conf.d/testing_version.map
+STREAM_FILE<span class="token operator">=</span>/usr/local/nginx/conf.d/testing_version.stream
+
+CHECK_BH<span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span><span class="token function">grep</span> $<span class="token punctuation">{</span>VERSION_STR<span class="token punctuation">}</span> $<span class="token punctuation">{</span>MAP_FILE<span class="token punctuation">}</span><span class="token variable">)</span></span>
+<span class="token keyword">if</span> <span class="token punctuation">[</span> -z <span class="token string">"<span class="token variable">${CHECK_BH}</span>"</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
+  MNR<span class="token operator">=</span><span class="token punctuation">$(</span>wc -l <span class="token variable">${MAP_FILE}</span> <span class="token operator">|</span> <span class="token function">cut</span> -d<span class="token string">' '</span> -f1<span class="token punctuation">)</span>
+  <span class="token keyword">let</span> MNR--
+  <span class="token function">sed</span> -i <span class="token string">'/}/i \ \ \ \ "'</span><span class="token string">''</span><span class="token variable">${VERSION_STR}</span><span class="token string">''</span><span class="token string">'"\ \ \ \ "'</span><span class="token string">''</span><span class="token variable">${VERSION_STR}</span><span class="token string">''</span><span class="token string">'";'</span> <span class="token variable">${MAP_FILE}</span>
+<span class="token keyword">fi</span>
+
+CHECK_STM<span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span><span class="token function">grep</span> $<span class="token punctuation">{</span>VERSION_STR<span class="token punctuation">}</span> $<span class="token punctuation">{</span>STREAM_FILE<span class="token punctuation">}</span><span class="token variable">)</span></span>
+<span class="token keyword">if</span> <span class="token punctuation">[</span> -z <span class="token string">"<span class="token variable">${CHECK_STM}</span>"</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
+  <span class="token keyword">echo</span> <span class="token string">"
+upstream <span class="token variable">${VERSION_STR}</span> {
+    server 127.0.0.1:<span class="token variable">${PORT}</span>;
+}
+"</span> <span class="token operator">>></span> <span class="token variable">${STREAM_FILE}</span>
+<span class="token keyword">fi</span>
+
+nginx -t
+
+<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token variable">$?</span> <span class="token operator">==</span> 0 <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
+  nginx -s reload
+<span class="token keyword">fi</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><code>start-web.sh</code>（启动服务）</li>
+</ul>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
+
+version<span class="token operator">=</span><span class="token string">"<span class="token variable">$1</span>"</span>
+port<span class="token operator">=</span><span class="token variable">$2</span>
+<span class="token keyword">if</span> <span class="token punctuation">[</span> -z <span class="token variable">$port</span> <span class="token punctuation">]</span>
+<span class="token keyword">then</span>
+  port<span class="token operator">=</span>8188
+<span class="token keyword">fi</span>
+
+JMX<span class="token operator">=</span><span class="token string">"-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false  -Dcom.sun.management.jmxremote.port=3000"</span>
+GC<span class="token operator">=</span><span class="token string">"-XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:-CMSConcurrentMTEnabled -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled"</span>
+MEM<span class="token operator">=</span><span class="token string">"-Xms2G -Xmx2G"</span>
+
+<span class="token function">cd</span> <span class="token variable"><span class="token variable">$(</span><span class="token function">dirname</span> $0<span class="token variable">)</span></span>
+
+BASE_PATH<span class="token operator">=</span>/root/testing/build/source/<span class="token variable">$version</span>
+
+jar<span class="token operator">=</span><span class="token variable">${BASE_PATH}</span>/target/testing-0.0.1-SNAPSHOT.jar
+CONF<span class="token operator">=</span>/root/testing/conf/application.properties
+
+<span class="token function">export</span> JAVA_HOME<span class="token operator">=</span>/opt/soft/jdk1.8
+<span class="token function">export</span> PATH<span class="token operator">=</span><span class="token variable">${JAVA_HOME}</span>/bin:<span class="token variable">$PATH</span>
+
+<span class="token comment" spellcheck="true"># kill old process</span>
+OLD_PID<span class="token operator">=</span><span class="token punctuation">$(</span>netstat -anltp<span class="token operator">|</span><span class="token function">grep</span> <span class="token variable">${port}</span><span class="token operator">|</span><span class="token function">awk</span> <span class="token string">'{print <span class="token variable">$7</span>}'</span><span class="token operator">|</span><span class="token function">cut</span> -d<span class="token string">'/'</span> -f1<span class="token operator">|</span><span class="token function">head</span> -n1<span class="token punctuation">)</span>
+<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token operator">!</span> -z <span class="token string">"<span class="token variable">$OLD_PID</span>"</span> <span class="token punctuation">]</span>
+<span class="token keyword">then</span>
+  <span class="token keyword">echo</span> <span class="token string">"------- Will kill old process <span class="token variable">${OLD_PID}</span> -------"</span>
+  <span class="token keyword">echo</span> <span class="token string">''</span>
+  <span class="token function">kill</span> -9 <span class="token variable">$OLD_PID</span>
+<span class="token keyword">fi</span>
+
+<span class="token function">nohup</span> /opt/soft/jdk1.8/bin/java <span class="token variable">$MEM</span> <span class="token variable">$GC</span> -jar <span class="token variable">$jar</span> --server.port<span class="token operator">=</span><span class="token variable">$port</span> --spring.config.location<span class="token operator">=</span><span class="token variable">$CONF</span> <span class="token operator">>></span> logs/<span class="token variable">${version}</span><span class="token keyword">.</span><span class="token variable">${port}</span>.log 2<span class="token operator">></span><span class="token operator">&amp;</span>1 <span class="token operator">&amp;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>以上都是用于发布&amp;启动的自动化脚本，其实质就是打包生成相关的 nginx 配置文件，然后重启 web 服务并重新加载 nginx 相关修改配置。</p>
+<h3 id="配置-Nginx-相关跳转"><a href="#配置-Nginx-相关跳转" class="headerlink" title="配置 Nginx 相关跳转"></a>配置 Nginx 相关跳转</h3><p>在 nginx 中，主要根据分支+版本情况，做不同跳转</p>
+<pre class="line-numbers language-bash"><code class="language-bash">include  /usr/local/nginx/conf.d/testing_version.map<span class="token punctuation">;</span>
+include  /usr/local/nginx/conf.d/testing_version.stream<span class="token punctuation">;</span>
+
+server <span class="token punctuation">{</span>
+    listen 80<span class="token punctuation">;</span>
+    server_name saboloh.test<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">#绑定域名</span>
+    proxy_read_timeout 1000s<span class="token punctuation">;</span>
+
+    <span class="token function">gzip</span> on<span class="token punctuation">;</span>
+    gzip_vary on<span class="token punctuation">;</span>
+    gzip_min_length 10240<span class="token punctuation">;</span>
+    gzip_proxied expired no-cache no-store private auth<span class="token punctuation">;</span>
+    gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml application/json<span class="token punctuation">;</span>
+    gzip_disable <span class="token string">"MSIE [1-6]\."</span><span class="token punctuation">;</span>
+
+    location / <span class="token punctuation">{</span>
+        proxy_set_header Host <span class="token variable">$host</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">#if ($version_port != '8080') {</span>
+        <span class="token comment" spellcheck="true">#    break;</span>
+        <span class="token comment" spellcheck="true">#}</span>
+        proxy_pass http://<span class="token variable">$vstream</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">#使用 upstream</span>
+        proxy_set_header X-real-ip <span class="token variable">$remote_addr</span><span class="token punctuation">;</span>
+        proxy_set_header X-Forwarded-For <span class="token variable">$proxy_add_x_forwarded_for</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>nginx 配置过程中，一开始想直接在 <code>map</code> 文件中，定义版本对应的端口，然后根据版本，跳转端口，但是一直跳转失败（上述代码注释片段），具体我也不知道说明原因，后面改成使用 <code>upstream</code> 的方式都是正常的。如果有大神知道，还请留言指点一下。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在上述方法中，为了方便，很多地方都使用了脚本来自动配置，如果想简单一些，直接启动号环境之后，修改 nginx 相关配置，即可。还有在使用 <code>upstream</code> 的过程中，为了安全生产，起始还可以在每一个 <code>upstream</code> 中，加一个默认的 server。设置为 <code>backup</code>，相关使用可以查看 nginx 相关文档。</p>
+
+      
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/12/08/use-arthas-to-detecting-online-server-problem/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Arthas to Detecting Online Server Problem</div>
+    </a>
+  
+</nav>
+
+  
+  <br>
+</article>
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+<br>
+
+
+</div>
+<div class="col-md-3 col-sm-3 blog-sidebar">
+  <!-- CATEGORIES START -->
+<h2 class="no-top-space">Categories</h2>
+
+<div class="widget-wrap">
+  <div class="widget">
+    <ul class="nav sidebar-categories margin-bottom-40">
+      
+	<li>
+	  <a href="/categories/Linux/">Linux (6)</a>
+	</li>
+      
+	<li>
+	  <a href="/categories/BigData/">BigData (14)</a>
+	</li>
+      
+	<li>
+	  <a href="/categories/Java/">Java (8)</a>
+	</li>
+      
+	<li>
+	  <a href="/categories/Git/">Git (2)</a>
+	</li>
+      
+	<li>
+	  <a href="/categories/Frontend/">Frontend (2)</a>
+	</li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<!-- CATEGORIES END -->
+
+<!-- BEGIN BLOG TAGS -->
+<div class="blog-tags margin-bottom-20">
+  <h2>Tags</h2>
+  
+  <div class="widget-wrap">
+    <div class="widget">
+      
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/"><i class='fa fa-tags'></i>Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hive/"><i class='fa fa-tags'></i>Hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ORC/"><i class='fa fa-tags'></i>ORC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/analytics/"><i class='fa fa-tags'></i>analytics</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/"><i class='fa fa-tags'></i>blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chd/"><i class='fa fa-tags'></i>chd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloudera/"><i class='fa fa-tags'></i>cloudera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/command/"><i class='fa fa-tags'></i>command</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/debug/"><i class='fa fa-tags'></i>debug</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/"><i class='fa fa-tags'></i>ejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/find/"><i class='fa fa-tags'></i>find</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/"><i class='fa fa-tags'></i>github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gulp/"><i class='fa fa-tags'></i>gulp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/"><i class='fa fa-tags'></i>hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/"><i class='fa fa-tags'></i>hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/"><i class='fa fa-tags'></i>hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/"><i class='fa fa-tags'></i>html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/issue/"><i class='fa fa-tags'></i>issue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/"><i class='fa fa-tags'></i>java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk/"><i class='fa fa-tags'></i>jdk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/"><i class='fa fa-tags'></i>js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/"><i class='fa fa-tags'></i>kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/languageManual/"><i class='fa fa-tags'></i>languageManual</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/"><i class='fa fa-tags'></i>linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mail/"><i class='fa fa-tags'></i>mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/"><i class='fa fa-tags'></i>mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/"><i class='fa fa-tags'></i>nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rsync/"><i class='fa fa-tags'></i>rsync</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scalatra/"><i class='fa fa-tags'></i>scalatra</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/"><i class='fa fa-tags'></i>shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/"><i class='fa fa-tags'></i>ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/supervisor/"><i class='fa fa-tags'></i>supervisor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/testing/"><i class='fa fa-tags'></i>testing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vps/"><i class='fa fa-tags'></i>vps</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/"><i class='fa fa-tags'></i>webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wget/"><i class='fa fa-tags'></i>wget</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windowing/"><i class='fa fa-tags'></i>windowing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分区/"><i class='fa fa-tags'></i>分区</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/参数配置/"><i class='fa fa-tags'></i>参数配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日志/"><i class='fa fa-tags'></i>日志</a></li></ul>
+    </div>
+  </div>
+
+
+</div>
+<!-- END BLOG TAGS -->
+
+
+<!-- BEGIN FEATURED POSTS -->                            
+<h2>Featured Posts</h2>
+<div class="recent-news margin-bottom-10">
+  
+    
+  
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/hive-input-format.jpg" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/07/02/custom-hive-input-format/">Custom hive input format</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/markdown-syntax-language.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/08/14/git-tutorial-markdown/">Git学习指南（二）— MarkDown</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/hadoop.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/08/19/hadoop-frequently-options/">Hadoop常用操作</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+  
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/orc-logo.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/04/28/hive-issue/">Hive使用遇到的一些问题</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      <div class="row margin-bottom-10">
+	<div class="col-md-4">
+	  <img src="/img/protocol-buffers.png" class="img-responsive ">
+	</div>
+	<div class="col-md-8">
+	  <h3><a href="http://saboloh.com/2016/06/29/use-protocol-buffers/">初试 Protocol Buffers</a></h3>
+	</div>                        
+      </div>
+    
+  
+    
+  
+    
+  
+</div>
+<!-- END FEATURED POSTS -->                            
+
+</div>
+</div>
+
+  </section>
+</div>
+
+      <!-- BEGIN PRE-FOOTER -->
+    <!-- END PRE-FOOTER -->
+
+    <!-- BEGIN FOOTER -->
+    <div class="footer">
+      <div class="container">
+        <div class="row">
+          <!-- BEGIN COPYRIGHT -->
+          <div class="col-md-6 col-sm-6 padding-top-10">
+                  &copy; 2019 Loh&#39;s Blog<br>
+ <a href="javascript:;">Privacy Policy</a> | <a href="javascript:;">Terms of Service</a>
+          </div>
+          <!-- END COPYRIGHT -->
+	  <!-- BEGIN SOCIAL -->
+<div class="col-md-6 col-sm-6">
+  <ul class="social-footer list-unstyled list-inline pull-right">
+    
+      <li><a href="https://github.com/jianle"><i class="fa fa-github"></i></a></li>
+    
+      <li><a href="/atom.xml"><i class="fa fa-rss"></i></a></li>
+    
+  </ul>  
+</div>
+<!-- END SOCIAL -->
+
+        </div>
+      </div>
+    </div>
+    <!-- END FOOTER -->
+
+  <!-- BEGIN CORE PLUGINS (REQUIRED FOR ALL PAGES) -->
+<!--[if lt IE 9]>
+<script src="/metronic/assets/plugins/respond.min.js"></script>
+<![endif]--> 
+<script src="/metronic/assets/plugins/jquery.min.js"></script>
+<script src="/metronic/assets/plugins/jquery-migrate.min.js"></script>
+<script src="/metronic/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="/metronic/assets/corporate/scripts/back-to-top.js"></script>
+<script src="/metronic/assets/plugins/owl.carousel/owl.carousel.min.js"></script>
+<script src="/metronic/assets/corporate/scripts/layout.js"></script>
+<script src="/js/wow.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        Layout.init();    
+        Layout.initOWL();
+        Layout.initTwitter();
+        Layout.initFixHeaderWithPreHeader(); /* Switch On Header Fixing (only if you have pre-header) */
+        //Layout.initNavScrolling(); 
+	new WOW().init();
+    });
+</script>
+<!-- END CORE PLUGINS -->
+
+<!-- BEGIN PAGE-SPECIFIC PLUGINS --> 
+
+
+
+
+
+
+
+<!-- END PAGE-SPECIFIC PLUGINS --> 
+
+<!-- BEGIN BAIDUSEARCH -->
+
+
+  <script type="text/javascript">
+      var cse;
+      
+      //处理结果回调函数示例
+      function display (data) {
+          console.log(data);
+      }
+  
+      //初始化回调函数示例
+      function init () {
+          cse = new BCse.Search("15596006506253001804");    //参数为您的API引擎ID，已自动填写，必需。
+          var key = document.getElementsByClassName('st-default-search-input')[0].value; 
+          cse.getResult(key, display);    //此方法获取搜索结果，参数1为搜索词，参数2为您获取到结果后想要执行的回调函数。
+      }
+  
+      function loadScript () { 
+          var script = document.createElement("script"); 
+          script.type = "text/javascript";
+          script.charset = "utf-8";
+          script.src = "http://zhannei.baidu.com/api/customsearch/apiaccept?sid=15596006506253001804&v=2.0&callback=init";
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(script, s);
+      }
+  
+      document.querySelector("#searchFM").addEventListener("submit", function(e){
+        console.log('do search ...');
+        loadScript();
+      });
+  </script>
+
+
+<!-- END BAIDUSEARCH -->
+
+<!-- BEGIN INTEGRATIONS -->
+
+
+
+<script>
+  
+    var disqus_config = function () {
+      this.page.url = 'http://saboloh.com/2019/10/08/multi-version-testing-with-cookies-and-nginx/';
+    };
+  
+  (function() {  // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//saboloh.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+
+<script id="dsq-count-scr" src="//saboloh.disqus.com/count.js" async></script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+
+<!-- END INTEGRATIONS -->
+
+</body>
+</html>
